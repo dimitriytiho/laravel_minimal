@@ -1,0 +1,15 @@
+@import "../config/mixins";
+@import "params";
+
+// Bootstrap Switch
+.bootstrap-switch-label {
+    display: block;
+    padding-bottom: .1rem;
+}
+.bootstrap-switch.bootstrap-switch-focused {
+    box-shadow: none;
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: $primary;
+}

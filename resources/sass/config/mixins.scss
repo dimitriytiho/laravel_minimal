@@ -1,0 +1,98 @@
+@import "params";
+
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+@mixin transition($transition: $transition-sm, $value: all) {
+    transition: $value $transition;
+}
+
+@mixin p() {
+    font-weight: normal;
+    font-size: $font-size-base;
+}
+@mixin info-p() {
+  font-weight: lighter;
+  font-size: $font-size-base * .8;
+}
+@mixin p-small($font-size: $font-size-base * .7, $line-height: $line-height-sm) {
+    line-height: $line-height;
+    font-size: $font-size;
+}
+
+@mixin flex-c() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex-center($wrap: nowrap, $dir: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $dir;
+    flex-wrap: $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// Наложение цвета на фоновую картинку, по-умолчанию затемнение
+@mixin bg-blend($rgba: rgba($black, .4), $mode: multiply) {
+    background-color: $rgba;
+    background-blend-mode: $mode;
+}
+@mixin bg-img($size: cover, $position: center) {
+    background-size: $size;
+    background-position: $position;
+    background-repeat: no-repeat;
+}
+
+@mixin shadow($shadow: $box-shadow) {
+    box-shadow: $shadow;
+}
+
+@mixin gradient-text() {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@mixin hover($color: $primary, $hover: darken($color, 15%), $style: color) {
+    #{$style}: $color;
+    @include transition();
+    &:hover,
+    &:active {
+        #{$style}: $hover;
+    }
+}
+@mixin for-a($color: $primary, $hover: darken($color, 15%), $link: 'a') {
+    #{$link} {
+        @include hover($color, $hover);
+    }
+}
+
+@mixin animate-move() {
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+    animation-fill-mode: forwards;
+}
+
+@mixin triangle($height: 22, $color: $white) {
+    width: 0;
+    height: 0;
+    border-top: $height + px solid $color;
+    border-left: ($height / 2 * 1.5) + px solid transparent;
+    border-right: ($height / 2 * 1.5) + px solid transparent;
+}
+
+@mixin no-wrap() {
+    overflow-wrap: normal;
+    word-wrap: normal;
+    hyphens: manual;
+}
+
+@mixin grayscale() {
+    filter: grayscale(100%);
+    &.active,
+    &:hover {
+        filter: grayscale(0);
+    }
+}

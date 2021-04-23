@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Detection\MobileDetect;
+use Diglactic\Breadcrumbs\Breadcrumbs;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use App\Helpers\Admin\Locale;
+use Illuminate\Pagination\Paginator;
+
+class AppController extends Controller
+{
+    protected $namespaceModels;
+    protected $namespaceHelpers;
+    protected $html;
+    protected $form;
+    protected $viewPath;
+    protected $template;
+    protected $dbSort;
+    protected $pagination;
+    protected $paginationQty;
+
+    // Связанный родитель
+    protected $belongTable;
+    protected $belongRoute;
+
+    // Для указание методов из моделей, для удобной реализации связей
+    protected $relatedManyToManyEdit = [];
+    protected $relatedManyToManyDelete = [];
+
+
+
+    public function __construct(Request $request)
+    {
+        parent::__construct();
+
+
+        // Определить мобильную версию
+        $detect = new MobileDetect();
+        $isMobile = $detect->isMobile();
+
+        // Пагинация Bootstrap
+        Paginator::useBootstrap();
+
+
+        $this->namespaceModels = config('add.models');
+        $namespaceHelpers = $this->namespaceHelpers = config('add.helpers') . '\\Admin';
+        $viewPath = $this->viewPath = 'admin';
+
+        $html = $this->html = "{$this->namespaceHelpers}\\Html";
+        $form = $this->form = "{$this->namespaceHelpers}\\Form";
+
+        $this->template = 'general';
+        $dbSort = $this->dbSort = "{$this->namespaceHelpers}\\DbSort";
+        $this->pagination = config('admin.pagination_default');
+        $this->paginationQty = config('admin.pagination');
+
+
+        // Только внутри этой конструкции работают некоторые методы
+        $this->middleware(function ($request, $next) {
+
+            // Устанавливаем локаль
+            Locale::setLocaleFromCookie($request);
+
+
+            // Сохраняем в сессию страницу с которой пользователь перешёл в админку
+            $previousUrl = url()->previous();
+            $containAdmin = Str::is('*' . config('add.admin') . '*', $previousUrl);
+            $containEnter = Str::is('*' . config('add.enter') . '*', $previousUrl);
+            // Если url не содержит админский префикс
+            if (!($containAdmin || $containEnter)) {
+                session()->put('back_link_site', $previousUrl);
+            }
+
+            return $next($request);
+        });
+
+        /*view()->composer('vendor.laravel-log-viewer.log', function ($view) use ($pathPublic) {
+            $view->with('pathPublic', $pathPublic);
+        });*/
+
+
+        // Хлебные крошки
+        Breadcrumbs::for('home', function ($trail) {
+            $trail->push(__('a.dashboard'), route('admin.main'));
+        });
+
+
+
+        // Кол-во элементов в некоторых таблицах, перечислить название таблиц
+        $tables_count = [
+            'pages',
+            'users',
+        ];
+        $countTable = [];
+        if ($tables_count) {
+            foreach ($tables_count as $table) {
+                if (Schema::hasTable($table)) {
+                    $countTable[$table] = cache()->rememberForever("admin_{$table}_count", function () use ($table) {
+                        if (Schema::hasColumn($table, 'deleted_at')) {
+                            return DB::table($table)->whereNull('deleted_at')->count();
+                        } else {
+                            return DB::table($table)->count();
+                        }
+                    });
+                }
+            }
+        }
+
+        view()->share(compact('namespaceHelpers', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile'));
+    }
+}

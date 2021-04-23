@@ -1,0 +1,36 @@
+@import "../config/params";
+@import "../config/mixins";
+@import "../config/blocks";
+
+// Высота картинки
+$heightImg: 220px;
+$widthImg: 340px;
+
+
+// Убираем мелькание картинок при загруки слайдера, т.е. после загрузки js показываем слайдер
+.slick-slider {
+  display: none;
+}
+
+// Убераем синию обводку
+.slick-slide,
+.slick-slide * {
+  outline: none !important;
+}
+
+// Когда последний или первый элемент делаем полускрытую стрелку
+.arrow_hide .slick-arrow[aria-disabled=true]{
+    opacity: .3;
+    cursor: auto;
+    &:hover {
+        color: $secondary;
+    }
+}
+
+.slick_slider_arrow {
+  @include slick-slider-arrow();
+}
+
+.slick_slider_dots {
+    @include slick-dots();
+}

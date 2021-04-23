@@ -1,0 +1,64 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+// Уменьшение и увеличение в 0
+.scale-in {
+  transform: scale(1) !important;
+  @include transition();
+}
+.scale-out {
+  transform: scale(0) !important;
+  @include transition();
+}
+
+// Крутящийся спинер
+.animate-spin {
+  animation: spin 2s infinite linear;
+  display: inline-block;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+.pulse {
+    position: relative;
+    overflow: hidden;
+    .pulse_js {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: pulse-to $transition ease-out;
+    }
+}
+@keyframes pulse-to {
+    to {
+        transform: scale(2);
+        background-color: $white;
+        opacity: 0;
+    }
+}
+
+// Плавное движение блока снизу
+.animate-bottom {
+  animation: animate-frame-bottom ease 1.5s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode: forwards;
+}
+@keyframes animate-frame-bottom {
+  0% {
+    opacity: 0;
+    transform: translate(0px, 40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}

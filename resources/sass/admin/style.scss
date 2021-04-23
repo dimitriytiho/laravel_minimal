@@ -1,0 +1,45 @@
+@import "../config/mixins";
+@import "params";
+
+body {
+    min-width: 320px;
+}
+
+th,
+label {
+    font-size: 15px;
+}
+
+.form-group  {
+    margin-top: .5rem;
+}
+
+.content-wrapper > .content {
+    padding: 0 1rem;
+}
+
+.custom-file-label:after {
+    font-family: 'FontAwesome';
+    content: '\f019';
+}
+
+#btn_up {
+    position: fixed;
+    bottom: 1.3rem;
+    right: 1.5rem;
+    z-index: 100;
+    width: 2rem;
+    height: 2rem;
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
+
+
+
+@media (max-width: $ss) {
+    .g-recaptcha {
+        transform: scale(.7)
+    }
+}

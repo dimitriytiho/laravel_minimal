@@ -1,0 +1,46 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+html {
+    scroll-behavior: smooth; // Делает плавный скрол к якорю
+}
+:target {
+    scroll-margin-top: $spacer;
+}
+html, body {
+    height: 100%;
+}
+body {
+    width: 100%;
+    min-width: 320px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    overflow-x: hidden !important;
+}
+
+// Футер прижатый книзу
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+// Основной раздел будет занимать все свободное место на странице
+.content-block {
+    flex: 1 0 auto;
+}
+// Футер будет занимать столько места по вертикали, сколько и должен
+.footer-block {
+    flex: 0 0 auto;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+.no-wrap {
+    @include no-wrap();
+}

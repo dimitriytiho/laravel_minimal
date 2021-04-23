@@ -1,0 +1,30 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+// ionRangeSlider
+.irs--flat {
+    .irs-bar {
+        background-color: $secondary;
+    }
+    .irs-handle > i:first-child {
+        background-color: $secondary;
+    }
+
+    .irs-from,
+    .irs-to,
+    .irs-single {
+        background-color: $secondary;
+    }
+
+    .irs-from:before,
+    .irs-to:before,
+    .irs-single:before {
+        border-top-color: $secondary;
+    }
+
+    .irs-handle.state_hover>i:first-child,
+    .irs-handle:hover > i:first-child {
+        background-color: $primary;
+    }
+}

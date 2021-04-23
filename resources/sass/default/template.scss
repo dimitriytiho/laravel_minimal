@@ -1,0 +1,81 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+.js-none {
+  display: none;
+}
+
+.mt {
+  margin-top: $spacer * 4;
+}
+.mb {
+  margin-bottom: $spacer * 4;
+}
+.mt-mini {
+  margin-top: $spacer * 2.5;
+}
+.mb-mini {
+  margin-bottom: $spacer * 2.5;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.triangle {
+  @include triangle();
+}
+
+.z-min {
+  z-index: $z-index-min;
+}
+.z {
+  z-index: $z-index-normal;
+}
+.z-max {
+  z-index: $z-index-max;
+}
+
+.w-5 {
+    width: 5rem;
+}
+.w-3 {
+    width: 3rem;
+}
+
+.cur {
+  cursor: pointer;
+}
+
+.border_left_primary {
+    border-left: 3px solid $primary;
+}
+
+.info-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacer;
+    padding: $spacer * .5;
+    min-width: 220px;
+    background-color: $white;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow-mini;
+    &-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.875rem;
+        border-radius: $border-radius;
+        @include flex-c();
+    }
+    &-content {
+        flex: 1;
+        padding: $spacer * .4 $spacer * .8;
+    }
+    &-text {
+        font-size: $font-size-base * 1.1;
+    }
+    &-bold {
+        font-weight: $font-weight-bold;
+    }
+}

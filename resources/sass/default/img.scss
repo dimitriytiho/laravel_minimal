@@ -1,0 +1,48 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+.contain {
+    @include bg-img(contain);
+}
+.cover {
+    @include bg-img();
+}
+
+.w-3 {
+    width: 3rem;
+}
+.img_mini {
+    max-width: 64px;
+    max-height: 64px;
+    width: auto;
+    height: auto;
+    margin-right: $spacer;
+}
+.img_sm {
+    max-width: 96px;
+    max-height: 96px;
+    width: auto;
+    height: auto;
+    margin-right: $spacer;
+}
+
+.min-w100 {
+    min-width: 100px;
+}
+.min-w150 {
+    min-width: 150px;
+}
+.min-w240 {
+    min-width: 240px;
+}
+
+.h-12 {
+    height: 12rem;
+}
+.h-18 {
+    height: 18rem;
+}
+.h-24 {
+    height: 24rem;
+}

@@ -1,0 +1,36 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+.panel-dashboard {
+    padding: 7px 15px;
+    background-color: $black;
+    &__icons {
+        display: inline-block;
+        margin-right: 5px;
+        padding: 0 10px 5px 10px;
+        @include transition();
+        &:last-child {
+            margin-right: 0;
+        }
+        &:hover {
+            i {
+                color: darken($white, 10%);
+            }
+        }
+        i {
+            font-size: 12px;
+            color: $white;
+        }
+        &:hover {
+            svg {
+                fill: darken($white, 10%);
+            }
+        }
+        svg {
+            max-width: 24px;
+            height: 11px;
+            fill: $white;
+        }
+    }
+}

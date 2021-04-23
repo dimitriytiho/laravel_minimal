@@ -1,0 +1,34 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+.icon_in_input {
+    position: relative;
+    input {
+        padding-right: $spacer * 2;
+    }
+    .btn {
+        position: absolute;
+        top: 0;
+        right: $spacer * .75;
+    }
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
+
+
+
+@media (max-width: $sm) {
+    .g-recaptcha {
+        transform: scale(.8);
+        transform-origin: left center;
+    }
+}
+
+@media (max-width: $ss) {
+    .g-recaptcha {
+        transform: scale(.7);
+    }
+}

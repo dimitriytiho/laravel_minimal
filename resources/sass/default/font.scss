@@ -1,0 +1,71 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+.active_color {
+  color: $primary !important;
+}
+.active_bg {
+  background-color: $primary !important;
+}
+
+.text-sm {
+    font-size: $font-size-base-sm !important;
+}
+
+.p {
+    font-size: $font-size-base !important;
+}
+
+// Цвет ссылок .a-color
+@each $color, $value in $colors {
+  .a-#{$color} {
+      @if $color == 'black' {
+          @include for-a($value, lighten($value, 25%));
+      } @else if ($color == 'dark') {
+          @include for-a($value, $primary);
+      } @else {
+          @include for-a($value, darken($value, 15%));
+      }
+  }
+}
+
+// Цвет иконок .fill-color
+@each $color, $value in $colors {
+  .fill-#{$color} {
+      fill: $value;
+  }
+}
+// Цвет иконок .fill-hover-color с эффектом наведения
+@each $color, $value in $colors {
+  .fill-hover-#{$color} {
+      fill: $value;
+      @include transition();
+      &:hover,
+      &:active {
+          @if $color == 'black' {
+              fill: lighten($value, 20%);
+          } @else if ($color == 'dark') {
+              fill: lighten($value, 15%);
+          } @else {
+              fill: darken($value, 15%);
+          }
+      }
+  }
+}
+// Цвет иконок для для классов .btn-outline-color .fill-outline
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+      .fill-outline {
+          fill: $value;
+      }
+      &:hover .fill-outline,
+      &:active .fill-outline {
+          @if $color == 'light' {
+              fill: $dark;
+          } @else {
+              fill: $white;
+          }
+      }
+  }
+}

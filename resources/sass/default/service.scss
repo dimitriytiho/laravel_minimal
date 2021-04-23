@@ -1,0 +1,51 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+// Затемнение всего
+.backdrop-kd {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $backdrop;
+    z-index: $z-index-min - 8;
+}
+
+#spinner {
+    display: none;
+    .spinner-block {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba($white, .85);
+        z-index: $z-index-normal;
+        @include flex-c();
+        & > div {
+            width: 14rem;
+            height: 14rem;
+        }
+    }
+}
+
+#btn_up {
+    padding: 0;
+    position: fixed;
+    bottom: 1.3rem;
+    right: 1.5rem;
+    z-index: $z-index-normal;
+    width: 2.2rem;
+    height: 2.2rem;
+    @include flex-c();
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+.map {
+    width: 100%;
+    height: 450px;
+}

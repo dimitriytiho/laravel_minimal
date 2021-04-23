@@ -1,0 +1,53 @@
+@import "../config/mixins";
+@import "params";
+
+
+.js-none {
+    display: none;
+}
+
+thead th {
+    white-space: nowrap;
+}
+
+.cur {
+    cursor: pointer;
+}
+
+.p {
+    font-size: 1rem !important;
+}
+
+.a-dark {
+    @include for-a($dark, lighten($dark, 20%));
+}
+
+.img_sm {
+    max-width: 96px;
+    max-height: 96px;
+    width: auto;
+    height: auto;
+    margin-right: $spacer;
+    &_text {
+        padding-top: 5px;
+        max-width: 96px;
+        height: 21px;
+        overflow: hidden;
+    }
+}
+
+.btn_radio {
+    .active.btn {
+        position: relative;
+        &:after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            background-color: $white;
+            border-radius: 50%;
+        }
+    }
+}

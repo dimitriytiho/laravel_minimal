@@ -1,0 +1,82 @@
+@import "../config/mixins";
+@import "../config/blocks";
+
+
+// Стили bootstrap, которые переопределяются
+
+
+input,
+textarea,
+.custom-control-label:after {
+  cursor: pointer;
+}
+
+.form-control {
+  &:focus {
+
+    // Меняется цвет обводки при фокусе
+    border-color: lighten($gray-600, 20%);
+
+    // Убирается placeholder при фокусе
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}
+
+/*label {
+    color: $secondary;
+    font-weight: lighter;
+}*/
+
+/*.btn {
+    // Убирается тень при фокусе
+    &:focus {
+        box-shadow: none;
+    }
+}*/
+
+/*.breadcrumb {
+    i {
+        font-size: 1.2rem;
+        color: $primary;
+    }
+}*/
+
+.pagination li.active span {
+    cursor: text !important;
+}
+
+/*.navbar-toggler {
+  width: 3rem;
+  height: 2.4rem;
+  position: relative;
+  .hamburger {
+    position: absolute;
+    left: 12.5%;
+    width: 75%;
+    height: .12rem;
+    background-color: $dark;
+    transition-duration: $transition;
+    &:nth-child(1) {
+      top: 25%;
+    }
+    &:nth-child(2) {
+      top: 48%;
+    }
+    &:nth-child(3) {
+      bottom: 25%;
+    }
+  }
+  &.active .hamburger:nth-child(1) {
+    top: 48%;
+    transform: rotate(45deg);
+  }
+  &.active .hamburger:nth-child(2) {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  &.active .hamburger:nth-child(3) {
+    bottom: 48%;
+    transform: rotate(-45deg);
+  }
+}*/

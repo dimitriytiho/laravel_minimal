@@ -1,0 +1,7 @@
+@import "../config/mixins";
+@import "../config/blocks";;
+
+img.lazy {
+    display: none;
+    //background-image: url('#{$path-img}/loader/ajax-loader.gif'); // Если нужен прелодер
+}

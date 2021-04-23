@@ -1,0 +1,13 @@
+@import "../config/mixins";
+@import "params";
+
+
+.filter-icons {
+    .active {
+        color: $dark;
+    }
+    i {
+        font-size: 10px;
+        //@include hover($dark, $dark-hover);
+    }
+}

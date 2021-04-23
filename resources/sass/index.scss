@@ -1,0 +1,13 @@
+//@import '~aos/dist/aos.css';
+
+// Настройки темы
+@import "config/theme";
+
+// Стили для компонентов
+@import "components";
+
+// Стили по-умолчанию
+@import "default";
+
+// Стили для темы сайта
+@import "theme";
