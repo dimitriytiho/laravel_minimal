@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File as FileFacade;
 
 class File extends Model
 {
@@ -21,5 +22,39 @@ class File extends Model
     public function scopeOnlyImg($query)
     {
         return $query->whereIn('ext', config('add.imgExt'));
+    }
+
+
+    /**
+     *
+     * @return bool
+     *
+     * Удалить файл из связи.
+     * $values - передать например $user, где есть связь file.
+     */
+    public static function deleteFiles($values)
+    {
+        if (isset($values->file)) {
+
+            // Удаляем связи многие ко многим
+            $values->file()->sync([]);
+
+            // Удалить файл
+            if ($values->file->count()) {
+                foreach ($values->file as $file) {
+                    if (!empty($file->path) && FileFacade::exists(public_path($file->path))) {
+                        FileFacade::delete(public_path($file->path));
+
+                        // Удалить Webp картинку
+                        $webp = str_replace($values->ext, 'webp', $values->path);
+                        if (FileFacade::exists(public_path($webp))) {
+                            FileFacade::delete(public_path($webp));
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        return null;
     }
 }

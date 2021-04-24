@@ -14,11 +14,18 @@ class PageController extends AppController
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
 
+        // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
+        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
+            [$this->info['table'], $this->info['slug']],
+        ];
+
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
+
+        view()->share(compact('relatedManyToManyDelete'));
     }
 
     /**
@@ -136,9 +143,6 @@ class PageController extends AppController
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
 
-        // Получаем все элементы в массив, где ключи id
-        $all = $this->info['model']::get()->keyBy('id')->toArray();
-
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
 
@@ -147,13 +151,16 @@ class PageController extends AppController
 
         $title = __('a.' . $this->info['action']);
 
+        // Дерево элементов
+        $tree = $this->info['model']::get()->toTree();
+
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
             $trail->parent('class');
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'values', 'all'));
+        return view($view, compact('title', 'values', 'tree'));
     }
 
 
@@ -206,12 +213,16 @@ class PageController extends AppController
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
 
-        // Если есть связи, то вернём ошибку
-        if ($values->{$this->info['table']} && $values->{$this->info['table']}->count()) {
 
-            return redirect()
-                ->route("admin.{$this->info['slug']}.edit", $id)
-                ->with('error', __('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
+        // Если есть связанные элементы не удалять
+        if ($this->relatedManyToManyDelete) {
+            foreach ($this->relatedManyToManyDelete as $relatedTable) {
+                if (!empty($relatedTable[0]) && $values->{$relatedTable[0]} && $values->{$relatedTable[0]}->count()) {
+                    return redirect()
+                        ->route("admin.{$this->info['slug']}.edit", $id)
+                        ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
+                }
+            }
         }
 
         // Удаляем элемент

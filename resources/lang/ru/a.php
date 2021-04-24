@@ -170,14 +170,6 @@ return [
     'creating_model_to_import' => 'Создадим модель для импорта из эксель',
     'creating_model_to_export' => 'Создадим модель для экспорта из эксель',
 
-    'described_in_detail' => 'Подробно описано в',
-    'update_cms_files' => 'Обновить файлы CMS с GitHub',
-    'make_backup_first_if' => 'Сначала сделайте  резервную копию! Если что-то сломается, то замените папку app из архива /storage/app/:name. Это длительный процесс ожидайте завершения.',
-    'updating_files_github_successfully' => 'Обновление файлов CMS с GitHub прошло успешно ',
-    'updated_count_files' => 'Обновлено :count файлов, ниже список обновлённых файлов:',
-    'if_something_breaks' => 'Если что-то сломалось, то замените обратно из архива резервной копии /storage/app/:name.',
-    'to_use_the_view_file' => 'Чтобы использовать файл вида из папки /resources/views/inc, файл называется inc_contacts.blade.php, в контент написать директиву:',
-
     'checkbox' => 'Чекбокс',
     'radio' => 'Радио',
     'no' => 'Нет',

@@ -194,7 +194,7 @@ jquery-validation --}}
 {{--
 
 Все счётчики для сайта поместить в этот файл --}}
-@if(config('add.env') === 'production' && auth()->check() && !auth()->user()->hasRole('admin'))
+@if(config('add.env') === 'production' && auth()->check() && !auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
     @include('inc.analytics')
 @endif
 </body>

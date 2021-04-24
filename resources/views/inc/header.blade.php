@@ -24,7 +24,7 @@
                             <a class="nav-link" href="{{ route('login') }}">@lang('s.login')</a>
                         </li>
                     @endif
-                    @if(auth()->check() && auth()->user()->hasRole('admin'))
+                    @if(auth()->check() && auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.main') }}">@lang('a.dashboard')</a>
                         </li>

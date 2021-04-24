@@ -18,13 +18,13 @@ class MenuGroupController extends AppController
         // Связанный маршрут
         $belongRoute = $this->belongRoute = 'menu';
 
-        // Для указание методов из моделей, для удобной реализации связей
-        $this->relatedManyToManyDelete = [
-            $this->belongTable,
-        ];
-
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
+
+        // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
+        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
+            [$this->belongTable, $belongRoute],
+        ];
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
@@ -32,7 +32,7 @@ class MenuGroupController extends AppController
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
 
-        view()->share(compact('belongTable', 'belongRoute'));
+        view()->share(compact('belongTable', 'belongRoute', 'relatedManyToManyDelete'));
     }
 
 
@@ -215,22 +215,17 @@ class MenuGroupController extends AppController
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
 
-        // Если есть связи, то вернём ошибку
+
+        // Если есть связанные элементы не удалять
         if ($this->relatedManyToManyDelete) {
             foreach ($this->relatedManyToManyDelete as $relatedTable) {
-                if ($values->$relatedTable && $values->$relatedTable->count()) {
+                if (!empty($relatedTable[0]) && $values->{$relatedTable[0]} && $values->{$relatedTable[0]}->count()) {
                     return redirect()
                         ->route("admin.{$this->info['slug']}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
                 }
             }
         }
-        /*if ($values->{$this->belongTable} && $values->{$this->belongTable}->count()) {
-
-            return redirect()
-                ->route("admin.{$this->info['slug']}.edit", $id)
-                ->with('error', __('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
-        }*/
 
         // Удаляем элемент
         $values->delete();

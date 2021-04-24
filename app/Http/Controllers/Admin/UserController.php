@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
-use App\Models\File as Files;
-use Illuminate\Support\Facades\{DB, File, Hash};
+use App\Models\File;
+use Illuminate\Support\Facades\{DB, Hash};
+use Illuminate\Support\Str;
 
 class UserController extends AppController
 {
@@ -77,7 +78,7 @@ class UserController extends AppController
         $roles = DB::table('roles')->pluck('name', 'id');
 
         // Картинка
-        $images = Files::onlyImg()->pluck('path', 'id');
+        $images = File::onlyImg()->pluck('path', 'id');
 
         // Добавить в начало коллекции
         $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
@@ -130,6 +131,13 @@ class UserController extends AppController
 
         // Роли пользователя
         if ($request->roles) {
+
+            // Роли Admin может добавлять и удалять только Admin
+            $adminRoleName = $this->info['model']::getRoleAdmin();
+            if (Str::contains($adminRoleName, $request->roles) && !auth()->user()->hasRole($this->info['model']::getRoleAdmin())) {
+                return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+            }
+
             $values->syncRoles($request->roles);
 
         } else {
@@ -176,7 +184,7 @@ class UserController extends AppController
         $roles = DB::table('roles')->pluck('name', 'id');
 
         // Картинка
-        $images = Files::onlyImg()->pluck('path', 'id');
+        $images = File::onlyImg()->pluck('path', 'id');
 
         // Добавить в начало коллекции
         $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
@@ -224,6 +232,13 @@ class UserController extends AppController
 
         // Роли пользователя
         if ($request->roles) {
+
+            // Роли Admin может добавлять и удалять только Admin
+            $adminRoleName = $this->info['model']::getRoleAdmin();
+            if (Str::contains($adminRoleName, $request->roles) && !auth()->user()->hasRole($this->info['model']::getRoleAdmin())) {
+                return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+            }
+
             $values->syncRoles($request->roles);
         }
 
@@ -260,15 +275,14 @@ class UserController extends AppController
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
 
-        // Связь с файлами
-        if ($values->file) {
-            $values->file()->sync([]);
-
-            // Удалить файл
-            if (!empty($values->file->path) && File::exists(public_path($values->file->path))) {
-                File::delete(public_path($values->file->path));
-            }
+        // Удалить пользователя с ролью Admin может только Admin
+        $adminRoleName = $this->info['model']::getRoleAdmin();
+        if ($values->hasRole($adminRoleName) && !auth()->user()->hasRole($adminRoleName)) {
+            return redirect()->back()->withErrors(__('s.admin_choose_admin'));
         }
+
+        // Удалить прикреплённые файлы
+        File::deleteFiles($values);
 
         // Удаляем элемент
         $values->delete();

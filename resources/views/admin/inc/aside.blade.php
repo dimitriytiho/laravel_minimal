@@ -1,6 +1,6 @@
 @php
 
-    use App\Models\Menu;
+    use App\Models\{Menu, User};
 
 
     // Левое меню, получаем по belong_id = 2  и кэшируем
@@ -33,7 +33,7 @@
 
 
                         Не покажем элемент меню, если не админ --}}
-                        @continue(!auth()->user()->hasRole('admin') && Str::contains($item->class, ['Log']))
+                        @continue(!auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log']))
                         <li class="nav-item @if(
 
     $item->slug === '/' && request()->path() === config('add.admin')
@@ -68,7 +68,7 @@
 
 
                                         Не покажем элемент меню, если не админ --}}
-                                        {{--@continue(!auth()->user()->hasRole('admin') && Str::contains($item->class, ['Log']))--}}
+                                        {{--@continue(!auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log']))--}}
                                         <li class="nav-item">
                                             <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(request()->path() === config('add.admin') . $child->slug) active @endif">
                                                 <i class="{{ $child->item }} nav-icon"></i>

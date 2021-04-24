@@ -41,7 +41,7 @@
                 </div>
             </li>
         @endif
-        @if(auth()->user()->hasRole('admin'))
+        @if(auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="fas fa-user"></i>

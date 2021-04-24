@@ -34,13 +34,7 @@ Breadcrumbs --}}
                             {!! $form::select('status', config('add.page_statuses'), $values->status ?? null) !!}
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="parent_id">@lang('a.parent_id')</label>
-                                <select class="form-control select2" name="parent_id" id="parent_id" aria-invalid="false">
-                                    <option value="0">@lang('a.parent_id')</option>
-                                    {!! Tree::get($all, 'admin_select', '-', $values->parent_id) !!}
-                                </select>
-                            </div>
+                            @include('admin.tree.select_parent_id', compact('tree', 'values'))
                         </div>
                         <div class="col-md-4">
                             {!! $form::input('sort', $values->sort ?? null, null) !!}
@@ -71,23 +65,32 @@ Breadcrumbs --}}
             {{--
 
 
-            Связь parent_id, если есть вложенные, то нельзя удалить --}}
-            @if(isset($values->{$info['table']}) && $values->{$info['table']}->count())
-                <div class="text-right">
-                    <div class="small text-secondary">@lang('s.remove_not_possible'),<br>@lang('s.there_are_nested') {{ Func::__($info['table'], 'a') }}</div>
-                    @foreach($values->{$info['table']} as $item)
-                        <a href="{{ route("admin.{$info['slug']}.edit", $item->id) }}">{{ $item->id }}</a>
-                    @endforeach
-                </div>
+
+            Если есть связанные элементы не удалять --}}
+            @if(isset($values) && !empty($relatedManyToManyDelete))
+                @foreach($relatedManyToManyDelete as $related)
+                    @if(!empty($related[0]) && !empty($related[1]) && isset($values->{$related[0]}) && $values->{$related[0]}->count())
+                        @php
+
+                            $deleteNo = true;
+
+                        @endphp
+                        <div class="text-right">
+                            <div class="small text-secondary">@lang('s.remove_not_possible'),<br>@lang('s.there_are_nested') {{ Func::__($related[0], 'a') }}</div>
+                            @if(Route::has("admin.{$related[1]}.edit"))
+                                @foreach($values->{$related[0]} as $item)
+                                    <a href="{{ route("admin.{$related[1]}.edit", $item->id) }}">{{ $item->id }}</a>
+                                @endforeach
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
             @endif
             {{--
 
 
             Кнопка удалить --}}
-            @if(
-                isset($values->id)
-                && !(isset($values->{$info['table']}) && $values->{$info['table']}->count())
-                )
+            @if(isset($values->id) && empty($deleteNo))
                 <form action="{{ route("admin.{$info['slug']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                     @method('delete')
                     @csrf

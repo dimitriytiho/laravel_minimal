@@ -14,7 +14,7 @@
             <div class="user-block">
                 <img class="img-circle img-bordered-sm" src="{{ asset($values->file[0]->path ?? config('add.imgDefault')) }}" alt="User image">
                 <span class="username">
-                  @if(auth()->user()->hasRole('admin'))
+                  @if(auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
                         <a href="{{ route('admin.user.edit', auth()->user()->id) }}">{{ auth()->user()->name }}</a>
                     @else
                         <span>{{ auth()->user()->name }}</span>

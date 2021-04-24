@@ -124,6 +124,18 @@ Breadcrumbs --}}
                             </span>
                         </div>
                     </form>
+                    {{--
+
+
+
+                    Кнопка удалить, удалить может только Admin --}}
+                    @if(isset($values->id) && auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
+                        <form action="{{ route("admin.{$info['slug']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger mt-3 pulse">@lang('s.remove')</button>
+                        </form>
+                    @endif
                 </div>
             </div>
             <!-- /.card -->

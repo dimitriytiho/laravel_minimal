@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 
 class PageController extends Controller
 {
@@ -30,7 +31,7 @@ class PageController extends Controller
     public function show($slug)
     {
         // Если пользователя есть разрешение к админскому классу, то будут показываться неактивные страницы
-        if (auth()->check() && auth()->user()->hasRole('admin')) {
+        if (auth()->check() && auth()->user()->hasRole(User::getRoleAdmin())) {
 
             $values = $this->info['model']::whereSlug($slug)
                 ->firstOrFail();
