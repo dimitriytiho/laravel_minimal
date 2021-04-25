@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Models\File;
-use Illuminate\Support\Facades\{DB, Hash};
+use Illuminate\Support\Facades\{DB, Hash, Schema};
 use Illuminate\Support\Str;
 
 class UserController extends AppController
@@ -17,11 +17,18 @@ class UserController extends AppController
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
 
+        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), третий: название колонки (title))
+        /*$relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+            ['roles', null, 'id', 'name'],
+        ];*/
+
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
+
+        //view()->share(compact('relatedManyToManyEdit'));
     }
 
 
@@ -183,6 +190,18 @@ class UserController extends AppController
         // Роли пользователей
         $roles = DB::table('roles')->pluck('name', 'id');
 
+        // Если есть связанные элементы, то получаем их
+        /*$all = [];
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && !empty($related[2]) && !empty($related[3])) {
+                    if (Schema::hasColumns($related[0], [$related[2], $related[3]])) {
+                        $all[$related[0]] = DB::table($related[0])->pluck($related[3], $related[2]);
+                    }
+                }
+            }
+        }*/
+
         // Картинка
         $images = File::onlyImg()->pluck('path', 'id');
 
@@ -247,6 +266,17 @@ class UserController extends AppController
             $values->file()->sync($request->file);
         }
 
+        // Если есть связанные элементы, то синхронизируем их
+        /*if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && $request->{$related[0]}) {
+
+                    // Удаляем связи многие ко многим
+                    $values->{$related[0]}()->sync($request->{$related[0]});
+                }
+            }
+        }*/
+
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -281,7 +311,24 @@ class UserController extends AppController
             return redirect()->back()->withErrors(__('s.admin_choose_admin'));
         }
 
-        // Удалить прикреплённые файлы
+
+        // Удаляем прикреплённые роли
+        $values->syncRoles([]);
+
+
+        // Если есть связанные элементы, то синхронизируем их
+        /*if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
+
+                    // Удаляем связи многие ко многим
+                    $values->{$related[0]}()->sync([]);
+                }
+            }
+        }*/
+
+
+        // Удалить прикреплённые файлы из таблицы files и с сервера
         File::deleteFiles($values);
 
         // Удаляем элемент

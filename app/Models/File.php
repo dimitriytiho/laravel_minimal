@@ -29,7 +29,7 @@ class File extends Model
      *
      * @return bool
      *
-     * Удалить файл из связи.
+     * Удалить прикреплённые файлы из таблицы files и с сервера.
      * $values - передать например $user, где есть связь file.
      */
     public static function deleteFiles($values)
@@ -50,6 +50,9 @@ class File extends Model
                         if (FileFacade::exists(public_path($webp))) {
                             FileFacade::delete(public_path($webp));
                         }
+
+                        // Удалить запись в таблице
+                        $file->delete();
                     }
                 }
                 return true;

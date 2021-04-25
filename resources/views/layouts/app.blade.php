@@ -1,3 +1,10 @@
+@php
+
+
+use App\Models\User;
+
+
+@endphp
 {{--
 
 @section('titleSeo') Test title @endsection В любом месте переопределить titleSeo
@@ -48,11 +55,11 @@
     Bootstrap --}}
     {{--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">--}}
     @include('inc.warning')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{--
 
     Здесь можно добавить файлы css через @section('css') --}}
     @yield('css')
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
 {{--
@@ -161,16 +168,8 @@ jquery-validation --}}
         site_tel = '{{ Func::site('tel') ?: ' ' }}',
         site_email = '{{ Func::site('email') ?: ' ' }}',
         img_path = '{{ $img }}',
-        main_color = '{{ config('add.scss')['primary'] ?? '#ccc' }}',
-        @if($breakpoints = config('add.breakpoints'))
-            @foreach($breakpoints as $k => $v)
-                {{ "{$k} = {$v}," }}
-            @endforeach
-        @endif
-        {{--slug = '{{ str_replace('-', '_', request()->path()) }}',
-        height = '{{ config('add.height') ?? 600 }}',
-        cookieTime = '{{ config('admin.cookie') ?? 5184000 }}',
-        cookieUrl = '{{ route('set_cookie') }}',--}}
+        img_file = '{{ $file }}',
+        main_color = '{{ config('add.primary') ?? '#ccc' }}',
         spinner = $('#spinner'),
         spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>'
 </script>
@@ -186,15 +185,15 @@ jquery-validation --}}
 
 Вывод js кода из вида pages.contact_us --}}
 {{--@stack('novalidate')--}}
+<script src="{{ asset('js/app.js') }}" defer></script>
 {{--
 
 Здесь можно добавить файлы js --}}
 @yield('js')
-<script src="{{ asset('js/app.js') }}" defer></script>
 {{--
 
-Все счётчики для сайта поместить в этот файл --}}
-@if(config('add.env') === 'production' && auth()->check() && !auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
+Все счётчики для сайта поместить в этот файл, не показываем на локальной машине и для админов --}}
+@if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(User::getRoleAdmin())))
     @include('inc.analytics')
 @endif
 </body>

@@ -327,8 +327,8 @@ class MenuController extends AppController
 
         // Если есть связанные элементы не удалять
         if ($this->relatedManyToManyDelete) {
-            foreach ($this->relatedManyToManyDelete as $relatedTable) {
-                if (!empty($relatedTable[0]) && $values->{$relatedTable[0]} && $values->{$relatedTable[0]}->count()) {
+            foreach ($this->relatedManyToManyDelete as $related) {
+                if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
                     return redirect()
                         ->route("admin.{$this->info['slug']}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
