@@ -26,7 +26,7 @@ return [
 
 
     // Картинки Webp качество до 100
-    'webpQuality' => 90,
+    'webpQuality' => 80,
 
     'images_ext' => [
 

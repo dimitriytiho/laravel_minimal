@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Support\Str;
 
-class DummyController extends AppController
+class PropertyController extends AppController
 {
     public function __construct(Request $request)
     {
@@ -20,6 +21,21 @@ class DummyController extends AppController
             $trail->parent('home');
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
+
+
+        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
+        $relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+            ['attributes', $this->info['slug'], 'id', 'title', 'saveMany'],
+        ];
+
+
+        // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
+        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
+            ['attributes', 'attribute'],
+        ];
+
+
+        view()->share(compact('relatedManyToManyEdit', 'relatedManyToManyDelete'));
     }
 
 
@@ -93,8 +109,7 @@ class DummyController extends AppController
     public function store(Request $request)
     {
         $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']}|max:255",
+            //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
         $data = $request->all();
@@ -155,7 +170,20 @@ class DummyController extends AppController
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'values'));
+
+        // Если есть связанные элементы, то получаем их
+        $all = [];
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && !empty($related[2]) && !empty($related[3])) {
+                    if (Schema::hasColumns($related[0], [$related[2], $related[3]])) {
+                        $all[$related[0]] = DB::table($related[0])->pluck($related[3], $related[2]);
+                    }
+                }
+            }
+        }
+
+        return view($view, compact('title', 'values', 'all'));
     }
 
 
@@ -173,11 +201,25 @@ class DummyController extends AppController
 
         // Валидация
         $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']},slug,{$id}|max:255",
+            //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
         $data = $request->all();
+
+
+        // Если есть связанные элементы, то синхронизируем их
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && $request->{$related[0]}) {
+
+                    // Метод сохранения
+                    $methodSave = $related[4] ?? 'sync';
+
+                    // Удаляем связи многие ко многим
+                    $values->{$related[0]}()->$methodSave($request->{$related[0]});
+                }
+            }
+        }
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -206,8 +248,38 @@ class DummyController extends AppController
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
 
-        // Удаляем элемент
-        $values->delete();
+
+        // Если есть связанные элементы, то удаляем их
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
+
+                    if (!isset($related[4]) || isset($related[4]) && $related[4] === 'sync') {
+
+                        // Удаляем связи многие ко многим
+                        $values->{$related[0]}()->sync([]);
+
+                    } else {
+
+                        // Удаляем связь многие к одному
+                        $values->{$related[0]}()->delete();
+                    }
+                }
+            }
+        }
+
+
+        // Транзакция на 2 попытки
+        DB::transaction(function () use ($id, $values) {
+
+            // Удаляем связи
+            DB::table('propertable')
+                ->where('property_id', $id)
+                ->delete();
+
+            // Удаляем элемент
+            $values->delete();
+        }, 2);
 
         // Удалить все кэши
         cache()->flush();

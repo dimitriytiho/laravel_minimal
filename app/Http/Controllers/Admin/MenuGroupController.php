@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MenuGroupController extends AppController
 {
@@ -83,7 +84,7 @@ class MenuGroupController extends AppController
         // Проверка вида и info
         $this->viewExists($view, $this->info);
 
-        $title = __('a.' . $this->info['action']);
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -157,7 +158,7 @@ class MenuGroupController extends AppController
         // Проверка вида и info
         $this->viewExists($view, $this->info);
 
-        $title = __('a.' . $this->info['action']);
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {

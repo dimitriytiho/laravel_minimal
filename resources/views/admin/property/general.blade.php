@@ -12,9 +12,6 @@ Breadcrumbs --}}
 Вывод контента --}}
 @section('content')
     <div class="card">
-
-        @include('admin.inc.belong_check')
-
         <div class="card-body">
             <form action="{{ isset($values->id) ? route("admin.{$info['slug']}.update", $values->id) : route("admin.{$info['slug']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
                 @isset($values->id)
@@ -22,38 +19,34 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                {!! $form::hidden('belong_id', $values->belong_id ?? $currentParent->id ?? null) !!}
-
-                {!! $form::input('title', $values->title ?? null) !!}
-
-                {!! $form::input('slug', $values->slug ?? null, null) !!}
-
                 <div class="row">
                     <div class="col-md-6">
-                        {!! $form::input('item', $values->item ?? null, null) !!}
+                        {!! $form::input('title', $values->title ?? null, null) !!}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('class', $values->class ?? null, null) !!}
+                        {!! $form::input('slug', $values->slug ?? null, null) !!}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('target', $values->target ?? null, null) !!}
+                        {!! $form::input('number', $values->number ?? null, null, 'number', true, null, null, ['step' => '0.01', 'min' => '0']) !!}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('attrs', $values->attrs ?? null, null) !!}
+                        {!! $form::input('old', $values->old ?? null, null, 'number', true, null, null, ['step' => '0.01', 'min' => '0']) !!}
+                    </div>
+                    <div class="col-md-6">
+                        {!! $form::checkbox('default', $values->default ?? null, null, null, 'mb-4') !!}
                     </div>
                 </div>
+
+                {!! $form::textarea('description', $values->description ?? null, null) !!}
 
                 {!! $form::textarea('body', $values->body ?? null, null, true, null, config('admin.editor'), null, 20) !!}
 
                 @isset($values->id)
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
                         </div>
-                        <div class="col-md-4">
-                            @include('admin.tree.select_parent_id', compact('tree', 'values'))
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {!! $form::input('sort', $values->sort ?? null, null) !!}
                         </div>
                     </div>
@@ -104,7 +97,9 @@ Breadcrumbs --}}
 
 
             Кнопка удалить --}}
-            @if(isset($values->id) && empty($deleteNo))
+            @if(
+                isset($values->id)
+                )
                 <form action="{{ route("admin.{$info['slug']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                     @method('delete')
                     @csrf
@@ -123,6 +118,7 @@ Breadcrumbs --}}
         document.addEventListener('DOMContentLoaded', function() {
 
             // Удаляем неподходящии правила валидации
+            $('#title').rules('remove')
             $('#slug').rules('remove')
 
         }, false)

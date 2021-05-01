@@ -20,7 +20,7 @@ class CreatePagesTable extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->text('body')->nullable();
-            $table->string('status', 100)->default(config('add.page_statuses')[0] ?? 'inactive');
+            $table->string('status', 100)->default(config('add.statuses')[0] ?? 'inactive');
             $table->smallInteger('sort')->unsigned()->default('5000');
             $table->softDeletes();
             $table->timestamps();

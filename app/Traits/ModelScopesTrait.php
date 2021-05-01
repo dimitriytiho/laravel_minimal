@@ -13,7 +13,7 @@ trait ModelScopesTrait
      */
     public function scopeActive($query)
     {
-        return $query->where('status', config('add.page_statuses')[1] ?: 'active');
+        return $query->where('status', config('add.statuses')[1] ?: 'active');
     }
 
 
@@ -22,7 +22,7 @@ trait ModelScopesTrait
      *
      * Использование ->order(), можно например ->order('title', 'asc')
      * $sort - название сортировки, по-умолчанию по сортировке, необязательный параметр.
-     * $direction - напривление сортировки, по-умолчанию по desc, необязательный параметр.
+     * $direction - напровление сортировки, по-умолчанию по desc, необязательный параметр.
      */
     public function scopeOrder($query, $sort = 'sort', $direction = 'desc')
     {
@@ -43,7 +43,7 @@ trait ModelScopesTrait
     {
         return $query->with([$type => function ($query) {
             $query
-                ->where('status', config('add.page_statuses')[1] ?: 'active')
+                ->where('status', config('add.statuses')[1] ?: 'active')
                 ->orderBy('sort')
                 ->orderBy('id');
         }]);

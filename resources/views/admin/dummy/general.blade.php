@@ -31,7 +31,7 @@ Breadcrumbs --}}
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-6">
-                            {!! $form::select('status', config('add.page_statuses'), $values->status ?? null) !!}
+                            {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
                         </div>
                         <div class="col-md-6">
                             {!! $form::input('sort', $values->sort ?? null, null) !!}

@@ -22,7 +22,7 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $active = $this->active = config('add.page_statuses')[1] ?? 'active';
+        $active = $this->active = config('add.statuses')[1] ?? 'active';
         $this->pagination = config('add.pagination');
 
 

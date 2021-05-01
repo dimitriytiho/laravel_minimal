@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Support\Str;
 
-class DummyController extends AppController
+class AttributeController extends AppController
 {
     public function __construct(Request $request)
     {
@@ -15,9 +16,12 @@ class DummyController extends AppController
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
 
+        $this->belongTable = 'properties';
+
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
+            $trail->push(__('a.properties'), route("{$this->viewPath}.property.index"));
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
     }
@@ -74,13 +78,19 @@ class DummyController extends AppController
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
+        // Получаем елементы таблицы родителя
+        $all = null;
+        if (Schema::hasTable($this->belongTable)) {
+            $all = DB::table($this->belongTable)->pluck('title', 'id');
+        }
+
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
             $trail->parent('class');
             $trail->push($title);
         });
 
-        return view($view, compact('title'));
+        return view($view, compact('title', 'all'));
     }
 
 
@@ -93,8 +103,8 @@ class DummyController extends AppController
     public function store(Request $request)
     {
         $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']}|max:255",
+            'property_id' => "required|integer|exists:{$this->belongTable},id",
+            //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
         $data = $request->all();
@@ -149,13 +159,19 @@ class DummyController extends AppController
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
+        // Получаем елементы таблицы родителя
+        $all = null;
+        if (Schema::hasTable($this->belongTable)) {
+            $all = DB::table($this->belongTable)->pluck('title', 'id');
+        }
+
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
             $trail->parent('class');
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'values'));
+        return view($view, compact('title', 'values', 'all'));
     }
 
 
@@ -173,8 +189,8 @@ class DummyController extends AppController
 
         // Валидация
         $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']},slug,{$id}|max:255",
+            'property_id' => "required|integer|exists:{$this->belongTable},id",
+            //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
         $data = $request->all();

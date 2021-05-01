@@ -17,6 +17,6 @@ class MenuGroup extends Model
     // Связь один к многим
     public function menus()
     {
-        return $this->hasMany(Menu::class, 'belong_id', 'id');
+        return $this->hasMany(Menu::class, 'belong_id');
     }
 }

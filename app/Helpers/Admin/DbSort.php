@@ -60,7 +60,7 @@ class DbSort
 
         // Показывать удалённые элементы
         $remoteMode = Func::site('remote_mode');
-        $statusRemoved = config('add.page_statuses')[2] ?? 'removed';
+        $statusRemoved = config('add.statuses')[2] ?? 'removed';
 
 
         // Если нужно дополнительное условие выборки

@@ -17,16 +17,17 @@ class UserController extends AppController
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
 
-        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), третий: название колонки (title))
-        /*$relatedManyToManyEdit = $this->relatedManyToManyEdit = [
-            ['roles', null, 'id', 'name'],
-        ];*/
-
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
+
+
+        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title))
+        /*$relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+            ['roles', null, 'id', 'name'],
+        ];*/
 
         //view()->share(compact('relatedManyToManyEdit'));
     }
@@ -91,7 +92,7 @@ class UserController extends AppController
         $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
 
 
-        $title = __('a.' . $this->info['action']);
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -190,6 +191,21 @@ class UserController extends AppController
         // Роли пользователей
         $roles = DB::table('roles')->pluck('name', 'id');
 
+        // Картинка
+        $images = File::onlyImg()->pluck('path', 'id');
+
+        // Добавить в начало коллекции
+        $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
+
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+
+        // Хлебные крошки
+        Breadcrumbs::for('action', function ($trail) use ($title) {
+            $trail->parent('class');
+            $trail->push($title);
+        });
+
+
         // Если есть связанные элементы, то получаем их
         /*$all = [];
         if ($this->relatedManyToManyEdit) {
@@ -201,20 +217,6 @@ class UserController extends AppController
                 }
             }
         }*/
-
-        // Картинка
-        $images = File::onlyImg()->pluck('path', 'id');
-
-        // Добавить в начало коллекции
-        $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
-
-        $title = __('a.' . $this->info['action']);
-
-        // Хлебные крошки
-        Breadcrumbs::for('action', function ($trail) use ($title) {
-            $trail->parent('class');
-            $trail->push($title);
-        });
 
         return view($view, compact('title', 'values', 'roles', 'images'));
     }
@@ -316,7 +318,7 @@ class UserController extends AppController
         $values->syncRoles([]);
 
 
-        // Если есть связанные элементы, то синхронизируем их
+        // Если есть связанные элементы, то удаляем их
         /*if ($this->relatedManyToManyEdit) {
             foreach ($this->relatedManyToManyEdit as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {

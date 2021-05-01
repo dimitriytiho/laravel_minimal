@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MenuController extends AppController
 {
@@ -161,7 +162,7 @@ class MenuController extends AppController
         // Проверка вида и info
         $this->viewExists($view, $this->info);
 
-        $title = __('a.' . $this->info['action']);
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -260,10 +261,11 @@ class MenuController extends AppController
         // Проверка вида и info
         $this->viewExists($view, $this->info);
 
-        $title = __('a.' . $this->info['action']);
+        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
         // Дерево элементов
         $tree = $this->info['model']::where('belong_id', $currentParent->id)
+            ->order('sort', 'asc')
             ->get()
             ->toTree();
 

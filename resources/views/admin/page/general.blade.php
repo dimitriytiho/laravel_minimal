@@ -31,7 +31,7 @@ Breadcrumbs --}}
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::select('status', config('add.page_statuses'), $values->status ?? null) !!}
+                            {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
                         </div>
                         <div class="col-md-4">
                             @include('admin.tree.select_parent_id', compact('tree', 'values'))

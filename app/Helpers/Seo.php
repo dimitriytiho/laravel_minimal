@@ -32,7 +32,7 @@ class Seo
         $routesDb = config('add.list_of_information_block.routes');
         $items = config('add.list_pages_for_sitemap_no_db.items');
         $routes = config('add.list_pages_for_sitemap_no_db.routes');
-        $active = config('add.page_statuses')[1] ?: 'active';
+        $active = config('add.statuses')[1] ?: 'active';
         $date = date('Y-m-d');
 
         $r = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;

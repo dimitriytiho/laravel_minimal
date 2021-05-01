@@ -29,18 +29,42 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @if(!empty($leftMenu))
                     @foreach($leftMenu as $key => $item)
+                        @php
+
+
+                            // Добавил текущий slug
+                            $childSlugs[] = $item->slug;
+
+                            // Получим slug для всем детей
+                            if ($item->children && $item->children->isNotEmpty()) {
+                                foreach ($item->children as $child) {
+                                    $childSlugs[] = $child->slug;
+                                }
+                            }
+
+
+                        @endphp
                         {{--
 
 
                         Не покажем элемент меню, если не админ --}}
-                        @continue(!auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log']))
+                        @continue(
+                            !auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log'])
+                        )
                         <li class="nav-item @if(
 
+
+    // Определим активный пунк меню
     $item->slug === '/' && request()->path() === config('add.admin')
-    ||
-    $item->slug !== '/' && Str::contains(request()->path(), $item->slug)
+    || $item->slug !== '/' && Str::contains(request()->path(), $childSlugs)
 
     ) menu-is-opening menu-open active @endif">
+                            @php
+
+                                // Очистим массив
+                                $childSlugs = [];
+
+                            @endphp
                             <a href="/{{ config('add.admin') . $item->slug }}" class="nav-link">
                                 <i class="nav-icon {{ $item->item }}"></i>
                                 <p>
@@ -70,7 +94,7 @@
                                         Не покажем элемент меню, если не админ --}}
                                         {{--@continue(!auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log']))--}}
                                         <li class="nav-item">
-                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(request()->path() === config('add.admin') . $child->slug) active @endif">
+                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(Str::contains(request()->path(), $child->slug)) active @endif">
                                                 <i class="{{ $child->item }} nav-icon"></i>
                                                 <p>{{ Func::__($child->title, 'a') }}</p>
                                             </a>

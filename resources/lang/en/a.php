@@ -243,5 +243,9 @@ return [
     'square' => 'Square',
     'file' => 'File',
     'no_image' => 'No image',
+    'properties' => 'Properties',
+    'attributes' => 'Attributes',
+    'number' => 'Number',
+    'old' => 'Old',
 
 ];

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+class CreatePropertiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,28 +13,21 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('belong_id')->unsigned();
-            $table->foreign('belong_id')->references('id')->on('menu_groups')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->index('title');
             $table->string('slug')->nullable();
-            $table->string('item')->nullable();
-            $table->string('class')->nullable();
-            $table->string('target')->nullable();
-            $table->string('attrs')->nullable();
+            $table->index('slug');
+            $table->float('number')->nullable();
+            $table->float('old')->nullable();
+            $table->text('description')->nullable();
             $table->text('body')->nullable();
             $table->string('status', 100)->default(config('add.statuses')[0] ?? 'inactive');
+            $table->enum('default', ['0', '1'])->default('0');
             $table->smallInteger('sort')->unsigned()->default('5000');
             $table->softDeletes();
             $table->timestamps();
-
-            // For lazychaser/laravel-nestedset
-            $table->bigInteger('_lft')->unsigned()->default('0');
-            $table->bigInteger('_rgt')->unsigned()->default('0');
-            $table->bigInteger('parent_id')->unsigned()->nullable();
-            $table->index(['_lft', '_rgt', 'parent_id']);
         });
     }
 
@@ -45,6 +38,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('properties');
     }
 }
