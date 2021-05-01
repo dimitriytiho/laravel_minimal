@@ -210,7 +210,7 @@ class PropertyController extends AppController
         // Если есть связанные элементы, то синхронизируем их
         if ($this->relatedManyToManyEdit) {
             foreach ($this->relatedManyToManyEdit as $related) {
-                if (!empty($related[0]) && $request->{$related[0]}) {
+                if (!empty($related[0])) {
 
                     // Метод сохранения
                     $methodSave = $related[4] ?? 'sync';

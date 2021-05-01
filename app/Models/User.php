@@ -44,7 +44,7 @@ class User extends Authenticatable
 
 
 
-    // Связь один ко многим для любых моделей
+    // Связь многие ко многим для любых моделей
     public function file()
     {
         return $this->morphToMany(File::class, 'fileable')

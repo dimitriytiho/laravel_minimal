@@ -21,4 +21,12 @@ class Page extends Model
     {
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
+
+
+    // Связь многие ко многим для любых моделей
+    public function properties()
+    {
+        return $this->morphToMany(Property::class, 'propertable', 'propertable')
+            ->withTimestamps(); // Добавить, чтобы записывать в БД created_at updated_at;
+    }
 }

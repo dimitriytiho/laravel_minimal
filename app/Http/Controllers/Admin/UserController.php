@@ -24,7 +24,7 @@ class UserController extends AppController
         });
 
 
-        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title))
+        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
         /*$relatedManyToManyEdit = $this->relatedManyToManyEdit = [
             ['roles', null, 'id', 'name'],
         ];*/
@@ -271,10 +271,13 @@ class UserController extends AppController
         // Если есть связанные элементы, то синхронизируем их
         /*if ($this->relatedManyToManyEdit) {
             foreach ($this->relatedManyToManyEdit as $related) {
-                if (!empty($related[0]) && $request->{$related[0]}) {
+                if (!empty($related[0])) {
+
+                    // Метод сохранения
+                    $methodSave = $related[4] ?? 'sync';
 
                     // Удаляем связи многие ко многим
-                    $values->{$related[0]}()->sync($request->{$related[0]});
+                    $values->{$related[0]}()->$methodSave($request->{$related[0]});
                 }
             }
         }*/
@@ -323,8 +326,16 @@ class UserController extends AppController
             foreach ($this->relatedManyToManyEdit as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
 
-                    // Удаляем связи многие ко многим
-                    $values->{$related[0]}()->sync([]);
+                    if (!isset($related[4]) || isset($related[4]) && $related[4] === 'sync') {
+
+                        // Удаляем связи многие ко многим
+                        $values->{$related[0]}()->sync([]);
+
+                    } else {
+
+                        // Удаляем связь многие к одному
+                        $values->{$related[0]}()->delete();
+                    }
                 }
             }
         }*/

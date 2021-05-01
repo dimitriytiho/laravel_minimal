@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Support\Str;
 
 class PageController extends AppController
@@ -15,10 +16,18 @@ class PageController extends AppController
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
 
+
+        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
+        $relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+            ['properties', 'property', 'id', 'title'],
+        ];
+
+
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
         $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
             [$this->info['table'], $this->info['slug']],
         ];
+
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
@@ -26,7 +35,7 @@ class PageController extends AppController
             $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
         });
 
-        view()->share(compact('relatedManyToManyDelete'));
+        view()->share(compact('relatedManyToManyDelete', 'relatedManyToManyEdit'));
     }
 
     /**
@@ -161,7 +170,20 @@ class PageController extends AppController
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'values', 'tree'));
+
+        // Если есть связанные элементы, то получаем их
+        $all = [];
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && !empty($related[2]) && !empty($related[3])) {
+                    if (Schema::hasColumns($related[0], [$related[2], $related[3]])) {
+                        $all[$related[0]] = DB::table($related[0])->pluck($related[3], $related[2]);
+                    }
+                }
+            }
+        }
+
+        return view($view, compact('title', 'values', 'tree', 'all'));
     }
 
 
@@ -184,6 +206,22 @@ class PageController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+
+        // Если есть связанные элементы, то синхронизируем их
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0])) {
+
+                    // Метод сохранения
+                    $methodSave = $related[4] ?? 'sync';
+
+                    // Удаляем связи многие ко многим
+                    $values->{$related[0]}()->$methodSave($request->{$related[0]});
+                }
+            }
+        }
+
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -222,6 +260,26 @@ class PageController extends AppController
                     return redirect()
                         ->route("admin.{$this->info['slug']}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
+                }
+            }
+        }
+
+
+        // Если есть связанные элементы, то удаляем их
+        if ($this->relatedManyToManyEdit) {
+            foreach ($this->relatedManyToManyEdit as $related) {
+                if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
+
+                    if (!isset($related[4]) || isset($related[4]) && $related[4] === 'sync') {
+
+                        // Удаляем связи многие ко многим
+                        $values->{$related[0]}()->sync([]);
+
+                    } else {
+
+                        // Удаляем связь многие к одному
+                        $values->{$related[0]}()->delete();
+                    }
                 }
             }
         }

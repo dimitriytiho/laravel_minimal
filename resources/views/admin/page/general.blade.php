@@ -39,6 +39,20 @@ Breadcrumbs --}}
                         <div class="col-md-4">
                             {!! $form::input('sort', $values->sort ?? null, null) !!}
                         </div>
+                        {{--
+
+
+
+                        Если есть связанные элементы, то выводим их в множественный select --}}
+                        @if(!empty($relatedManyToManyEdit))
+                            @foreach($relatedManyToManyEdit as $related)
+                                @if(!empty($related[0]) && !empty($all[$related[0]]))
+                                    <div class="col-md-4">
+                                        {!! $form::select($related[0], $all[$related[0]], isset($values->{$related[0]}) ? $values->{$related[0]} : null, Func::__($related[0], 'a'), null, ['data-placeholder' => __('s.choose')], true, null, true, 'w-100 select2') !!}
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
 
                     <div class="row">
