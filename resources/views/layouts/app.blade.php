@@ -175,22 +175,22 @@ jquery-validation --}}
 </script>
 {{--
 
-Если в контенте из БД есть скрипты, то они выведятся здесь, через метод Main::getDownScript() --}}
-{{--@if(Func::get('scripts'))
-    @foreach(Func::get('scripts') as $script)
-        {!! $script . PHP_EOL !!}
-    @endforeach
-@endif--}}
-{{--
 
 Вывод js кода из вида pages.contact_us --}}
 {{--@stack('novalidate')--}}
 <script src="{{ asset('js/app.js') }}" defer></script>
 {{--
 
+
 Здесь можно добавить файлы js --}}
 @yield('js')
 {{--
+
+
+Если в контенте из БД есть скрипты, то они выведятся здесь, через метод App\Helpers\Func::downScripts() --}}
+{!! $scriptsFromContent ?? null !!}
+{{--
+
 
 Все счётчики для сайта поместить в этот файл, не показываем на локальной машине и для админов --}}
 @if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(User::getRoleAdmin())))

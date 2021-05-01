@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Func;
 use App\Models\User;
 
 class PageController extends Controller
@@ -42,6 +43,14 @@ class PageController extends Controller
                 ->active()
                 ->firstOrFail();
         }
+
+
+        // Подключает файл из resources/views/replace с название написаном в контенте ##!!!file_name (название файла file_name.blade.php).
+        //$values->body = Func::inc($values->body);
+
+        // Использовать скрипты в контенте, они будут перенесены вниз страницы.
+        //$values->body = Func::downScripts($values->body);
+
 
         // Название вида
         $view = $this->info['view'] . '.' . $this->info['action'];
