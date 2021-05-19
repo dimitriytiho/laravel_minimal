@@ -18,7 +18,7 @@ class Func
      */
     public static function __($str, $fileLang = 's')
     {
-        if ($fileLang && Lang::has("{$fileLang}.{$str}")) {
+        if (Lang::has("{$fileLang}.{$str}")) {
             return __("{$fileLang}.{$str}");
         }
         return $str;
@@ -52,19 +52,12 @@ class Func
      */
     public static function site($settingName)
     {
-        if (cache()->has('settings_for_site')) {
-            $settings = cache()->get('settings_for_site');
-        } else {
-            $settings = Setting::all()->pluck('value', 'key')->toArray();
+        // Получаем все настройки и кэшируем запрос
+        $settings = cache()->rememberForever('users', function () {
+            return Setting::all()->pluck('value', 'key')->toArray();
+        });
 
-            // Кэшируется запрос
-            cache()->forever('settings_for_site', $settings);
-        }
-
-        if (!empty($settings[$settingName])) {
-            return $settings[$settingName];
-        }
-        return null;
+        return $settings[$settingName] ?? null;
     }
 
 

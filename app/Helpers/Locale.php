@@ -3,6 +3,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\File;
 
 class Locale
 {
@@ -23,9 +24,9 @@ class Locale
      *
      * @return string
      *
-     * Возвращает строку, в формате json c переводами.
+     * Возвращает строку, в формате json c переводами из переводного файла.
      * $varName - название переменной для JS, по-умолчанию translations, необязательный параметр.
-     * $fileName - имя файла из lang папки (например app/Modules/lang/en/js.php), по-умолчанию js, необязательный параметр.
+     * $fileName - имя файла из lang папки (например resources/lang/en/js.php), по-умолчанию js, необязательный параметр.
      */
     public static function translationsJson($varName = 'translations', $fileName = 'js')
     {
@@ -35,7 +36,7 @@ class Locale
 
         if (!empty($locale) && $langPath) {
             $file = "{$langPath}/{$locale}/{$fileName}.php";
-            if (is_file($file)) {
+            if (File::exists($file)) {
                 $part = "var $varName = ";
                 $translations = require($file);
                 $part .= json_encode($translations, JSON_UNESCAPED_UNICODE);
