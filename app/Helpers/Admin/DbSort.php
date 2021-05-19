@@ -58,11 +58,6 @@ class DbSort
         }
 
 
-        // Показывать удалённые элементы
-        $remoteMode = Func::site('remote_mode');
-        $statusRemoved = config('add.statuses')[2] ?? 'removed';
-
-
         // Если нужно дополнительное условие выборки
         if ($whereColumn && $whereValue) {
 
@@ -121,7 +116,13 @@ class DbSort
             }
         }
 
+        // Если есть колонка status
         if (Schema::hasColumn($table, 'status')) {
+
+
+            // Показывать удалённые элементы
+            $remoteMode = Func::site('remote_mode');
+            $statusRemoved = config('add.statuses')[2] ?? 'removed';
 
             // Показывать удалённые элементы, если выбрано в настройках remote_mode
             if ($remoteMode) {

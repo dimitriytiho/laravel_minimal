@@ -44,7 +44,6 @@ class UserController extends AppController
         $queryArr = [
             'name',
             'email',
-            'roles',
             'ip',
             'id',
         ];
@@ -55,7 +54,7 @@ class UserController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $get, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination, null, null, 'roles');
+        $values = $this->dbSort::getSearchSort($queryArr, $get, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
 
 
         // Название вида
@@ -85,6 +84,9 @@ class UserController extends AppController
         // Роли пользователей
         $roles = DB::table('roles')->pluck('name', 'id');
 
+        // Разрешения
+        $permissions = DB::table('permissions')->pluck('name', 'id');
+
         // Картинка
         $images = File::onlyImg()->pluck('path', 'id');
 
@@ -100,7 +102,7 @@ class UserController extends AppController
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'roles', 'images'));
+        return view($view, compact('title', 'roles', 'permissions', 'images'));
     }
 
 
@@ -112,6 +114,11 @@ class UserController extends AppController
      */
     public function store(Request $request)
     {
+        // Роль Admin может создавать Admin
+        if (Str::contains($this->adminRoleName, $request->roles) && !auth()->user()->hasRole($this->adminRoleName)) {
+            return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+        }
+
         $rules = [
             'name' => 'required|string|max:255',
             'email' => "required|string|email|unique:{$this->info['table']},email|max:255",
@@ -139,20 +146,15 @@ class UserController extends AppController
 
         // Роли пользователя
         if ($request->roles) {
-
-            // Роли Admin может добавлять и удалять только Admin
-            $adminRoleName = $this->info['model']::getRoleAdmin();
-            if (Str::contains($adminRoleName, $request->roles) && !auth()->user()->hasRole($this->info['model']::getRoleAdmin())) {
-                return redirect()->back()->withErrors(__('s.admin_choose_admin'));
-            }
-
             $values->syncRoles($request->roles);
-
         } else {
 
             // Назначим роль User по-умолчанию
             $values->assignRole($this->info['model']::getRoleUser() ?? 'user');
         }
+
+        // Разрешения
+        $values->syncPermissions($request->permissions);
 
         // Связь с файлами
         if ($request->file) {
@@ -188,8 +190,11 @@ class UserController extends AppController
         $this->viewExists($view, $this->info);
 
 
-        // Роли пользователей
+        // Роли
         $roles = DB::table('roles')->pluck('name', 'id');
+
+        // Разрешения
+        $permissions = DB::table('permissions')->pluck('name', 'id');
 
         // Картинка
         $images = File::onlyImg()->pluck('path', 'id');
@@ -218,7 +223,7 @@ class UserController extends AppController
             }
         }*/
 
-        return view($view, compact('title', 'values', 'roles', 'images'));
+        return view($view, compact('title', 'values', 'roles', 'permissions', 'images'));
     }
 
 
@@ -233,6 +238,11 @@ class UserController extends AppController
     {
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
+
+        // Роль Admin может редактировать Admin
+        if ($values->hasRole($this->adminRoleName) && !auth()->user()->hasRole($this->adminRoleName)) {
+            return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+        }
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -251,17 +261,11 @@ class UserController extends AppController
         }
 
 
-        // Роли пользователя
-        if ($request->roles) {
+        // Роли
+        $values->syncRoles($request->roles);
 
-            // Роли Admin может добавлять и удалять только Admin
-            $adminRoleName = $this->info['model']::getRoleAdmin();
-            if (Str::contains($adminRoleName, $request->roles) && !auth()->user()->hasRole($this->info['model']::getRoleAdmin())) {
-                return redirect()->back()->withErrors(__('s.admin_choose_admin'));
-            }
-
-            $values->syncRoles($request->roles);
-        }
+        // Разрешения
+        $values->syncPermissions($request->permissions);
 
         // Связь с файлами
         if ($request->file) {
@@ -311,11 +315,13 @@ class UserController extends AppController
         $values = $this->info['model']::findOrFail($id);
 
         // Удалить пользователя с ролью Admin может только Admin
-        $adminRoleName = $this->info['model']::getRoleAdmin();
-        if ($values->hasRole($adminRoleName) && !auth()->user()->hasRole($adminRoleName)) {
+        if ($values->hasRole($this->adminRoleName) && !auth()->user()->hasRole($this->adminRoleName)) {
             return redirect()->back()->withErrors(__('s.admin_choose_admin'));
         }
 
+
+        // Удаляем прикреплённые разрешения
+        $values->syncPermissions([]);
 
         // Удаляем прикреплённые роли
         $values->syncRoles([]);

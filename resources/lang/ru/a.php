@@ -27,6 +27,7 @@ return [
     'file_manager' => 'Файловый менеджер',
     'users' => 'Пользователи',
     'roles' => 'Роли',
+    'permissions' => 'Разрешения',
     'menus' => 'Меню',
     'menu_groups' => 'Группы меню',
     'settings' => 'Настройки',

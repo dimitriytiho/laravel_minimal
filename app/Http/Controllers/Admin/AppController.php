@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Detection\MobileDetect;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Support\Str;
 use App\Helpers\Admin\Locale;
 use Illuminate\Pagination\Paginator;
@@ -23,6 +23,7 @@ class AppController extends Controller
     protected $dbSort;
     protected $pagination;
     protected $paginationQty;
+    protected $adminRoleName;
 
     // Связанный родитель
     protected $belongTable;
@@ -58,6 +59,7 @@ class AppController extends Controller
         $dbSort = $this->dbSort = "{$this->namespaceHelpers}\\DbSort";
         $this->pagination = config('admin.pagination_default');
         $this->paginationQty = config('admin.pagination');
+        $adminRoleName = $this->adminRoleName = User::getRoleAdmin();
 
 
         // Только внутри этой конструкции работают некоторые методы
@@ -111,6 +113,6 @@ class AppController extends Controller
             }
         }
 
-        view()->share(compact('namespaceHelpers', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile'));
+        view()->share(compact('namespaceHelpers', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
     }
 }

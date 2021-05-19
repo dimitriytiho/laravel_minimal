@@ -22,6 +22,8 @@ Route::namespace($namespaceAdmin)
     Route::resource('page', PageController::class)->except(['show']);
     Route::resource('property', PropertyController::class)->except(['show']);
     Route::resource('setting', SettingController::class)->except(['show']);
+    Route::resource('role', RoleController::class)->except(['show']);
+    Route::resource('permission', PermissionController::class)->except(['show']);
     Route::resource('user', UserController::class)->except(['show']);
 
     // Website add controllers

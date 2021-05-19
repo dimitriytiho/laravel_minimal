@@ -83,6 +83,14 @@ Breadcrumbs --}}
                             @endif
                             {{--
 
+                            Разрешения --}}
+                            @if(!empty($permissions))
+                                <div class="col-md-6">
+                                    {!! $form::select('permissions', $permissions, isset($values->id) ? $values->getPermissionNames() : null, __('a.permissions'), null, ['data-placeholder' => __('s.choose')], null, null, true, 'w-100 select2') !!}
+                                </div>
+                            @endif
+                            {{--
+
 
 
                             Если есть связанные элементы, то выводим их в множественный select --}}

@@ -258,7 +258,7 @@ return [
     'text' => 'Текст',
     'function' => 'Функция',
     'weight' => 'Вес',
-    'action_is_not_available' => 'Это действие недоступно.',
+    'action_is_not_available' => 'Данное действие недоступно.',
     'courier' => 'Курьером',
     'pickup' => 'Заберу сам',
     'cash_courier' => 'Наличными',

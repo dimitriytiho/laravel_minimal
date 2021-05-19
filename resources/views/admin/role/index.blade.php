@@ -27,15 +27,6 @@ Breadcrumbs --}}
                                 {!! $dbSort::viewIcons('name', $info['view'], $info['view']) !!}
                             </th>
                             <th scope="col">
-                                <span>@lang('a.email')</span>
-                                {!! $dbSort::viewIcons('email', $info['view'], $info['view']) !!}
-                            </th>
-                            <th scope="col">@lang('a.roles')</th>
-                            <th scope="col">
-                                <span>@lang('a.ip')</span>
-                                {!! $dbSort::viewIcons('ip', $info['view'], $info['view']) !!}
-                            </th>
-                            <th scope="col">
                                 <span>@lang('a.id')</span>
                                 {!! $dbSort::viewIcons('id', $info['view'], $info['slug']) !!}
                             </th>
@@ -43,31 +34,13 @@ Breadcrumbs --}}
                         </thead>
                         <tbody>
                         @foreach($values as $item)
-                            @php
-
-                                $roles = $item->getRoleNames()->toArray();
-
-                            @endphp
-                            {{--
-
-
-                            Выделяем активный ряд для роли admin --}}
-                            <tr @if(Str::contains($info['model']::getRoleAdmin(), $roles)) class="table-active"@endif>
+                            <tr>
                                 <th scope="row" class="d-flex">
                                     <a href="{{ Route::has("admin.{$info['view']}.edit") ? route("admin.{$info['slug']}.edit", $item->id) :  route("admin.{$info['slug']}.show", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </th>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>
-                                    @if($roles)
-                                        @foreach($roles as $role)
-                                            <span title="{{ Func::__($role, 'a') }}">{{ Str::limit(Func::__($role, 'a'), 3) }}</span>&nbsp;
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>{{ $item->ip }}</td>
                                 <td>{{ $item->id }}</td>
                             </tr>
                         @endforeach

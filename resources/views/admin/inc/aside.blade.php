@@ -3,6 +3,10 @@
     use App\Models\{Menu, User};
 
 
+
+    // Имя роли Admin
+    $adminRoleName = User::getRoleAdmin();
+
     // Левое меню, получаем по belong_id = 2  и кэшируем
     $leftMenu = cache()->rememberForever('admin_left_menu', function () {
         return Menu::whereBelongId(2)
@@ -49,7 +53,8 @@
 
                         Не покажем элемент меню, если не админ --}}
                         @continue(
-                            !auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log'])
+                            !auth()->user()->hasRole($adminRoleName) && auth()->user()->hasAnyPermission([$item->class])
+                            //!auth()->user()->hasRole($adminRoleName) && Str::contains($item->class, ['Log'])
                         )
                         <li class="nav-item @if(
 
@@ -92,9 +97,12 @@
 
 
                                         Не покажем элемент меню, если не админ --}}
-                                        {{--@continue(!auth()->user()->hasRole(User::getRoleAdmin()) && Str::contains($item->class, ['Log']))--}}
+                                        @continue(
+                                            !auth()->user()->hasRole($adminRoleName) && auth()->user()->hasAnyPermission([$child->class])
+                                            //!auth()->user()->hasRole($adminRoleName) && Str::contains($child->class, ['Log'])
+                                        )
                                         <li class="nav-item">
-                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(Str::contains(request()->path(), $child->slug)) active @endif">
+                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(str_replace(config('add.admin'), '', request()->path()) === $child->slug) active @endif">
                                                 <i class="{{ $child->item }} nav-icon"></i>
                                                 <p>{{ Func::__($child->title, 'a') }}</p>
                                             </a>

@@ -27,6 +27,7 @@ return [
     'file_manager' => 'File manager',
     'users' => 'Users',
     'roles' => 'Roles',
+    'permissions' => 'Permissions',
     'menus' => 'Menu',
     'menu_groups' => 'Groups menu',
     'settings' => 'Settings',
