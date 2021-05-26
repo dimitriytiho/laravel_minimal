@@ -137,6 +137,9 @@
                 $('#' + $(this).data('display')).toggle();
             });
             $('#table-log').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Russian.json'
+                },
                 "order": [$('#table-log').data('orderingIndex'), 'desc'],
                 "stateSave": true,
                 "stateSaveCallback": function (settings, data) {
