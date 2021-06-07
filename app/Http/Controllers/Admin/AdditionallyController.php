@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Admin\Commands;
-use App\Helpers\Seo;
+use App\Support\Admin\Commands;
+use App\Support\Seo;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;

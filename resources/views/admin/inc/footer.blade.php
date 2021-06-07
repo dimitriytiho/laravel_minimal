@@ -1,6 +1,6 @@
 @php
 
-    use App\Helpers\Admin\Html;
+    use App\Support\Admin\Html;
 
 
 @endphp

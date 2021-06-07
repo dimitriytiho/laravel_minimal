@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Func;
 use App\Models\User;
 
 class PageController extends Controller

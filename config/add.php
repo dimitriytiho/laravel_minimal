@@ -76,7 +76,7 @@ return [
     'models' => 'App\\Models',
     'models_path' => app_path('Models'),
     'controllers' => 'App\\Http\\Controllers',
-    'helpers' => 'App\\Helpers',
+    'support' => 'App\\Support',
 
     // Настройки из файла /.env, т.к. после кэширования они будут возращать null
     'name' => env('APP_NAME', 'OmegaKontur'),

@@ -3,7 +3,7 @@
 
 namespace App\Mail;
 
-use App\Helpers\Func;
+use App\Support\Func;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;

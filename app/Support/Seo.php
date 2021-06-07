@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helpers;
+namespace App\Support;
 
 use Illuminate\Support\Facades\{DB, File, Route, Schema};
 
@@ -9,7 +9,7 @@ class Seo
 {
     /*
      * Запусть этот метод, чтобы обновить сайт.
-     * \App\Helpers\Seo::getUpload();
+     * \App\Support\Seo::getUpload();
      * $htaccess - передать true, чтобы также сформировать файл .htaccess.
      */
     public static function getUpload($htaccess = false)

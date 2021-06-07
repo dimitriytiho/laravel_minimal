@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Helpers\Admin;
+namespace App\Support\Admin;
 
-use App\Helpers\Func;
+use App\Support\Func;
 
 class Form
 {

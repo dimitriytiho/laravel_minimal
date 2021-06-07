@@ -56,7 +56,7 @@ Breadcrumbs --}}
                                         </button>
                                     </form>
                                 </th>
-                                <td>{!! \App\Helpers\Admin\Attachment::previewFile($item) !!}</td>
+                                <td>{!! \App\Support\Admin\Attachment::previewFile($item) !!}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->path }}</td>
                                 <td>{{ $item->old_name }}</td>

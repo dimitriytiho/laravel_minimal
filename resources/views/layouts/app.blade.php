@@ -187,7 +187,7 @@ jquery-validation --}}
 {{--
 
 
-Если в контенте из БД есть скрипты, то они выведятся здесь, через метод App\Helpers\Func::downScripts() --}}
+Если в контенте из БД есть скрипты, то они выведятся здесь, через метод App\Support\Func::downScripts() --}}
 {!! $scriptsFromContent ?? null !!}
 {{--
 

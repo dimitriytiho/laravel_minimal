@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helpers;
+namespace App\Support;
 
 use Illuminate\Support\Facades\File;
 

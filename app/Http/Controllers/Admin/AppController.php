@@ -9,13 +9,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\{DB, Schema};
 use Illuminate\Support\Str;
-use App\Helpers\Admin\Locale;
+use App\Support\Admin\Locale;
 use Illuminate\Pagination\Paginator;
 
 class AppController extends Controller
 {
     protected $namespaceModels;
-    protected $namespaceHelpers;
+    protected $namespaceSupport;
     protected $html;
     protected $form;
     protected $viewPath;
@@ -49,14 +49,14 @@ class AppController extends Controller
 
 
         $this->namespaceModels = config('add.models');
-        $namespaceHelpers = $this->namespaceHelpers = config('add.helpers') . '\\Admin';
+        $namespaceSupport = $this->namespaceSupport = config('add.support') . '\\Admin';
         $viewPath = $this->viewPath = 'admin';
 
-        $html = $this->html = "{$this->namespaceHelpers}\\Html";
-        $form = $this->form = "{$this->namespaceHelpers}\\Form";
+        $html = $this->html = "{$this->namespaceSupport}\\Html";
+        $form = $this->form = "{$this->namespaceSupport}\\Form";
 
         $this->template = 'general';
-        $dbSort = $this->dbSort = "{$this->namespaceHelpers}\\DbSort";
+        $dbSort = $this->dbSort = "{$this->namespaceSupport}\\DbSort";
         $this->pagination = config('admin.pagination_default');
         $this->paginationQty = config('admin.pagination');
         $adminRoleName = $this->adminRoleName = User::getRoleAdmin();
@@ -113,6 +113,6 @@ class AppController extends Controller
             }
         }
 
-        view()->share(compact('namespaceHelpers', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
+        view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
     }
 }

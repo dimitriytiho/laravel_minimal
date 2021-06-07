@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\Func;
+use App\Support\Func;
 
 
 $namespaceAdmin = config('add.controllers') . '\\Admin';

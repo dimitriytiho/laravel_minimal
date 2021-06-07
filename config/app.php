@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Добавляем провайдеры
+        //App\Providers\RegistryServiceProvider::class,  // Если нужен паттерн Registry раскомментировать
+
     ],
 
     /*
@@ -229,8 +232,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         // Добавляем алиасы
-        'Func' => \App\Helpers\Func::class,
-        'Html' => \App\Helpers\Html::class,
+        'Func' => \App\Support\Func::class,
+        'Html' => \App\Support\Html::class,
+        //'Registry' => \App\Support\Facades\Registry::class,  // Если нужен паттерн Registry раскомментировать
 
     ],
 

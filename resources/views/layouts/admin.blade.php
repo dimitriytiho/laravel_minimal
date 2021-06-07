@@ -123,7 +123,7 @@ Js files --}}
         currentClass = '{{ $info['class'] ?? null }}',
         curID = '{{ auth()->user()->id ?? "" }}'
 
-    {!! \App\Helpers\Locale::translationsJson() !!}
+    {!! \App\Support\Locale::translationsJson() !!}
 </script>
 <script src="{{ asset('js/append.js') }}"></script>
 {{--

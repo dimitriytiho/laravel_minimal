@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Admin\App;
-use App\Helpers\Func;
+use App\Support\Admin\App;
+use App\Support\Func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

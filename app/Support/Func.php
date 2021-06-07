@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helpers;
+namespace App\Support;
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\{Lang, Route};

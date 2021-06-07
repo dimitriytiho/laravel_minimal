@@ -65,7 +65,7 @@ Admin LTE --}}
         requestPath = '',
         spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>'
 
-    {!! \App\Helpers\Locale::translationsJson() !!}
+    {!! \App\Support\Locale::translationsJson() !!}
 </script>
 <script src="{{ asset('js/append.js') }}"></script>
 {{--

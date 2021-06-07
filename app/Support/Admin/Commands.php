@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helpers\Admin;
+namespace App\Support\Admin;
 
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
