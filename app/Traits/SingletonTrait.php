@@ -2,16 +2,44 @@
 
 namespace App\Traits;
 
-// Паттерн Singleton позволяет создать один экземпляр класса
+use App\Support\Func;
+
+/**
+ * Паттерн Singleton позволяет создать один экземпляр класса.
+ */
 trait SingletonTrait
 {
-    private static $instance;
+    private static $instances = [];
+
+
+    /**
+     * Конструктор Одиночки всегда должен быть скрытым, чтобы предотвратить
+     * создание объекта через оператор new.
+     */
+    protected function __construct() {}
+
+
+    /**
+     * Одиночки не должны быть клонируемыми.
+     */
+    protected function __clone() {}
+
+
+    /**
+     * Одиночки не должны быть восстанавливаемыми из строк.
+     */
+    public function __wakeup()
+    {
+        Func::getError('Cannot unserialize a singleton', __METHOD__);
+    }
+
 
     public static function instance()
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        $className = static::class;
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = new static();
         }
-        return self::$instance;
+        return self::$instances[$className];
     }
 }
