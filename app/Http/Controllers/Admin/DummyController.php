@@ -100,7 +100,7 @@ class DummyController extends AppController
         $data = $request->all();
 
         // Создаём экземкляр модели
-        $values = new $this->info['model']();
+        $values = app()->make($this->info['model']);
 
         // Заполняем модель новыми данными
         $values->fill($data);

@@ -65,7 +65,7 @@ class Controller extends BaseController
 
             // Таблица
             if (!empty($model)) {
-                $table = with(new $model)->getTable();
+                $table = with(app()->make($model))->getTable();
             }
 
             $view = Str::snake($class); // foo_bar

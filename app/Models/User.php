@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Mail\SendServiceMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -62,7 +61,11 @@ class User extends Authenticatable
             'btn' => __('s.reset_password'),
             'link' => route('password.reset', $token),
         ];
-        $this->notify(new SendServiceMail($title , null, $values, 'service'));
+        $this->notify(app()->make('App\Mail\SendServiceMail', [
+            'title' => $title,
+            'values' => $values,
+            'template' => 'service',
+        ]));
     }
 
 

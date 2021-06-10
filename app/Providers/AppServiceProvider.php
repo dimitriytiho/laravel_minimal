@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
-//use App\Support\Registry;
-//use ReCaptcha\ReCaptcha;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         /*$this->app->singleton('registry', function () {
-            return new Registry();
+            return app()->make('App\Classes\Registry');
         });*/
     }
 
@@ -30,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Добавляем Google ReCaptcha в валидатор
         /*Validator::extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
-            $recaptcha = new ReCaptcha(config('add.recaptcha_secret_key'));
+            $recaptcha = app()->make('ReCaptcha\ReCaptcha', ['secret' => config('add.recaptcha_secret_key')]);
             $resp = $recaptcha->verify($value, request()->ip());
 
             return $resp->isSuccess();

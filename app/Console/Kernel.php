@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
         /*if (app()->environment() === 'production') {
 
             // Запустить Job каждые 5 минут
-            $schedule->job(new \App\Jobs\TestJob())->everyFiveMinutes();
+            $schedule->job(app()->make('\App\Jobs\TestJob'))->everyFiveMinutes();
         }*/
 
         // Резервное копирование веб-сайта (в первый день месяца)

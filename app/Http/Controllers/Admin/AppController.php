@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Detection\MobileDetect;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,8 +40,9 @@ class AppController extends Controller
 
 
         // Определить мобильную версию
-        $detect = new MobileDetect();
+        $detect = app()->make('Detection\MobileDetect');
         $isMobile = $detect->isMobile();
+
 
         // Пагинация Bootstrap
         Paginator::useBootstrap();

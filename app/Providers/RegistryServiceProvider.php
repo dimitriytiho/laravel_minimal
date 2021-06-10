@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Classes\Registry;
 
 class RegistryServiceProvider extends ServiceProvider
 {
@@ -15,7 +14,7 @@ class RegistryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('registry', function () {
-            return new Registry();
+            return app()->make('App\Classes\Registry');
         });
     }
 
