@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  *
  * @method static set($key, $value)
- * @method static get($key)
+ * @method static get($key, $default)
  * @method static all()
  *
  * Паттерн реестр позволяет добавить данные в контейнер и получить их в любом месте приложения.

@@ -5,8 +5,12 @@ namespace App\Classes;
 
 use App\Contracts\Registry as RegistryContract;
 
-
-// Паттерн реестр позволяет добавить данные в контейнер и получить их в любом месте приложения
+/**
+ *
+ * Паттерн реестр позволяет добавить данные в контейнер и получить их в любом месте приложения.
+ *
+ * @url https://snipp.ru/php/registry
+ */
 class Registry implements RegistryContract
 {
     private $properties = [];
@@ -16,7 +20,7 @@ class Registry implements RegistryContract
      * Set property value.
      *
      * @param string|int $key
-     * @param  mixed  $value
+     * @param mixed $value
      * @return void
      */
     public function set($key, $value = null)
@@ -29,11 +33,12 @@ class Registry implements RegistryContract
      * Get property value.
      *
      * @param string|int $key
+     * @param mixed $default
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this->properties[$key] ?? null;
+        return isset($this->properties[$key]) ? $this->properties[$key] : $default;
     }
 
 

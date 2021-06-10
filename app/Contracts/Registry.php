@@ -10,7 +10,7 @@ interface Registry
      * Set property value.
      *
      * @param string|int $key
-     * @param  mixed  $value
+     * @param mixed $value
      * @return void
      */
     public function set($key, $value = null);
@@ -20,9 +20,10 @@ interface Registry
      * Get property value.
      *
      * @param string|int $key
+     * @param mixed $default
      * @return mixed
      */
-    public function get($key);
+    public function get($key, $default = null);
 
 
     /**
