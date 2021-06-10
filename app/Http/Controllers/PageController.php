@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Support\Facades\Registry;
 
 class PageController extends Controller
 {

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Support\Registry;
+use App\Classes\Registry;
 
 class RegistryServiceProvider extends ServiceProvider
 {

@@ -234,7 +234,7 @@ return [
         // Добавляем алиасы
         'Func' => \App\Support\Func::class,
         'Html' => \App\Support\Html::class,
-        //'Registry' => \App\Support\Facades\Registry::class,  // Если нужен паттерн Registry раскомментировать
+        //'Registry' => \App\Classes\Registry::class,  // Если нужен паттерн Registry раскомментировать
 
     ],
 
