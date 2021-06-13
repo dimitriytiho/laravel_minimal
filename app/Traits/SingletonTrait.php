@@ -2,14 +2,17 @@
 
 namespace App\Traits;
 
-use App\Support\Func;
 
 /**
  * Паттерн Singleton позволяет создать один экземпляр класса.
+ *
+ * Наследовать через use App\Traits\SingletonTrait;
+ * В наследуемом классе создать объект через $ob = НаследуемыйКласс::instance();
  */
 trait SingletonTrait
 {
-    private static $instances = [];
+    private static $instance;
+    //private static $instances = [];
 
 
     /**
@@ -28,18 +31,19 @@ trait SingletonTrait
     /**
      * Одиночки не должны быть восстанавливаемыми из строк.
      */
-    public function __wakeup()
-    {
-        Func::getError('Cannot unserialize a singleton', __METHOD__);
-    }
+    public function __wakeup() {}
 
 
     public static function instance()
     {
-        $className = static::class;
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+        /*$className = static::class;
         if (!isset(self::$instances[$className])) {
             self::$instances[$className] = new static();
         }
-        return self::$instances[$className];
+        return self::$instances[$className];*/
     }
 }

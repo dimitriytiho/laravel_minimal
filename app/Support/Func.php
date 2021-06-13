@@ -151,9 +151,12 @@ class Func
      * Возвращает строку: Url, Email, IP пользователя.
      * $referer - передать true, если нужно вывести страницу, с которой перешёл пользователь, необязательный параметр.
      */
-    public static function dataUser()
+    public static function dataUser($referer = null)
     {
-        $email = auth()->check() && auth()->user()->email ? '. Email: ' . auth()->user()->email . '.' : null;
-        return "Url: " . request()->url() . "{$email} IP: " . request()->ip();
+        $email = auth()->check() && auth()->user()->email ? 'Email: ' . auth()->user()->email . '. ' : null;
+        if ($referer) {
+            $referer = request()->server('HTTP_REFERER') ? '. Referer: ' . request()->server('HTTP_REFERER') : null;
+        }
+        return $email . 'Url: ' . request()->url()  . '. IP: ' . request()->ip() . $referer;
     }
 }
