@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Mail\SendServiceMail;
 
 class User extends Authenticatable
 {
@@ -61,7 +62,7 @@ class User extends Authenticatable
             'btn' => __('s.reset_password'),
             'link' => route('password.reset', $token),
         ];
-        $this->notify(app()->make('App\Mail\SendServiceMail', [
+        $this->notify(app()->make(SendServiceMail::class, [
             'title' => $title,
             'values' => $values,
             'template' => 'service',

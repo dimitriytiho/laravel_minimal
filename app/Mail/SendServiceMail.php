@@ -82,7 +82,7 @@ class SendServiceMail extends Notification
         $tel = Func::site('tel');
         $tel = $tel ? __('s.or_call') . $tel : null;
 
-        return (app()->make('Illuminate\Notifications\Messages\MailMessage'))
+        return (app()->make(MailMessage::class))
             ->view("layouts.{$this->layout}",
                 compact('view', 'title', 'values', 'h1', 'body', 'site_name', 'color', 'email', 'tel'))
             ->subject(__('s.Information_letter'));
