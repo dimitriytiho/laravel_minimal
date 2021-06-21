@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Controller extends BaseController
@@ -47,9 +46,9 @@ class Controller extends BaseController
 
     /*
      * Получаем данные о текущем классе в массив $info
-     * $modelClass - если модель используется отличная от названия контроллера, то передать её класс, например \App\Models\Page::class.
+     * $params - передать в массив параметры, которые нужно изменить, например $params['table' => 'names'];
      */
-    protected function info($modelClass = null)
+    protected function info($params = [])
     {
         if (method_exists(request()->route(), 'getActionName')) {
             $controller = Str::before(class_basename(request()->route()->getActionName()), '@');
@@ -57,45 +56,34 @@ class Controller extends BaseController
             $action = request()->route()->getActionMethod();
 
             // Модель
-            if ($modelClass) {
-                $model = $modelClass;
-            } elseif (File::exists(config('add.models_path') . "/{$class}.php")) {
+            $model = config('add.models') . '\\' . $class;
+            /*if (File::exists(config('add.models_path') . "/{$class}.php")) {
                 $model = config('add.models') . '\\' . $class;
-            }
-
-            // Таблица
-            if (!empty($model)) {
-                $table = with(app()->make($model))->getTable();
-            }
+            }*/
 
             $view = Str::snake($class); // foo_bar
             $slug = Str::kebab($class); // foo-bar
             $route = request()->route()->getName();
+
+            // Таблица
+            $table = Str::plural($view); // к множественному числу
+            /*if (!empty($model)) {
+                $table = with(app()->make($model))->getTable();
+            }*/
         }
 
         $info = [
-            'controller' => $controller ?? null,
-            'action' => $action ?? null,
-            'class' => $class ?? null,
-            'model' => $model ?? null,
-            'table' => $table ?? null,
-            'view' => $view ?? null,
-            'route' => $route ?? null,
-            'slug' => $slug ?? null,
+            'controller' => $params['controller'] ?? $controller ?? null,
+            'action' => $params['action'] ?? $action ?? null,
+            'class' => $params['class'] ?? $class ?? null,
+            'model' => $params['model'] ?? $model ?? null,
+            'table' => $params['table'] ?? $table ?? null,
+            'view' => $params['view'] ?? $view ?? null,
+            'route' => $params['route'] ?? $route ?? null,
+            'slug' => $params['slug'] ?? $slug ?? null,
         ];
         view()->share(compact('info'));
         return $info;
-    }
-
-
-    // Проверка вида и info
-    protected function viewExists($viewName, $info)
-    {
-        if (empty($info['controller']) || !view()->exists($viewName)) {
-            $message = "View $viewName not found.";
-            logger()->critical($message);
-            abort('404', $message);
-        }
     }
 
 

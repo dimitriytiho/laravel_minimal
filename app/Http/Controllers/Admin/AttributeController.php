@@ -55,9 +55,6 @@ class AttributeController extends AppController
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
 
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
-
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
@@ -72,9 +69,6 @@ class AttributeController extends AppController
     {
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -153,9 +147,6 @@ class AttributeController extends AppController
 
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 

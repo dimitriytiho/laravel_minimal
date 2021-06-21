@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -19,9 +20,6 @@ class PageController extends Controller
     {
         // Название вида
         $view = $this->info['view'] . '.' . $this->info['action'];
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = __('s.home');
         $description = __('s.You_are_on_home');
@@ -54,9 +52,6 @@ class PageController extends Controller
 
         // Название вида
         $view = $this->info['view'] . '.' . $this->info['action'];
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = $values->title ?? null;
         $description = $values->description ?? null;

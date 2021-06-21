@@ -22,9 +22,6 @@ class MainController extends AppController
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
 
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
-
         $title = __('a.dashboard');
         return view($view, compact('title'));
     }

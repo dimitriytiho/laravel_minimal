@@ -29,9 +29,6 @@ class HomeController extends Controller
         // Название вида
         $view = $this->info['view'] . '.' . $this->info['action'];
 
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
-
         $title = __('s.account');
         return view($view, compact('title'));
     }

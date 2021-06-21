@@ -57,9 +57,6 @@ class SettingController extends AppController
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
 
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
-
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
@@ -74,9 +71,6 @@ class SettingController extends AppController
     {
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -145,9 +139,6 @@ class SettingController extends AppController
 
         // Название вида
         $view = "{$this->viewPath}.{$this->info['slug']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 

@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
+    // Здесь указать к примеру интерфейс и класс, который его реализует, при создании экземпляра: app(TestInterface::class); - этот класс автоматически подхватится.
+    public $bindings = [
+        //TestInterface::class => Test::class,
+    ];
+
+
     /**
      * Register any application services.
      *

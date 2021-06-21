@@ -60,9 +60,6 @@ class UserController extends AppController
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
 
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
-
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
@@ -77,9 +74,6 @@ class UserController extends AppController
     {
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
         // Роли пользователей
         $roles = DB::table('roles')->pluck('name', 'id');
@@ -185,9 +179,6 @@ class UserController extends AppController
 
         // Название вида
         $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
-
-        // Проверка вида и info
-        $this->viewExists($view, $this->info);
 
 
         // Роли
