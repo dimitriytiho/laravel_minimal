@@ -44,7 +44,7 @@ return [
         //'success-page',
     ],
 
-    // Список таблиц информационных блоков (для обновления веб-сайта и пр.), у таблиц в структуре БД должны быть статусы как в массиве statuses.
+    // Список таблиц информационных блоков (для обновления веб-сайта и пр.), у таблиц в структуре БД должны быть статусы как в массиве statuses, этого же файла.
     'list_of_information_block' => [
 
         // Имена таблиц в БД
@@ -66,7 +66,7 @@ return [
         ],
 
         // Имена маршрутов из /routes/web.php, маршруты должны быть именованные
-        'routes' => [ // Очерёдность должна быть как в массиве tables
+        'routes' => [
             //'contact_us',
             //'order',
         ],
@@ -79,7 +79,6 @@ return [
     'support' => 'App\\Support',
 
     // Настройки из файла /.env, т.к. после кэширования они будут возращать null
-    'name' => env('APP_NAME', 'OmegaKontur'),
     'url' => env('APP_URL', '/'),
     'env' => env('APP_ENV', 'local'),
     'dev' => env('APP_DEV', 'OmegaKontur'),
@@ -97,8 +96,8 @@ return [
         'From' => 'Moscow, Russia',
         'Language' => 'Russian',
         'Doctype' => 'HTML5',
-        'Framework' => 'Laravel',
-        'IDE' => 'PHPStorm, Visual Studio, Sublime Text, Photoshop, Illustrator',
+        'Framework' => 'Laravel, Bootstrap',
+        'IDE' => 'PHPStorm, Visual Studio, Sublime Text',
         'Brand' => 'OmegaKontur',
     ],
 ];

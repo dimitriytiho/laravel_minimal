@@ -4,6 +4,10 @@
 namespace App\Traits;
 
 
+/*
+ * Здесь дополнительные методы, что добавить в Eloquent ORM новый команды.
+ * Для использования наследовать этот trait в моделе.
+ */
 trait ModelScopesTrait
 {
     /*

@@ -13,8 +13,9 @@ class Func
      * @return string
      *
      * Возвращается переводную фразу, если её нет, то входную строку.
-     * $str - строка для перевода.
-     * $fileLang - имя файла с переводом (без .php), необязательный параметр (по-умолчанию ищет в s.php).
+     *
+     * @param string $str - строка для перевода.
+     * @param string $fileLang - имя файла с переводом (без .php), необязательный параметр (по-умолчанию ищет в s.php).
      */
     public static function __($str, $fileLang = 's')
     {
@@ -30,8 +31,9 @@ class Func
      * @return string
      *
      * Возвращается маршрут, если он есть, иначе ссылка на главную.
-     * $routeName - название маршрута.
-     * $parameter - параметр в маршруте, необязательный параметр (если передаваемый параметр не существует, то маршрут всё равно будет возвращён).
+     *
+     * @param string $routeName - название маршрута.
+     * @param string $parameter - параметр в маршруте, необязательный параметр (если передаваемый параметр не существует, то маршрут всё равно будет возвращён).
      */
     public static function route($routeName, $parameter = null)
     {
@@ -48,7 +50,8 @@ class Func
      *
      * Возвращает настройку сайта из таблицы settings.
      * Func::site('name') - достать настройку.
-     * $settingName - название настройки.
+     *
+     * @param string $settingName - название настройки.
      */
     public static function site($settingName)
     {
@@ -61,13 +64,16 @@ class Func
     }
 
 
-    /*
+    /**
+     *
+     * @return void
+     *
      * Записывает в логи ошибку и выбрасывает исключение (если выбрано).
      *
-     * $message - текст сообщения.
-     * $method - передать __METHOD__.
-     * $abort - выбросывать исключение, по-умолчанию true, необязательный параметр.
-     * $error - в каком виде записать ошибку, может быть: emergency, alert, critical, error, warning, notice, info, debug. По-умолчанию error, необязательный параметр.
+     * @param string $message - текст сообщения.
+     * @param string $method - передать __METHOD__.
+     * @param bool $abort - выбросывать исключение, по-умолчанию true, необязательный параметр.
+     * @param string $error - в каком виде записать ошибку, может быть: emergency, alert, critical, error, warning, notice, info, debug. По-умолчанию error, необязательный параметр.
      */
     public static function getError($message, $method, $abort = true, $error = 'error')
     {
@@ -86,8 +92,9 @@ class Func
      * @return string
      *
      * Использовать скрипты в контенте, они будут перенесены вниз страницы.
-     * $content - контент, в котором удалиться скрипты и перенести их вниз страницы.
-     * В виде получить скрипты из переменной $scriptsFromContent.
+     *
+     * @param string $content - контент, в котором удалиться скрипты и перенести их вниз страницы.
+     * @var string $scriptsFromContent - в виде получить скрипты из переменной.
      */
     public static function downScripts($content)
     {
@@ -112,8 +119,8 @@ class Func
      *
      * Подключает файл из resources/views/replace с название написаном в контенте ##!!!file_name (название файла file_name.blade.php).
      *
-     * $content - если передаётся контент, то в нём будет искаться ##!!!file_name и заменяется на файл из папки resources/views/replace.
-     * $values - Можно передать данные в подключаемый файл.
+     * @param string $content - если передаётся контент, то в нём будет искаться ##!!!file_name и заменяется на файл из папки resources/views/replace.
+     * @param string $values - Можно передать данные в подключаемый файл.
      */
     public static function inc($content, $values = null)
     {
@@ -149,7 +156,8 @@ class Func
      * @return string
      *
      * Возвращает строку: Url, Email, IP пользователя.
-     * $referer - передать true, если нужно вывести страницу, с которой перешёл пользователь, необязательный параметр.
+     *
+     * @param bool $referer - передать true, если нужно вывести страницу, с которой перешёл пользователь, необязательный параметр.
      */
     public static function dataUser($referer = null)
     {

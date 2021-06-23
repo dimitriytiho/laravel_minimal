@@ -44,11 +44,15 @@ class Controller extends BaseController
     }
 
 
-    /*
-     * Получаем данные о текущем классе в массив $info
-     * $params - передать в массив параметры, которые нужно изменить, например $params['table' => 'names'];
+    /**
+     *
+     * @return array
+     *
+     * Получаем данные о текущем классе в массив $info, передаём в виды.
+     *
+     * @param array $params - передать в массив параметры, которые нужно изменить, например $params['table' => 'names'];
      */
-    protected function info($params = [])
+    protected function info(array $params = [])
     {
         if (method_exists(request()->route(), 'getActionName')) {
             $controller = Str::before(class_basename(request()->route()->getActionName()), '@');
@@ -87,15 +91,17 @@ class Controller extends BaseController
     }
 
 
-    // Сохраняем в сессию страницу с которой пользователь перешёл из админки
+    /**
+     *
+     * @return void
+     *
+     * Сохраняем в сессию страницу с которой пользователь перешёл из админки.
+     */
     private function saveAdminPreviousUrl()
     {
-        if (auth()->check()) {
-
-            // Если url содержит админский префикс
-            if (Str::is('*' . config('add.admin') . '*', url()->previous())) {
-                session()->put('back_link_admin', url()->previous());
-            }
+        // Если пользователь авторизирован и url содержит админский префикс
+        if (auth()->check() && Str::is('*' . config('add.admin') . '*', url()->previous())) {
+            session()->put('back_link_admin', url()->previous());
         }
     }
 }

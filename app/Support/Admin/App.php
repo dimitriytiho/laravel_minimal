@@ -12,8 +12,9 @@ class App
      * @return string
      *
      * Возвращает строку в латинице из кириллицы для URL.
-     * $str - строка.
-     * $length - возвращаемая длина, по-умолчанию 82 символов, необязательный параметр.
+     *
+     * @param string $str - строка.
+     * @param int|null $length - возвращаемая длина, по-умолчанию 82 символов, необязательный параметр.
      */
     public static function cyrillicToLatin($str, $length = 82)
     {

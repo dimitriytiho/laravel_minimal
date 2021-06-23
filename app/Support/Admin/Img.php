@@ -24,12 +24,12 @@ class Img
      * @return string
      *
      * Ресайз, сохранение и удаление прошлой картинки, возвращает новый путь картинки, от папки public.
-     * $request - передать объкт Request.
-     * $thisClass - название класса контроллера (например User).
-     * $oldImage - если нужно удалить картинку, то передать путь от папки public, необязательный параметр.
-     * $imgSize - размер картинки, по-умолчанию настройка admin.imgMaxSizeSM, необязательный параметр.
-     * $imgName - name из input, по-умолчанию img необязательный параметр.
-     * $crop - если нужно обрезать картинку, то передайте true, размеры обрезание в настройках admin.imgWidth и admin.imgHeight, необязательный параметр. Переменная $imgSize не учитывается.
+     * @param object $request - передать объкт Request.
+     * @param string $thisClass - название класса контроллера (например User).
+     * @param string $oldImage - если нужно удалить картинку, то передать путь от папки public, необязательный параметр.
+     * @param string $imgSize - размер картинки, по-умолчанию настройка admin.imgMaxSizeSM, необязательный параметр.
+     * @param string $imgName - name из input, по-умолчанию img необязательный параметр.
+     * @param bool $crop - если нужно обрезать картинку, то передайте true, размеры обрезание в настройках admin.imgWidth и admin.imgHeight, необязательный параметр. Переменная $imgSize не учитывается.
      */
     public static function upload(Request $request, $thisClass, $oldImage = null, $imgSize = null, $imgName = 'img', $crop = null)
     {
@@ -145,7 +145,12 @@ class Img
     }
 
 
-    // Возвращает разрешенные разрешения картинок строкой '.jpg, .jpeg, .png, .gif'
+    /**
+     *
+     * @return string
+     *
+     * Возвращает разрешенные разрешения картинок строкой '.jpg, .jpeg, .png, .gif'/
+     */
     public static function acceptedImagesExt()
     {
         $self = new self();
@@ -153,7 +158,12 @@ class Img
     }
 
 
-    // Поддерживает браузер картинки Webp, возвращает true или false.
+    /**
+     *
+     * @return bool
+     *
+     * Поддерживает браузер картинки Webp, возвращает true или false.
+     */
     public static function supportWebp()
     {
         // https://github.com/pcosta94/laravel-check-webp-support/blob/master/src/helpers.php
@@ -170,7 +180,8 @@ class Img
      * @return string
      *
      * Возвращает название картинки Webp, если она есть, если её нет, то возвращает ''.
-     * $imagePublicPath - путь с название обычной картинки.
+     *
+     * @param string $imagePublicPath - путь с название обычной картинки.
      * Название картинки Webp должно быть одинаково с обычной картинкой.
      */
     public static function getWebp($imagePublicPath)
@@ -188,7 +199,7 @@ class Img
                 return $webp;
             }
         }
-        return '';
+        return null;
     }
 
 
@@ -197,7 +208,8 @@ class Img
      * @return array
      *
      * Возвращает массив с данными картинки.
-     * $imagePublicPath - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
+     *
+     * @param string $imagePublicPath - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
      */
     public static function imgInfo($imagePublicPath)
     {
@@ -219,7 +231,8 @@ class Img
      * @return string
      *
      * Сделает копию картинки в формате Webp, возвращает путь к Webp картинке.
-     * $imagePublicPath - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
+     *
+     * @param string $imagePublicPath - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
      */
     public static function copyWebp($imagePublicPath)
     {
@@ -272,8 +285,9 @@ class Img
      * @return bool
      *
      * Удалим картинку с сервера, возвращает true или false.
-     * $img - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
-     * $imgDefault - картинка по-умолчанию, если не надо её удалять, то передать, например config('admin.imgProductDefault'), необязательный параметр.
+     *
+     * @param string $img - название картинки, как в БД, например /img/product/tovar_1_10-03-2020_21-28.jpeg.
+     * @param string $imgDefault - картинка по-умолчанию, если не надо её удалять, то передать, например config('admin.imgProductDefault'), необязательный параметр.
      */
     public static function deleteImg($img, $imgDefault = null)
     {
@@ -303,11 +317,14 @@ class Img
     }
 
 
-    /*
+    /**
+     *
+     * @return bool
+     *
      * Удалим с сервера картинки галереи, принадлежащии одному элементу, к примеру товару, возвращает true или false.
-     * $table - название таблице, в которой названия картинок.
-     * $elementName - название элемента в таблице, к примеру product_id.
-     * $elementId - id элемента, для которого картинки.
+     * @param string $table - название таблице, в которой названия картинок.
+     * @param string $elementName - название элемента в таблице, к примеру product_id.
+     * @param int $elementId - id элемента, для которого картинки.
      */
     public static function deleteImgAll($table, $elementName, $elementId)
     {
@@ -327,11 +344,19 @@ class Img
     }
 
 
+    /**
+     *
+     * @return string
+     *
+     * Заменяем символы в строке.
+     *
+     * @param string $str - строка, в которой заменить символы.
+     */
     public static function exceptionsName($str) {
         if ($str) {
             $str = str_replace(' ', '_', $str);
             return str_replace([':', '-', '.'], '-', $str);
         }
-        return false;
+        return null;
     }
 }

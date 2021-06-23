@@ -3,8 +3,6 @@
 
 namespace App\Support\Admin;
 
-
-use App\Models\Main;
 use App\Models\Menu;
 use Illuminate\Support\Str;
 
@@ -44,7 +42,8 @@ class LeftMenu
      * @return array
      *
      * Возвращает массив в виде дерева.
-     * $menu - передайте меню, необязательный параметр.
+     *
+     * @param array $menu - передайте меню, необязательный параметр.
      */
     public static function getTree(array $menu = [])
     {
@@ -80,7 +79,8 @@ class LeftMenu
      * @return array
      *
      * Возвращает хлебные крошки.
-     * $menu - передайте меню, необязательный параметр.
+     *
+     * @param array $menu - передайте меню, необязательный параметр.
      */
     public static function breadcrumbs(array $menu = [])
     {

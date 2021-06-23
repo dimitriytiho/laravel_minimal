@@ -9,11 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class Commands
 {
-    /*
+    /**
+     *
+     * @return string
+     *
      * Запустить команду без консоли, возвращает ответ из консоли.
-     * $command - команда для терминала.
+     * @param string $command - команда для терминала.
      */
-    public static function getCommand($command, $params = [])
+    public static function getCommand($command)
     {
         if ($command) {
             try {
@@ -35,6 +38,6 @@ class Commands
                 return $e->getMessage();
             }
         }
-        return false;
+        return null;
     }
 }

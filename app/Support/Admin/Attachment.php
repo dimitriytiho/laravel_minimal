@@ -13,7 +13,8 @@ class Attachment
      * @return string
      *
      * Возращает html preview файла, в зависимости от разрешения файла.
-     * $attachment - объект файла класса File обязательно.
+     *
+     * @param object $attachment - объект файла класса File обязательно.
      */
     public static function previewFile(File $attachment)
     {
@@ -50,8 +51,8 @@ class Attachment
      * @return string
      *
      * Возращает html.
-     * $attachment - объект файла класса File обязательно.
-     * $ext - разрешение файла.
+     * @param object $attachment - объект файла класса File обязательно.
+     * @param string $ext - разрешение файла.
      */
     public static function previewImgPdf(File $attachment, $ext)
     {
@@ -78,8 +79,9 @@ class Attachment
      * @return string
      *
      * Возращает html иконки Fontawesome.
-     * $attachment - объект файла класса File обязательно.
-     * $ext - разрешение файла.
+     *
+     * @param object $attachment - объект файла класса File обязательно.
+     * @param string $ext - разрешение файла.
      */
     public static function previewIcon(File $attachment, $ext)
     {

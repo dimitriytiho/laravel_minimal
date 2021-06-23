@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\{DB, File, Route, Schema};
 
 class Seo
 {
-    /*
+    /**
+     *
+     * @return void
+     *
      * Запусть этот метод, чтобы обновить сайт.
      * \App\Support\Seo::getUpload();
      * $htaccess - передать true, чтобы также сформировать файл .htaccess.
@@ -25,7 +28,18 @@ class Seo
     }
 
 
-    // Сформировать карту сайта
+    /**
+     *
+     * @return void
+     *
+     * Создать или обновить карту сайта.
+     *
+     * Настройки в файле config/add.php:
+     * list_of_information_block.tables - список таблиц информационных блоков, у таблиц в структуре БД должны быть статусы как в массиве statuses, этого же файла.
+     * list_of_information_block.routes - имена маршрутов из /routes/web.php, маршруты должны быть именованные, очерёдность должна быть как в массиве tables.
+     * list_pages_for_sitemap_no_db.items - список страниц, которые нужно добавить в sitemap, которых нет в БД.
+     * list_pages_for_sitemap_no_db.routes - имена маршрутов из /routes/web.php, маршруты должны быть именованные.
+     */
     public static function sitemap()
     {
         $itemsDb = config('add.list_of_information_block.tables');
@@ -82,10 +96,19 @@ class Seo
     }
 
 
-    // Сформировать robots.txt
+    /**
+     *
+     * @return void
+     *
+     * Сформировать robots.txt.
+     *
+     * Настройки в файле config/add.php:
+     * not_index_website - если не нужно индексировать сайт, то true, если нужно, то false.
+     * disallow - перечислить те страницы, которые не нужно индексировать, если включено индексирование.
+     */
     public static function robots()
     {
-        $index = config('add.not_index_website'); // Если не нужно индексировать сайт, то true, если нужно, то false
+        $index = config('add.not_index_website');
         $disallow = config('add.disallow');
 
         $disallow[] = '*.php$';
@@ -98,7 +121,7 @@ class Seo
         if ($index) {
             $r .= 'Disallow: /';
 
-            // Если индексировать
+        // Если индексировать
         } else {
 
             if ($disallow) {
@@ -115,7 +138,16 @@ class Seo
     }
 
 
-    // Сформировать humans.txt
+    /**
+     *
+     * @return void
+     *
+     * Сформировать humans.txt.
+     * Файл с данными о разработчике.
+     *
+     * Настройки в файле config/add.php:
+     * development - данными о разработчике.
+     */
     public static function human()
     {
         $values = config('add.development');
@@ -130,10 +162,17 @@ class Seo
     }
 
 
-    // Создаётся файл /public/error.php и в нём вид error из /resources/views/errors/error.blade.php
+    /**
+     *
+     * @return void
+     *
+     * Создаётся файл /public/error.php и в нём вид error из /resources/views/errors/error.blade.php
+     *
+     * $noShowErrorPage - эту переменную можно использовать, например чтобы на странице ошибки не показывать меню или т.т.
+     */
     public static function errorPage()
     {
-        $noShowErrorPage = true; // Эту переменную можно использовать, например чтобы на странице ошибки не показывать меню
+        $noShowErrorPage = true;
 
         if (view()->exists('errors.error')) {
             $view = view('errors.error')
@@ -145,7 +184,16 @@ class Seo
     }
 
 
-    // Сформировать .htaccess
+    /**
+     *
+     * @return void
+     *
+     * Сформировать файл .htaccess.
+     *
+     * Настройки в файле config/add.php:
+     * not_index_website - если не нужно индексировать сайт, то true, если нужно, то false.
+     * Если индексирование включено, то домен будет без www и редирект на https.
+     */
     public static function htaccess()
     {
         $r = 'addDefaultCharset utf-8' . PHP_EOL;

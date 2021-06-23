@@ -8,17 +8,21 @@ use Illuminate\Support\Facades\Schema;
 
 class DbSort
 {
-    /*
+    /**
+     *
+     * @return object
+     *
      * Возвращает результат запроса к БД, с учётом поиска и сортировки, с пагинацией.
-     * $queryArr - колонки для поиска.
-     * $get - Get параметры из запроса.
-     * $table - название таблицы.
-     * $model - название модели.
-     * $view - название вида.
-     * $perPage - кол-во для пагинации, если в сессии есть кол-во (session('pagination')), то в первую очередь возьмётся оттуда.
-     * $whereColumn - дополнительное условие выборки, название колонки, необязательный параметр.
-     * $whereValue - дополнительное условие выборки, значение колонки, необязательный параметр.
-     * $withModelMethod - передать название связанного метода из модели, необязательный параметр.
+     *
+     * @param string $queryArr - колонки для поиска.
+     * @param array $get - Get параметры из запроса.
+     * @param string $table - название таблицы.
+     * @param string $model - название модели.
+     * @param string $view - название вида.
+     * @param int|string $perPage - кол-во для пагинации, если в сессии есть кол-во (session('pagination')), то в первую очередь возьмётся оттуда.
+     * @param string $whereColumn - дополнительное условие выборки, название колонки, необязательный параметр.
+     * @param string $whereValue - дополнительное условие выборки, значение колонки, необязательный параметр.
+     * @param string $withModelMethod - передать название связанного метода из модели, необязательный параметр.
      */
     public static function getSearchSort(array $queryArr, $get, $table, $model, $view, $perPage, $whereColumn = null, $whereValue = null, $withModelMethod = null)
     {
@@ -136,11 +140,15 @@ class DbSort
     }
 
 
-    /*
+    /**
+     *
+     * @return string
+     *
      * Возвращает вид иконок сортировки.
-     * $columnSort - название колонки сортировки.
-     * $view - название вида.
-     * $route - маршрут вида.
+     *
+     * @param string $columnSort - название колонки сортировки.
+     * @param string $view - название вида.
+     * @param string $route - маршрут вида.
      */
     public static function viewIcons($columnSort, $view, $route)
     {

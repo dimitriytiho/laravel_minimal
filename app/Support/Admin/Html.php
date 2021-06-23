@@ -8,12 +8,15 @@ use App\Support\Func;
 
 class Html
 {
-    /*
+    /**
+     *
+     * @return string
+     *
      * Возвращает модальное окно.
-     * $id - передать связующее id.
-     * $title - Передать название, перевод будет взять из /resources/lang/en/e.php, необязательный параметр.
-     * $class - к примеру modal-lg, будет большое окно, необязательный параметр.
-     * $attrs - если нужны дополнительные атрибуты, необязательный параметр.
+     * @param string $id - передать связующее id.
+     * @param string $title - Передать название, перевод будет взять из /resources/lang/en/e.php, необязательный параметр.
+     * @param string $class - к примеру modal-lg, будет большое окно, необязательный параметр.
+     * @param string $attrs - если нужны дополнительные атрибуты, необязательный параметр.
      */
     public static function modal($id, $title = null, $class = null, $attrs = null)
     {

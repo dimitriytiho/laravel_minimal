@@ -25,8 +25,9 @@ class Locale
      * @return string
      *
      * Возвращает строку, в формате json c переводами из переводного файла.
-     * $varName - название переменной для JS, по-умолчанию translations, необязательный параметр.
-     * $fileName - имя файла из lang папки (например resources/lang/en/js.php), по-умолчанию js, необязательный параметр.
+     *
+     * @param string $varName - название переменной для JS, по-умолчанию translations, необязательный параметр.
+     * @param string $fileName - имя файла из lang папки (например resources/lang/en/js.php), по-умолчанию js, необязательный параметр.
      */
     public static function translationsJson($varName = 'translations', $fileName = 'js')
     {

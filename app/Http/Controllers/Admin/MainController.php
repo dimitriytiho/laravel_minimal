@@ -31,7 +31,7 @@ class MainController extends AppController
     public function locale($locale)
     {
         if (in_array($locale, config('admin.locales') ?: [])) {
-            return redirect()->back()->withCookie(Str::slug(config('add.name')) . '_loc', $locale);
+            return redirect()->back()->withCookie(Str::slug(config('app.name')) . '_loc', $locale);
         }
         Func::getError("Invalid locale {$locale}", __METHOD__);
     }
