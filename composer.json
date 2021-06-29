@@ -17,6 +17,7 @@
         "laravel/ui": "^3.2",
         "mobiledetect/mobiledetectlib": "^2.8",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
+        "spatie/laravel-html": "^2.29",
         "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {
