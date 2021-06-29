@@ -43,7 +43,7 @@ class Form implements FormInterface
             $label = html()->label($placeholder . ($required ? html()->element('sup')->text('*') : null), $id)->class($label ? null : 'sr-only');
 
             // input
-            $input = html()->input(isset($attrs['type']) ? null : 'text', $name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
+            $input = html()->text($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
 
             // Required
             if ($required) {
@@ -91,7 +91,7 @@ class Form implements FormInterface
             $label = html()->label($placeholder . ($required ? html()->element('sup')->text('*') : null), $id)->class($label ? null : 'sr-only');
 
             // Textarea
-            $input = html()->textarea(isset($attrs['type']) ? null : 'text', $value)->name($name)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
+            $input = html()->textarea($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
 
             // Required
             if ($required) {
@@ -160,7 +160,7 @@ class Form implements FormInterface
             }
 
             // Select
-            $input = html()->select($name, [], $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null))->html($html);
+            $input = html()->select($name, [], $value)->id($id)->class('form-control')->attributes($attrs)->html($html);
 
             // Required
             if ($required) {
