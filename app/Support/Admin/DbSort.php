@@ -5,6 +5,7 @@ namespace App\Support\Admin;
 
 use App\Support\Func;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class DbSort
 {
@@ -30,6 +31,10 @@ class DbSort
         $cell = $get['cell'] ?? null;
         $perPage = session()->has('pagination') ? session('pagination') : $perPage;
 
+        // Если в запросе есть обратная косая черта, то добавляем ещё одну для корректного поиска
+        if (Str::contains($cell, '\\')) {
+            $cell = addCslashes('App\Models\User', '\\');
+        }
 
         // Значения по-умолчанию для сортировки
         $columnSort = 'id';
@@ -99,7 +104,6 @@ class DbSort
                         ->orderBy($columnSort, $order);
 
                 } else {
-
                     $values = $model::where($col, 'LIKE', "%{$cell}%")
                         ->orderBy($columnSort, $order);
                 }

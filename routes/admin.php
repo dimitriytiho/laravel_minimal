@@ -16,7 +16,7 @@ Route::namespace($namespaceAdmin)
 
     // Add routes resource
     Route::resource('attribute', AttributeController::class)->except(['show']);
-    Route::resource('file', FileController::class)->except(['show', 'update']);
+    Route::resource('file', FileController::class)->except(['show']);
     Route::resource('menu', MenuController::class)->except(['show']);
     Route::resource('menu-group', MenuGroupController::class)->except(['show']);
     Route::resource('page', PageController::class)->except(['show']);

@@ -21,6 +21,7 @@ class CreatePropertiesTable extends Migration
             $table->index('slug');
             $table->float('number')->nullable();
             $table->float('old')->nullable();
+            $table->string('type')->nullable();
             $table->text('description')->nullable();
             $table->text('body')->nullable();
             $table->string('status')->default(config('add.statuses')[0] ?? 'inactive');

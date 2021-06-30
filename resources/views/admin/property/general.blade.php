@@ -33,6 +33,9 @@ Breadcrumbs --}}
                         {{ $form::input('old', ['type' => 'number', 'step' => '0.01', 'min' => '0'], $values->old ?? null, false) }}
                     </div>
                     <div class="col-md-6">
+                        {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
+                    </div>
+                    <div class="col-md-6">
                         {{ $form::toggle('default', [], $values->default ?? null) }}
                     </div>
                 </div>

@@ -36,6 +36,10 @@ Breadcrumbs --}}
                                 {!! $dbSort::viewIcons('old_name', $info['view'], $info['view']) !!}
                             </th>
                             <th scope="col">
+                                <span>@lang('a.type')</span>
+                                {!! $dbSort::viewIcons('type', $info['view'], $info['view']) !!}
+                            </th>
+                            <th scope="col">
                                 <span>@lang('a.id')</span>
                                 {!! $dbSort::viewIcons('id', $info['view'], $info['slug']) !!}
                             </th>
@@ -60,6 +64,7 @@ Breadcrumbs --}}
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->path }}</td>
                                 <td>{{ $item->old_name }}</td>
+                                <td>{{ $item->type }}</td>
                                 <td>{{ $item->id }}</td>
                             </tr>
                         @endforeach

@@ -38,6 +38,7 @@ class FileController extends AppController
             'name',
             'path',
             'old_name',
+            'type',
             'id',
         ];
 
@@ -174,14 +175,13 @@ class FileController extends AppController
 
 
                 // Сохранить в БД
-                $data = [
-                    'name' => $name,
-                    'path' => $path,
-                    'ext' => $ext,
-                    'mime_type' => $mime,
-                    'size' => File::size($dirFull . '/' . $name),
-                    'old_name' => $nameOld,
-                ];
+                $data = $request->all();
+                $data['name'] = $name;
+                $data['path'] = $path;
+                $data['ext'] = $ext;
+                $data['mime_type'] = $mime;
+                $data['size'] = File::size($dirFull . '/' . $name);
+                $data['old_name'] = $nameOld;
                 $this->info['model']::create($data);
             }
 
@@ -243,10 +243,32 @@ class FileController extends AppController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /*public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        //
-    }*/
+        // Получаем элемент по id, если нет - будет ошибка
+        $values = $this->info['model']::findOrFail($id);
+
+        // Валидация
+        $rules = [
+
+        ];
+        $request->validate($rules);
+        $data = $request->all();
+
+        // Заполняем модель новыми данными
+        $values->fill($data);
+
+        // Обновляем элемент
+        $values->update();
+
+        // Удалить все кэши
+        cache()->flush();
+
+        // Сообщение об успехе
+        return redirect()
+            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->with('success', __('s.saved_successfully', ['id' => $values->id]));
+    }
 
 
     /**

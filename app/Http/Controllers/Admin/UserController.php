@@ -81,8 +81,8 @@ class UserController extends AppController
         // Разрешения
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
-        // Картинка
-        $images = File::onlyImg()->pluck('path', 'id');
+        // Картинка (получаем только картинки и для этого класса)
+        $images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
 
         // Добавить в начало коллекции
         $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
@@ -187,8 +187,8 @@ class UserController extends AppController
         // Разрешения
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
-        // Картинка
-        $images = File::onlyImg()->pluck('path', 'id');
+        // Картинка (получаем только картинки и для этого класса)
+        $images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
 
         // Добавить в начало коллекции
         $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);

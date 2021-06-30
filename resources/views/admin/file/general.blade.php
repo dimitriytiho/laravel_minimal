@@ -13,12 +13,14 @@ Breadcrumbs --}}
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ isset($values->id) ? null : route("admin.{$info['slug']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
+            <form action="{{ isset($values->id) ? route("admin.{$info['slug']}.update", $values->id) : route("admin.{$info['slug']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
                 @isset($values->id)
                     @method('put')
                 @endisset
                 @csrf
+                {{--
 
+                Для создания элемента --}}
                 @empty($values->id)
                     <div class="row">
                         @if($exts = config('admin.images_ext'))
@@ -43,6 +45,9 @@ Breadcrumbs --}}
                             </div>
                         @endif
                         <div class="col-md-4">
+                            {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
+                        </div>
+                        <div class="col-md-4">
                             {{ $form::toggle('webp', ['data-on-text' => 'save', 'data-off-text' => 'no_save'], false, null, false, __('a.webp')) }}
                         </div>
                     </div>
@@ -56,7 +61,9 @@ Breadcrumbs --}}
                         </div>
                     </div>
                 @endempty
+                {{--
 
+                Для редактирования элемента --}}
                 @isset($values->id)
                     {{--
 
@@ -78,32 +85,37 @@ Breadcrumbs --}}
                             {{ $form::input('name', ['disabled'], $values->name ?? null, false) }}
                         </div>
                         <div class="col-md-6">
+                            {{ $form::input('old_name', [], $values->old_name ?? null, false) }}
+
+                        </div>
+                        <div class="col-md-4">
                             {{ $form::input('path', ['disabled'], $values->path ?? null, false) }}
                         </div>
-                        <div class="col-md-6">
-                            {{ $form::input('old_name', ['disabled'], $values->old_name ?? null, false) }}
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ $form::input('size', ['disabled'], intval($values->size / 1000), false, __('a.size') . ' kb') }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
+                        </div>
+                        <div class="col-md-4">
                             {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset
-                @empty($values->id)
-                    <div>
-                        <span id="btn-sticky">
-                            <button type="submit" class="btn btn-primary mt-3 mr-2 pulse">@lang('s.save')</button>
-                        </span>
-                    </div>
-                @endempty
+                <div>
+                    <span id="btn-sticky">
+                        <button type="submit" class="btn btn-primary mt-3 mr-2 pulse">@lang('s.save')</button>
+                    </span>
+                </div>
             </form>
             {{--
 
