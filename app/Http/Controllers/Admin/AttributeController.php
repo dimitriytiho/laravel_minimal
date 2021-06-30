@@ -103,6 +103,9 @@ class AttributeController extends AppController
         $request->validate($rules);
         $data = $request->all();
 
+        // Checkbox сохраним 1 или 0
+        $data['default'] = empty($data['default']) ? '0' : '1';
+
         // Создаём экземкляр модели
         $values = app()->make($this->info['model']);
 
@@ -185,6 +188,9 @@ class AttributeController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+        // Checkbox сохраним 1 или 0
+        $data['default'] = empty($data['default']) ? '0' : '1';
 
         // Заполняем модель новыми данными
         $values->fill($data);

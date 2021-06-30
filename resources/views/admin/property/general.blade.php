@@ -21,45 +21,45 @@ Breadcrumbs --}}
 
                 <div class="row">
                     <div class="col-md-6">
-                        {!! $form::input('title', $values->title ?? null, null) !!}
+                        {{ $form::input('title', [], $values->title ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('slug', $values->slug ?? null, null) !!}
+                        {{ $form::input('slug', [], $values->slug ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('number', $values->number ?? null, null, 'number', true, null, null, ['step' => '0.01', 'min' => '0']) !!}
+                        {{ $form::input('number', ['type' => 'number', 'step' => '0.01', 'min' => '0'], $values->number ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('old', $values->old ?? null, null, 'number', true, null, null, ['step' => '0.01', 'min' => '0']) !!}
+                        {{ $form::input('old', ['type' => 'number', 'step' => '0.01', 'min' => '0'], $values->old ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::checkbox('default', $values->default ?? null, null, null, 'mb-4') !!}
+                        {{ $form::toggle('default', [], $values->default ?? null) }}
                     </div>
                 </div>
 
-                {!! $form::textarea('description', $values->description ?? null, null) !!}
+                {{ $form::textarea('description', [], $values->description ?? null) }}
 
-                {!! $form::textarea('body', $values->body ?? null, null, true, null, config('admin.editor'), null, 20) !!}
+                {{ $form::textarea('body', ['class' => config('admin.editor'), 'rows' => 20], $values->body ?? null) }}
 
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-6">
-                            {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
+                            {{ $form::select('status', config('add.statuses'), [], $values->status ?? null) }}
                         </div>
                         <div class="col-md-6">
-                            {!! $form::input('sort', $values->sort ?? null, null) !!}
+                            {{ $form::input('sort', [], $values->sort ?? null, false) }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset

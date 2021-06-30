@@ -245,6 +245,7 @@ return [
     'file' => 'Файл',
     'no_image' => 'Без картинки',
     'properties' => 'Свойства',
+    'properties_parent' => 'Свойства родитель',
     'attributes' => 'Атрибуты',
     'number' => 'Число',
     'old' => 'Старое',

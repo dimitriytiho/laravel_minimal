@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Contracts;
+namespace App\Services\Form;
 
 
-interface Form
+interface FormInterface
 {
     /**
      *

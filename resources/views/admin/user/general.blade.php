@@ -23,7 +23,7 @@ Breadcrumbs --}}
                             {{--
 
                             Удаление картинки --}}
-                            @if(!empty($values->file[0]->path) && $values->file[0]->path !== config('add.imgDefault'))
+                            @if(!empty($values->file[0]) && !empty($values->file[0]->path) && $values->file[0]->path !== config('add.imgDefault'))
                                 <a href="{{ route(
                                         'admin.delete_file',
                                         [
@@ -64,21 +64,21 @@ Breadcrumbs --}}
                         @endisset
                         @csrf
 
-                        {!! $form::textarea('note', $values->note ?? null, null) !!}
+                        {{ $form::textarea('note', [], $values->note ?? null) }}
 
                         <div class="row">
                             <div class="col-md-6">
-                                {!! $form::input('name', $values->name ?? null) !!}
+                                {{ $form::input('name', [], $values->name ?? null) }}
                             </div>
                             <div class="col-md-6">
-                                {!! $form::input('email', $values->email ?? null, true, 'email') !!}
+                                {{ $form::input('email', ['type' => 'email'], $values->email ?? null) }}
                             </div>
                             {{--
 
                             Роли --}}
                             @if(!empty($roles))
                                 <div class="col-md-6">
-                                    {!! $form::select('roles', $roles, isset($values->id) ? $values->getRoleNames() : null, __('a.roles'), null, ['data-placeholder' => __('s.choose')], null, null, true, 'w-100 select2') !!}
+                                    {{ $form::select('roles[]', $roles, ['id' => 'roles', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getRoleNames() : null, false, 'roles', null, null, true) }}
                                 </div>
                             @endif
                             {{--
@@ -86,7 +86,7 @@ Breadcrumbs --}}
                             Разрешения --}}
                             @if(!empty($permissions))
                                 <div class="col-md-6">
-                                    {!! $form::select('permissions', $permissions, isset($values->id) ? $values->getPermissionNames() : null, __('a.permissions'), null, ['data-placeholder' => __('s.choose')], null, null, true, 'w-100 select2') !!}
+                                    {{ $form::select('permissions[]', $permissions, ['id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getPermissionNames() : null, false, 'permissions', null, null, true) }}
                                 </div>
                             @endif
                             {{--
@@ -98,7 +98,7 @@ Breadcrumbs --}}
                                 @foreach($relatedManyToManyEdit as $related)
                                     @if(!empty($related[0]) && !empty($all[$related[0]]))
                                         <div class="col-md-4">
-                                            {!! $form::select($related[0], $all[$related[0]], isset($values->{$related[0]}) ? $values->{$related[0]} : null, Func::__($related[0], 'a'), null, ['data-placeholder' => __('s.choose')], true, null, true, 'w-100 select2') !!}
+                                            {{ $form::select($related[0] . '[]', $all[$related[0]], ['id' => $related[0], 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], $values->{$related[0]} ?? null, false, $related[0], null, null, true) }}
                                         </div>
                                     @endif
                                 @endforeach
@@ -108,34 +108,34 @@ Breadcrumbs --}}
                             Картинка --}}
                             @if(!empty($images))
                                 <div class="col-md-6">
-                                    {!! $form::select('file', $images, $values->file[0]->id ?? null, __('a.img'), null, ['data-placeholder' => __('s.choose')], true, null, null, 'w-100 select2_img') !!}
+                                    {{ $form::select('file', $images, ['data-placeholder' => __('s.choose'), 'class' => 'w-100 select2_img'], $values->file[0]->id ?? null, false, 'img', null, null, true) }}
                                 </div>
                             @endif
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                {!! $form::input('password', null, null, 'password') !!}
+                                {{ $form::input('password', ['type' => 'password'], null, false) }}
                             </div>
                             <div class="col-md-6">
-                                {!! $form::input('password_confirmation', null, null, 'password') !!}
+                                {{ $form::input('password_confirmation', ['type' => 'password'], null, false) }}
                             </div>
                         </div>
 
                         @empty($values->id)
-                            {!! $form::checkbox('accept', null, true, true, 'mb-4', __('s.accept'), 'yes', 'no') !!}
+                                {{ $form::toggle('accept', ['data-on-text' => 'yes', 'data-off-text' => 'no'], false, null, false, __('s.accept')) }}
                         @endempty
 
                         @isset($values->id)
                             <div class="row">
                                 <div class="col-md-4">
-                                    {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                                    {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                                 </div>
                                 <div class="col-md-4">
-                                    {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                                    {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                                 </div>
                                 <div class="col-md-4">
-                                    {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                                    {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                                 </div>
                             </div>
                         @endisset

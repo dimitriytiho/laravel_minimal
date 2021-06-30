@@ -43,7 +43,7 @@ Breadcrumbs --}}
                             </div>
                         @endif
                         <div class="col-md-4">
-                            {!! $form::checkbox('webp', null, null, true, null, __('a.webp'), 'save', 'no_save') !!}
+                            {{ $form::toggle('webp', ['data-on-text' => 'save', 'data-off-text' => 'no_save'], false, null, false, __('a.webp')) }}
                         </div>
                     </div>
 
@@ -75,25 +75,25 @@ Breadcrumbs --}}
                     @endif
                     <div class="row">
                         <div class="col-md-6">
-                            {!! $form::input('name', $values->name, null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('name', ['disabled'], $values->name ?? null, false) }}
                         </div>
                         <div class="col-md-6">
-                            {!! $form::input('path', $values->path, null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('path', ['disabled'], $values->path ?? null, false) }}
                         </div>
                         <div class="col-md-6">
-                            {!! $form::input('old_name', $values->old_name, null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('old_name', ['disabled'], $values->old_name ?? null, false) }}
                         </div>
                         <div class="col-md-6">
-                            {!! $form::input('size', intval($values->size / 1000), null, 'text', true, __('a.size') . ' kb', null, ['disabled' => 'true'])!!}
+                            {{ $form::input('size', ['disabled'], intval($values->size / 1000), false, __('a.size') . ' kb') }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
                         <div class="col-md-6">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset

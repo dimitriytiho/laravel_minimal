@@ -245,6 +245,7 @@ return [
     'file' => 'File',
     'no_image' => 'No image',
     'properties' => 'Properties',
+    'properties_parent' => 'Properties parent',
     'attributes' => 'Attributes',
     'number' => 'Number',
     'old' => 'Old',

@@ -19,33 +19,33 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                    {!! $form::input('key', $values->key ?? null, true, null, true, null, null, [$disabledDelete ?? null => null]) !!}
+                {{ $form::input('key', [$disabledDelete ?? null], $values->key ?? null) }}
 
-                    @if(isset($values->type) && $values->type === (config('admin.setting_type')[1] ?? 'checkbox'))
-                        {!! $form::checkbox('value', $values->value ?? null) !!}
-                    @else
-                        {!! $form::textarea('value', $values->value ?? null, null) !!}
-                    @endif
+                @if(isset($values->type) && $values->type === (config('admin.setting_type')[1] ?? 'checkbox'))
+                    {{ $form::toggle('value', [], $values->value ?? null, null, false) }}
+                @else
+                    {{ $form::textarea('value', [], $values->value ?? null) }}
+                @endif
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            {!! $form::select('type', config('admin.setting_type'), $values->type ?? null) !!}
-                        </div>
-                        <div class="col-md-6">
-                            {!! $form::input('section', $values->section ?? null, null) !!}
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ $form::select('type', config('admin.setting_type'), [], $values->type ?? null) }}
                     </div>
+                    <div class="col-md-6">
+                        {{ $form::input('section', [], $values->section ?? null, false) }}
+                    </div>
+                </div>
 
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id, false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset

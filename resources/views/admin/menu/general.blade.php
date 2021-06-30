@@ -22,51 +22,51 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                {!! $form::hidden('belong_id', $values->belong_id ?? $currentParent->id ?? null) !!}
+                {{ html()->hidden('belong_id', $values->belong_id ?? $currentParent->id ?? null) }}
 
-                {!! $form::input('title', $values->title ?? null) !!}
+                {{ $form::input('title', [], $values->title ?? null) }}
 
-                {!! $form::input('slug', $values->slug ?? null, null) !!}
+                {{ $form::inputGroup('slug', [], $values->slug ?? null, false, true, null, $form::inputGroupAppend('fas fa-sync text-primary', 'cur get_slug', 'bg-white', ['data-url' => route('admin.get_slug'), 'data-src' => 'title', 'title' => __('a.generate_link')])) }}
 
                 <div class="row">
                     <div class="col-md-6">
-                        {!! $form::input('item', $values->item ?? null, null) !!}
+                        {{ $form::input('item', [], $values->item ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('class', $values->class ?? null, null) !!}
+                        {{ $form::input('class', [], $values->class ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('target', $values->target ?? null, null) !!}
+                        {{ $form::input('target', [], $values->target ?? null, false) }}
                     </div>
                     <div class="col-md-6">
-                        {!! $form::input('attrs', $values->attrs ?? null, null) !!}
+                        {{ $form::input('attrs', [], $values->attrs ?? null, false) }}
                     </div>
                 </div>
 
-                {!! $form::textarea('body', $values->body ?? null, null, true, null, config('admin.editor'), null, 20) !!}
+                {{ $form::textarea('body', ['class' => config('admin.editor'), 'rows' => 20], $values->body ?? null) }}
 
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
+                            {{ $form::select('status', config('add.statuses'), [], $values->status ?? null) }}
                         </div>
                         <div class="col-md-4">
                             @include('admin.tree.select_parent_id', compact('tree', 'values'))
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('sort', $values->sort ?? null, null) !!}
+                            {{ $form::input('sort', [], $values->sort ?? null, false) }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset

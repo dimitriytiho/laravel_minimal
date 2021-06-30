@@ -233,7 +233,7 @@ return [
 
         // Добавляем алиасы
         'Func' => App\Support\Func::class,
-        //'Form' => App\Support\Form::class, // Если нужно конструктор форм раскомментировать
+        //'Form' => \App\Services\Form\Form::class, // Если нужно конструктор форм раскомментировать
         //'Registry' => \App\Classes\Registry::class,  // Если нужен паттерн Registry раскомментировать
 
     ],

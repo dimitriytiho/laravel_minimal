@@ -19,24 +19,24 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                {!! $form::input('name', $values->name ?? null) !!}
+                {{ $form::input('name', [], $values->name ?? null) }}
                 {{--
 
                 Разрешения --}}
                 @if(!empty($permissions))
-                    {!! $form::select('permissions', $permissions, isset($values->id) ? $values->getPermissionNames() : null, __('a.permissions'), null, ['data-placeholder' => __('s.choose')], null, null, true, 'w-100 select2') !!}
+                    {{ $form::select('permissions', $permissions, ['data-placeholder' => __('s.choose'), 'class' => 'w-100 select2'], isset($values->id) ? $values->getPermissionNames() : null, false, 'permissions', null, null, true) }}
                 @endif
 
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset

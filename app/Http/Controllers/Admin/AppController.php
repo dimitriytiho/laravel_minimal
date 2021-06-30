@@ -53,7 +53,7 @@ class AppController extends Controller
         $viewPath = $this->viewPath = 'admin';
 
         $html = $this->html = "{$this->namespaceSupport}\\Html";
-        $form = $this->form = "{$this->namespaceSupport}\\Form";
+        $form = $this->form = config('add.services') . '\\Form\\FormAdmin';
 
         $this->template = 'general';
         $dbSort = $this->dbSort = "{$this->namespaceSupport}\\DbSort";

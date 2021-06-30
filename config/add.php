@@ -77,6 +77,7 @@ return [
     'models_path' => app_path('Models'),
     'controllers' => 'App\\Http\\Controllers',
     'support' => 'App\\Support',
+    'services' => 'App\\Services',
 
     // Настройки из файла /.env, т.к. после кэширования они будут возращать null
     'url' => env('APP_URL', '/'),

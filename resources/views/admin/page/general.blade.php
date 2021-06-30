@@ -19,25 +19,24 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                {!! $form::input('title', $values->title ?? null) !!}
+                {{ $form::input('title', [], $values->title ?? null) }}
 
-                {!! $form::input('slug', $values->slug ?? null, true, null, true, null, null, [], null, null, null,
-                    $form::inputGroupAppend('fas fa-sync', 'cur get_slug', 'bg-white', 'text-primary', ['data-url' => route('admin.get_slug'), 'data-src' => 'title', 'title' => __('a.generate_link')])) !!}
+                {{ $form::inputGroup('slug', [], $values->slug ?? null, false, true, null, $form::inputGroupAppend('fas fa-sync text-primary', 'cur get_slug', 'bg-white', ['data-url' => route('admin.get_slug'), 'data-src' => 'title', 'title' => __('a.generate_link')])) }}
 
-                {!! $form::textarea('description', $values->description ?? null, null) !!}
+                {{ $form::textarea('description', [], $values->description ?? null) }}
 
-                {!! $form::textarea('body', $values->body ?? null, null, true, null, config('admin.editor'), null, 20) !!}
+                {{ $form::textarea('body', ['class' => config('admin.editor'), 'rows' => 20], $values->body ?? null) }}
 
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::select('status', config('add.statuses'), $values->status ?? null) !!}
+                            {{ $form::select('status', config('add.statuses'), [], $values->status ?? null) }}
                         </div>
                         <div class="col-md-4">
                             @include('admin.tree.select_parent_id', compact('tree', 'values'))
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('sort', $values->sort ?? null, null) !!}
+                            {{ $form::input('sort', [], $values->sort ?? null, false) }}
                         </div>
                         {{--
 
@@ -48,7 +47,7 @@ Breadcrumbs --}}
                             @foreach($relatedManyToManyEdit as $related)
                                 @if(!empty($related[0]) && !empty($all[$related[0]]))
                                     <div class="col-md-4">
-                                        {!! $form::select($related[0], $all[$related[0]], isset($values->{$related[0]}) ? $values->{$related[0]} : null, Func::__($related[0], 'a'), null, ['data-placeholder' => __('s.choose')], true, null, true, 'w-100 select2') !!}
+                                        {{ $form::select($related[0] . '[]', $all[$related[0]], ['id' => $related[0], 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], $values->{$related[0]} ?? null, false, $related[0], null, null, true) }}
                                     </div>
                                 @endif
                             @endforeach
@@ -57,16 +56,17 @@ Breadcrumbs --}}
 
                     <div class="row">
                         <div class="col-md-4">
-                            {!! $form::input('id', $values->id, null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('updated_at', $values->updated_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true']) !!}
+                            {{ $form::input('updated_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                         <div class="col-md-4">
-                            {!! $form::input('created_at', $values->created_at->format(config('admin.date_format')), null, 'text', true, null, null, ['disabled' => 'true'])!!}
+                            {{ $form::input('created_at', ['disabled'], $values->updated_at->format(config('admin.date_format')), false) }}
                         </div>
                     </div>
                 @endisset
+
                 <div>
                     <span id="btn-sticky">
                         <button type="submit" class="btn btn-primary mt-3 mr-2 pulse">{{ isset($values->id) ? __('s.save') : __('s.submit') }}</button>

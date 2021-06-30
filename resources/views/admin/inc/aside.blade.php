@@ -102,7 +102,7 @@
                                             //!auth()->user()->hasRole($adminRoleName) && Str::contains($child->class, ['Log'])
                                         )
                                         <li class="nav-item">
-                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(str_replace(config('add.admin'), '', request()->path()) === $child->slug) active @endif">
+                                            <a href="/{{ config('add.admin') . $child->slug }}" class="nav-link @if(str_replace(config('add.admin'), '', request()->path()) === $child->slug || '/' . request()->segment(2) === $child->slug) active @endif">
                                                 <i class="{{ $child->item }} nav-icon"></i>
                                                 <p>{{ Func::__($child->title, 'a') }}</p>
                                             </a>

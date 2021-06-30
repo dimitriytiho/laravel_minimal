@@ -18,5 +18,5 @@
 
 Этот код будет выведен в head --}}
 @section('css')
-    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
+    {{ html()->element('link')->attribute('rel', 'stylesheet')->attribute('href', asset('vendor/file-manager/css/file-manager.css')) }}
 @endsection

@@ -12,7 +12,7 @@ class Html
      *
      * @return string
      *
-     * Возвращает модальное окно.
+     * Возвращает начало модального окна.
      * @param string $id - передать связующее id.
      * @param string $title - Передать название, перевод будет взять из /resources/lang/en/e.php, необязательный параметр.
      * @param string $class - к примеру modal-lg, будет большое окно, необязательный параметр.
@@ -37,8 +37,14 @@ class Html
 S;
     }
 
-    /*
-     * Если нужно разместить футер модального окна, передайте true. И в коде перед футером закройте </div>
+
+    /**
+     *
+     * @return string
+     *
+     * Возвращает конец модального окна.
+     *
+     * @param bool $footer - если нужно разместить футер модального окна, передайте true. И в коде перед футером закройте </div>.
      */
     public static function modalEnd($footer = null)
     {
@@ -52,6 +58,18 @@ S;
     }
 
 
+    /**
+     *
+     * @return string
+     *
+     * Возвращает html блок smallBox.
+     *
+     * @param string $color - класс цвета от Bootstrap.
+     * @param string $icon - классы иконки от Fontawesome.
+     * @param string|int $count - кол-во.
+     * @param string $title - название.
+     * @param string $route - ссылка (маршрут).
+     */
     public static function smallBox($color, $icon, $count, $title, $route, $routeParams = null)
     {
         $more_info = __('a.more_info');
@@ -74,6 +92,21 @@ S;
     }
 
 
+    /**
+     *
+     * @return string
+     *
+     * Возвращает html блок infoBox.
+     *
+     * @param string $color - класс цвета от Bootstrap.
+     * @param string $icon - классы иконки от Fontawesome.
+     * @param string $title - название.
+     * @param string $titleLink - название для ссылки, например подробнее.
+     * @param string $route - название маршрута для метода route().
+     * @param string $routeParams - второй параметр для метода route(), необязательный параметр.
+     * @param string $classLink - класс для ссылки, необязательный параметр.
+     * @param string $colClass - классы колонки от Bootstrap, по-умолчанию col-lg-3 col-md-6, необязательный параметр.
+     */
     public static function infoBox($color, $icon, $title, $titleLink, $route, $routeParams = null, $classLink = null, $colClass = 'col-lg-3 col-md-6')
     {
         $title = Func::__($title, 'a');
