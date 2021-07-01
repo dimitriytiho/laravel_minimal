@@ -34,7 +34,7 @@ jQuery --}}
 
 
 Google ReCaptcha, если есть в настройках ключи --}}
-@if(config('add.env') !== 'local' && config('add.recaptcha_public_key'))
+@if(config('app.env') !== 'local' && config('add.recaptcha_public_key'))
     <script src="//www.google.com/recaptcha/api.js?render={{ config('add.recaptcha_public_key') }}"></script>
     <script>
         grecaptcha.ready(function() {

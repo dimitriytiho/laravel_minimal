@@ -13,9 +13,9 @@ return [
     'primary' => '#ff5e5e',
 
 
-    // Папка для картинок
-    'file' => '/file',
-    'img' => '/img',
+    // Публичные папки
+    'file' => '/file', // Для файлов
+    'img' => '/img', // Для картинок
     'imgDefault' => '/img/default/no_image.jpg',
     'imgPath' => public_path('img'),
     'imgExt' => ['png', 'jpg', 'jpeg', 'gif', 'svg'],
@@ -80,8 +80,6 @@ return [
     'services' => 'App\\Services',
 
     // Настройки из файла /.env, т.к. после кэширования они будут возращать null
-    'url' => env('APP_URL', '/'),
-    'env' => env('APP_ENV', 'local'),
     'dev' => env('APP_DEV', 'OmegaKontur'),
     'enter' => env('APP_ENTER', 'login'),
     'admin' => env('APP_ADMIN', 'dashboard'),

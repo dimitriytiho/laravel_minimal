@@ -23,27 +23,11 @@ Breadcrumbs --}}
                 Для создания элемента --}}
                 @empty($values->id)
                     <div class="row">
-                        @if($exts = config('admin.images_ext'))
+                        @isset($exts)
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="ext">@lang('a.max_size')</label>
-                                    <select class="form-control" name="ext" id="ext">
-                                        @foreach($exts as $ket => $ext)
-                                            @php
-
-                                                if (empty($ext[0])) {
-                                                    $extTitle = ($ext[1] ?? null) . 'x' . ($ext[2] ?? null) . ' ' . Func::__($ext[3] ?? null, 'a');
-                                                } else {
-                                                    $extTitle = __('a.' . $ext[0]);
-                                                }
-
-                                            @endphp
-                                            <option value="{{ $ket }}">{{ $extTitle }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                {{ $form::select('ext', $exts, [], null, false, 'max_size', null, null, true) }}
                             </div>
-                        @endif
+                        @endisset
                         <div class="col-md-4">
                             {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
                         </div>

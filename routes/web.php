@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\{Route, File};
 use App\Http\Controllers\{HomeController, PageController};
 use App\Http\Controllers\Auth\LoginController;
+
+
+//$namespace = config('add.controllers');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,30 +21,22 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 
-// Если выключен веб-сайт, то редирект на страницу /error.php
-if (env('OFF_WEBSITE')) {
-    Route::domain(env('APP_URL'))->group(function () {
-        header('Location: ' . env('APP_URL') . '/error.php');
-        die;
-    });
+// Если выключен веб-сайт, то редирект на страницу /error.php, кроме админской части
+if (env('OFF_WEBSITE') && !Str::contains(request()->path(), config('add.admin', 'dashboard'))) {
+    Route::redirect(request()->path(), '/error.php');
 }
 
-// Если в запросе /public, то сделается редирект на без /public
-$url = request()->url();
-$public = '/public';
-if (stripos($url, $public) !== false) {
-    $url = str_replace($public, '', $url);
-    header("Location: {$url}");
-    die;
+
+// Если в запросе /public, то редирект на без /public
+if (Str::contains(request()->url(), '/public')) {
+    Route::redirect(request()->path(), str_replace('/public', '', request()->url()));
 }
+
 
 // Admin routes
-if (is_file($fileAdmin = __DIR__ . '/admin.php')) {
-    require_once $fileAdmin;
+if (File::isFile($routesAdmin = __DIR__ . '/admin.php')) {
+    require_once $routesAdmin;
 }
-
-// Namespace Controllers
-//$namespace = config('add.controllers') . '\\';
 
 
 // Routes

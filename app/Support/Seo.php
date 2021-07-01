@@ -115,7 +115,7 @@ class Seo
         $disallow[] = 'js/*.js$';
         $disallow[] = 'css/*.css$';
         $r = 'User-agent: *' . PHP_EOL;
-        $url = config('add.url', '/');
+        $url = config('app.url', '/');
 
         // Если не индексировать
         if ($index) {

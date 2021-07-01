@@ -117,5 +117,5 @@ interface FormInterface
      * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
      */
-    public static function radio($name, array $attrs = [], $checked = false, $value = null, $required = true, $label = null, $class = null);
+    public static function radio($name, array $attrs = [], $checked = false, $value = null, $required = false, $label = null, $class = null);
 }

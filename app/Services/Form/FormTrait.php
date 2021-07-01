@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Lang;
 
 trait FormTrait
 {
-    // Название файла для переводов из resources/lang/en, без .php
-    protected static $langFile;
+    // В классе наследнике укажите файл с этой переменной
+    //protected static $langFile = 's';
 
 
     /**
@@ -83,12 +83,13 @@ trait FormTrait
      */
     private static function getPlaceholder($name, $label)
     {
-        if ($label && Lang::has(self::$langFile . '.' . $label)) {
-            return __(self::$langFile . '.' . $label);
+        $langFile = self::$langFile ?? 's';
+        if ($label && Lang::has($langFile . '.' . $label)) {
+            return __($langFile . '.' . $label);
         } elseif ($label && is_string($label)) {
             return $label;
-        } elseif (Lang::has(self::$langFile . '.' . $name)) {
-            return __(self::$langFile . '.' . $name);
+        } elseif (Lang::has($langFile . '.' . $name)) {
+            return __($langFile . '.' . $name);
         }
         return $name;
     }

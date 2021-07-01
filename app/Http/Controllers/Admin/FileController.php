@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Support\Admin\Img;
+use App\Support\Func;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, File};
@@ -71,13 +72,27 @@ class FileController extends AppController
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
+
+        // Готовим массив для select
+        $imagesExt = config('admin.images_ext');
+        $exts = [];
+        if ($imagesExt) {
+            foreach($imagesExt as $key => $ext) {
+                if (empty($ext[0])) {
+                    $exts[$key] = ($ext[1] ?? null) . 'x' . ($ext[2] ?? null) . ' ' . Func::__($ext[3] ?? null, 'a');
+                } else {
+                    $exts[$key] = __('a.' . $ext[0]);
+                }
+            }
+        }
+
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
             $trail->parent('class');
             $trail->push($title);
         });
 
-        return view($view, compact('title'));
+        return view($view, compact('title', 'exts'));
     }
 
 
