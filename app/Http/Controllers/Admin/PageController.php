@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Property;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Schema};
@@ -19,7 +20,7 @@ class PageController extends AppController
 
         // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
         $relatedManyToManyEdit = $this->relatedManyToManyEdit = [
-            ['properties', 'property', 'id', 'title'],
+            //['properties', 'property', 'id', 'title'],
         ];
 
 
@@ -155,6 +156,11 @@ class PageController extends AppController
         // Дерево элементов
         $tree = $this->info['model']::get()->toTree();
 
+
+        // Свойства (получаем только для этого класса)
+        $properties = Property::whereType($this->info['model'])->pluck('title', 'id');
+
+
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
             $trail->parent('class');
@@ -174,7 +180,7 @@ class PageController extends AppController
             }
         }
 
-        return view($view, compact('title', 'values', 'tree', 'all'));
+        return view($view, compact('title', 'values', 'tree', 'properties', 'all'));
     }
 
 
@@ -213,6 +219,9 @@ class PageController extends AppController
             }
         }
 
+
+        // Связь со свойствами
+        $values->properties()->sync($request->properties);
 
         // Заполняем модель новыми данными
         $values->fill($data);

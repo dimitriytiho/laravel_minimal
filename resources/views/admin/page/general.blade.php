@@ -42,6 +42,16 @@ Breadcrumbs --}}
 
 
 
+                        Свойства --}}
+                        @if(!empty($properties))
+                            <div class="col-md-4">
+                                {{ $form::select('properties[]', $properties, ['id' => 'properties', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], $values->properties ?? null, false, 'properties', null, null, true) }}
+                            </div>
+                        @endif
+                        {{--
+
+
+
                         Если есть связанные элементы, то выводим их в множественный select --}}
                         @if(!empty($relatedManyToManyEdit))
                             @foreach($relatedManyToManyEdit as $related)
