@@ -16,4 +16,4 @@ yarn-error.log
 /tests
 package-lock.json
 composer.lock
-/public
+/public/lte

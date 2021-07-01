@@ -1,0 +1,175 @@
+@charset "UTF-8";
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+.bootstrap-switch-label {
+  display: block;
+  padding-bottom: 0.1rem;
+}
+
+.bootstrap-switch.bootstrap-switch-focused {
+  box-shadow: none;
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+  background-color: #007bff;
+}
+
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+.scale-in {
+  transform: scale(1) !important;
+  transition: all 0.25s;
+}
+
+.scale-out {
+  transform: scale(0) !important;
+  transition: all 0.25s;
+}
+
+.pulse {
+  position: relative;
+  overflow: hidden;
+}
+.pulse .pulse_js {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  -webkit-animation: pulse-to 0.5s ease-out;
+          animation: pulse-to 0.5s ease-out;
+}
+
+@-webkit-keyframes pulse-to {
+  to {
+    transform: scale(2);
+    background-color: #fff;
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-to {
+  to {
+    transform: scale(2);
+    background-color: #fff;
+    opacity: 0;
+  }
+}
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+.filter-icons .active {
+  color: #343a40;
+}
+.filter-icons i {
+  font-size: 10px;
+}
+
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+.js-none {
+  display: none;
+}
+
+thead th {
+  white-space: nowrap;
+}
+
+.cur {
+  cursor: pointer;
+}
+
+.p {
+  font-size: 1rem !important;
+}
+
+.a-dark a {
+  color: #343a40;
+  transition: all 0.25s;
+}
+.a-dark a:hover, .a-dark a:active {
+  color: #626d78;
+}
+
+.img_sm {
+  max-width: 96px;
+  max-height: 96px;
+  width: auto;
+  height: auto;
+  margin-right: 1rem;
+}
+.img_sm_text {
+  padding-top: 5px;
+  max-width: 96px;
+  height: 21px;
+  overflow: hidden;
+}
+
+.btn_radio .active.btn {
+  position: relative;
+}
+.btn_radio .active.btn:after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/*
+Миксин анимации.
+$transition - скорость анимации, по-умолчанию $transition-sm.
+$value - какое свойство анимировать, по-умолчанию all.
+*/
+body {
+  min-width: 320px;
+}
+
+th,
+label {
+  font-size: 15px;
+}
+
+.form-group {
+  margin-top: 0.5rem;
+}
+
+.content-wrapper > .content {
+  padding: 0 1rem;
+}
+
+.custom-file-label:after {
+  font-family: "FontAwesome";
+  content: "";
+}
+
+#btn_up {
+  position: fixed;
+  bottom: 1.3rem;
+  right: 1.5rem;
+  z-index: 100;
+  width: 2rem;
+  height: 2rem;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+@media (max-width: 379px) {
+  .g-recaptcha {
+    transform: scale(0.7);
+  }
+}

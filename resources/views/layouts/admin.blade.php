@@ -13,7 +13,7 @@
     {{--
 
     Css files --}}
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.15.3/css/all.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('lte/plugins/select2/css/select2.min.css') }}">
     {{--<link rel="stylesheet" href="{{ asset('lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">--}}
