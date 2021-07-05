@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\LastData\LastData;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Models\File;
@@ -243,6 +244,12 @@ class UserController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+
+        
+        // Сохраним прошлые данные
+        LastData::saveData($id, $this->info['table']);
+
 
         // Если есть пароль, то он хэшируется
         if (empty($data['password'])) {

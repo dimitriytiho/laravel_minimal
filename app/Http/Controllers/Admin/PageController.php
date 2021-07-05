@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Property;
+use App\Services\LastData\LastData;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Schema};
@@ -203,6 +204,10 @@ class PageController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+
+        // Сохраним прошлые данные
+        LastData::saveData($id, $this->info['table']);
 
 
         // Если есть связанные элементы, то синхронизируем их

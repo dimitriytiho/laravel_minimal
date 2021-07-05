@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\LastData\LastData;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -170,6 +171,10 @@ class SettingController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+
+        // Сохраним прошлые данные
+        LastData::saveData($id, $this->info['table']);
 
         // Если тип checkbox, то сохраним 1 или 0
         if (isset($data['type']) && $data['type'] === (config('admin.setting_type')[1] ?? 'checkbox')) {
