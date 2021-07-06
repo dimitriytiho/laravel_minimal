@@ -249,4 +249,5 @@ return [
     'attributes' => 'Атрибуты',
     'number' => 'Число',
     'old' => 'Старое',
+    'history_change' => 'История изменений',
 ];

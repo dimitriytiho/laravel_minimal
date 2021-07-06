@@ -249,5 +249,6 @@ return [
     'attributes' => 'Attributes',
     'number' => 'Number',
     'old' => 'Old',
+    'history_change' => 'History of change',
 
 ];

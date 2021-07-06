@@ -163,6 +163,11 @@ Breadcrumbs --}}
             <!-- /.card -->
         </div>
     </div>
+    {{--
+
+
+    Last data --}}
+    @include('admin.inc.last_data')
 @endsection
 {{--
 

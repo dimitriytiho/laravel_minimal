@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\LastData\LastData;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
-use App\Models\File;
+use App\Models\{File, LastData};
 use Illuminate\Support\Facades\{DB, Hash, Schema};
 use Illuminate\Support\Str;
 
@@ -246,7 +245,7 @@ class UserController extends AppController
         $data = $request->all();
 
 
-        
+
         // Сохраним прошлые данные
         LastData::saveData($id, $this->info['table']);
 

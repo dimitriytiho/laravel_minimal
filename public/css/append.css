@@ -128,6 +128,35 @@ thead th {
   border-radius: 50%;
 }
 
+.chop {
+  display: flex;
+  flex-wrap: wrap;
+}
+.chop_item {
+  margin: 5px;
+  padding: 5px 10px;
+  width: calc(10% - 10px);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid transparent;
+  border-radius: 0.1rem;
+  cursor: pointer;
+}
+.chop_item.active {
+  border: 1px solid #007bff;
+}
+.chop_item_p {
+  height: 17px;
+  overflow: hidden;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 768px) {
+  .chop_item {
+    width: calc(50% - 10px);
+  }
+}
 /*
 Миксин анимации.
 $transition - скорость анимации, по-умолчанию $transition-sm.

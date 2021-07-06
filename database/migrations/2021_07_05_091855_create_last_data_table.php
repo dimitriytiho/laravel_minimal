@@ -11,15 +11,15 @@ class CreateLastDataTable extends Migration
      *
      * @return void
      *
-     * Запустить миграцию:
+     * Запустить миграцию из другой папки:
      * php artisan migrate --path=/app/Services/LastData
      */
     public function up()
     {
         Schema::create('last_data', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->index();
-            $table->bigInteger('element_id')->index();
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('element_id')->unsigned()->index();
             $table->string('table')->index();
             $table->json('data');
             $table->timestamps();

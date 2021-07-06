@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\LastData;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,14 +10,32 @@ class LastData extends Model
 {
     use HasFactory;
 
-
-    // Массив c исключениями, которые не сравниваем
+    // Массив c исключениями колонок
     public static $exception = [
-        //'password',
+        'id',
+        'created_at',
+        'updated_at',
+        'password',
+        'password_confirmation',
     ];
+
+    // Массив c исключениями, которые не сравниваем и не сохраняем
+    /*public static $exception = [
+        'password',
+        'password_confirmation',
+    ];*/
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $table = 'last_data';
+
+
+
+    // Связь имеет один
+    public function users()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
 
 
     /**
@@ -41,6 +59,9 @@ class LastData extends Model
 
             // Новые данные из запроса
             $data = request()->all();
+
+            // Удалим исключения
+            $data = array_diff_key($data, array_flip(self::$exception));
 
             // Проверяем были ли данные изменены
             if (self::compare($last, $data)) {
