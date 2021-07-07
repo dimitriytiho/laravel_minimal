@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Models\{File, LastData};
@@ -155,9 +156,14 @@ class UserController extends AppController
             $values->file()->sync($request->file);
         }
 
-
         // Удалить все кэши
         cache()->flush();
+
+
+        // Запишем роль admin
+        if ($values->hasRole($this->adminRoleName)) {
+            UserLog::save('important', 'Admin role add for ' . $values->email);
+        }
 
         // Сообщение об успехе
         return redirect()
@@ -292,6 +298,13 @@ class UserController extends AppController
 
         // Удалить все кэши
         cache()->flush();
+
+
+        // Запишем роль admin
+        if ($values->hasRole($this->adminRoleName)) {
+            UserLog::save('important', 'Admin role add for ' . $values->email);
+        }
+
 
         // Сообщение об успехе
         return redirect()

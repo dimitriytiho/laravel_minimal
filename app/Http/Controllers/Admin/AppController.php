@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -113,6 +114,36 @@ class AppController extends Controller
             }
         }
 
+        // Записываем все действия пользователей
+        $this->userLog();
+
         view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
+    }
+
+
+
+    // Записываем все действия пользователей
+    private function userLog()
+    {
+        // Методы, которые записываем
+        $methodsLog = [
+            'store',
+            'update',
+            'destroy',
+        ];
+
+        if (method_exists(request()->route(), 'getActionMethod') && in_array(request()->route()->getActionMethod(), $methodsLog)) {
+
+            $text = request()->getMethod();
+
+            if (method_exists(request()->route(), 'parameters')) {
+                $text .= ' ' . current(request()->route()->parameters());
+            }
+
+            if (method_exists(request()->route(), 'getActionName')) {
+                $text .= ' ' . request()->route()->getActionName();
+            }
+            UserLog::save('admin', $text);
+        }
     }
 }

@@ -34,6 +34,14 @@ return [
     ],
 
 
+    // Тэги для логирования пользователей
+    'user_log_tags' => [
+        'important',
+        'auth',
+        'admin',
+    ],
+
+
     // SEO Настройки
     'not_index_website' => true, // Если не нужно индексировать сайт, то true, если нужно, то false
 

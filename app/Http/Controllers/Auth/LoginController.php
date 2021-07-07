@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Support\UserLog;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -53,13 +54,10 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Если пользователь админ
-        /*if ($user->hasRole(User::getRoleAdmin())) {
+        if ($user->hasRole(User::getRoleAdmin())) {
 
             // Логируем авторизацию админа
-            activity()
-                ->causedBy($user)
-                ->useLog('auth')
-                ->log('Authenticated admin ' . $user->email);
-        }*/
+            UserLog::save('auth', 'Admin authenticated '  . $user->email . ' ' . __METHOD__);
+        }
     }
 }
