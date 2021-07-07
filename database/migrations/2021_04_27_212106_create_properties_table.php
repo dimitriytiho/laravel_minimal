@@ -24,6 +24,7 @@ class CreatePropertiesTable extends Migration
             $table->string('type')->nullable();
             $table->text('description')->nullable();
             $table->text('body')->nullable();
+            $table->json('data')->nullable();
             $table->string('status')->default(config('add.statuses')[0] ?? 'inactive');
             $table->enum('default', ['0', '1'])->default('0');
             $table->smallInteger('sort')->unsigned()->default('5000');

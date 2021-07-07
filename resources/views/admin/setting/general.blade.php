@@ -32,9 +32,15 @@ Breadcrumbs --}}
                         {{ $form::select('type', config('admin.setting_type'), [], $values->type ?? null) }}
                     </div>
                     <div class="col-md-6">
-                        {{ $form::input('section', [], $values->section ?? null, false) }}
+                        {{ $form::select('section', config('admin.setting_section'), [], $values->section ?? null) }}
                     </div>
                 </div>
+                {{--
+
+
+
+                Json data --}}
+                {!! $form::jsonData('data', $values ?? null) !!}
 
                 @isset($values->id)
                     <div class="row">

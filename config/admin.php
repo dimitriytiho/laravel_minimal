@@ -18,10 +18,24 @@ return [
     // Формат даты
     'date_format' => 'd.m.Y H:i', // d.m.Y H:i dd.MM.y HH:mm
 
+
     // Типы настроек
     'setting_type' => [
         'string', // Первое значение по-умолчанию
         'checkbox', // Второй должен быть checkbox
+    ],
+    // Разделы настроек
+    'setting_section' => [
+        'app',
+    ],
+    // Названия настроек, которые нельзя изменить из панели управления
+    'setting_key_no_edit' => [
+        'name',
+        'admin_email',
+        'email',
+        'tel',
+        'date_format',
+        'key_enter',
     ],
 
 

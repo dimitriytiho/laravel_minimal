@@ -17,6 +17,6 @@
 
 
 Этот код будет выведен в head --}}
-@section('css')
+@push('css')
     {{ html()->element('link')->attribute('rel', 'stylesheet')->attribute('href', asset('vendor/file-manager/css/file-manager.css')) }}
-@endsection
+@endpush

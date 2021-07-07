@@ -114,7 +114,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('js')
     {{--
 
         jQuery for Bootstrap --}}
@@ -156,4 +156,4 @@
             });
         });
     </script>
-@endsection
+@endpush

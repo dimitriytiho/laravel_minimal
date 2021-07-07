@@ -29,8 +29,8 @@
     {{--
 
 
-    Вывод css из видов --}}
-    @yield('css')
+    Здесь можно добавить файлы css через @push('css') --}}
+    @stack('css')
     <link rel="stylesheet" href="{{ asset('css/append.css') }}">
     <title>{{ $title ?? Func::site('name') }}</title>
     <meta name="description" content=" " />
@@ -129,7 +129,7 @@ Js files --}}
 {{--
 
 
-Вывод scripts из видов --}}
-@yield('scripts')
+Здесь можно добавить файлы js через @push('js') --}}
+@stack('js')
 </body>
 </html>

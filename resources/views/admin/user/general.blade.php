@@ -173,7 +173,7 @@ Breadcrumbs --}}
 
 
 Этот код будет выведен после всех скриптов --}}
-@section('scripts')
+@push('js')
     @isset($values->id)
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -185,4 +185,4 @@ Breadcrumbs --}}
             }, false)
         </script>
     @endisset
-@endsection
+@endpush

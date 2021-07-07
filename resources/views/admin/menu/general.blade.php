@@ -118,7 +118,7 @@ Breadcrumbs --}}
 
 
 Этот код будет выведен после всех скриптов --}}
-@section('scripts')
+@push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -127,4 +127,4 @@ Breadcrumbs --}}
 
         }, false)
     </script>
-@endsection
+@endpush

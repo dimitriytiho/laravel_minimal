@@ -383,4 +383,22 @@ class FormAdmin implements FormInterface
         }
         return null;
     }
+
+
+
+    /**
+     * Разметка для данных Json, чтобы формировать массив из input.
+     * @return string
+     *
+     * @param string $dataId - название колонки из БД.
+     * @param object|null $values - данные элемента, объект модели, необязательный параметр.
+     */
+    public static function jsonData($dataId, $values = null)
+    {
+        $view = 'admin.inc.json_data';
+        if ($dataId && view()->exists($view)) {
+            return view($view, compact('dataId', 'values'))->render();
+        }
+        return null;
+    }
 }

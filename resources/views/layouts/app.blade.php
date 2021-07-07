@@ -58,8 +58,8 @@ use App\Models\User;
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{--
 
-    Здесь можно добавить файлы css через @section('css') --}}
-    @yield('css')
+    Здесь можно добавить файлы css через @push('css') --}}
+    @stack('css')
 </head>
 <body>
 {{--
@@ -182,8 +182,8 @@ jquery-validation --}}
 {{--
 
 
-Здесь можно добавить файлы js --}}
-@yield('js')
+Здесь можно добавить файлы js через @push('js') --}}
+@stack('js')
 {{--
 
 

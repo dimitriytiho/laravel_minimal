@@ -43,7 +43,12 @@ Breadcrumbs --}}
                 {{ $form::textarea('description', [], $values->description ?? null) }}
 
                 {{ $form::textarea('body', ['class' => config('admin.editor'), 'rows' => 20], $values->body ?? null) }}
+                {{--
 
+
+
+                Json data --}}
+                {!! $form::jsonData('data', $values ?? null) !!}
                 @isset($values->id)
                     <div class="row">
                         <div class="col-md-6">
@@ -92,7 +97,7 @@ Breadcrumbs --}}
 
 
 Этот код будет выведен после всех скриптов --}}
-@section('scripts')
+@push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -102,4 +107,4 @@ Breadcrumbs --}}
 
         }, false)
     </script>
-@endsection
+@endpush

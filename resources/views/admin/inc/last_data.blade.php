@@ -1,4 +1,4 @@
-@if(!empty($info['table']) && method_exists($values, 'getAttributes'))
+@if(!empty($info['table']) && isset($values->id) && method_exists($values, 'getAttributes'))
     @php
 
 
@@ -66,7 +66,7 @@
 
 
         Этот код будет выведен после всех скриптов --}}
-        @section('scripts')
+        @push('js')
             <script>
                 var btnLast = $('.last_data_click'),
                     btnBack = $('.last_data_click_back'),
@@ -134,6 +134,6 @@
                     }
                 }
             </script>
-        @endsection
+        @endpush
     @endif
 @endif

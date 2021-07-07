@@ -250,5 +250,6 @@ return [
     'number' => 'Number',
     'old' => 'Old',
     'history_change' => 'History of change',
+    'add' => 'Add',
 
 ];

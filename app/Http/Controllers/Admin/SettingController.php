@@ -20,7 +20,7 @@ class SettingController extends AppController
         $this->info = $this->info();
 
         // Массив названий настроек, название которые нельзя изменять
-        $this->keyNoEdit = $this->info['model']::keyNoEdit() ?? [];
+        $this->keyNoEdit = config('admin.setting_key_no_edit') ?: [];
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
