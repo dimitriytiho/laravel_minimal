@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class PageController extends Controller
+class PageController extends AppController
 {
     public function __construct()
     {

@@ -27,9 +27,9 @@ trait ModelScopesTrait
      * Использование ->order(), можно например ->order('title', 'asc')
      *
      * @param string $sort - название сортировки, по-умолчанию по сортировке, необязательный параметр.
-     * @param string $direction - напровление сортировки, по-умолчанию по desc, необязательный параметр.
+     * @param string $direction - напровление сортировки, по-умолчанию по asc, необязательный параметр.
      */
-    public function scopeOrder($query, $sort = 'sort', $direction = 'desc')
+    public function scopeOrder($query, $sort = 'sort', $direction = 'asc')
     {
         return $query->orderBy($sort, $direction)->orderBy('id', $direction);
     }

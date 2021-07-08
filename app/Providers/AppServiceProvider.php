@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Classes\Registry;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         /*$this->app->singleton('registry', function () {
-            return app()->make('App\Classes\Registry');
+            return app()->make(Registry::class);
         });*/
     }
 

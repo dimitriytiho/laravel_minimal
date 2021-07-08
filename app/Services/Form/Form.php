@@ -26,7 +26,7 @@ class Form implements FormInterface
      * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию true, необязательный параметр.
-     * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
+     * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
      */
     public static function input($name, array $attrs = [], $value = null, $required = true, $label = null, $class = null)
@@ -43,7 +43,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, $label ? null : 'sr-only');
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
 
             // input
             $input = html()->text($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
@@ -70,7 +70,7 @@ class Form implements FormInterface
      * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
-     * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
+     * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
      */
     public static function textarea($name, array $attrs = [], $value = null, $required = false, $label = null, $class = null)
@@ -87,7 +87,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, $label ? null : 'sr-only');
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
 
             // Textarea
             $input = html()->textarea($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
@@ -115,7 +115,7 @@ class Form implements FormInterface
      * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
-     * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
+     * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
      * @param string|null $disabled - передать значения, для которого установить атрибут disabled.
      * @param bool $optionValueFromId - передайте true, если передаёте массив или объект $options, в котором ключи это id для вывода как значения для option, необязательный параметр.
@@ -134,7 +134,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, $label ? null : 'sr-only');
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
 
             // Options
             $html = '';
@@ -214,7 +214,7 @@ class Form implements FormInterface
             $input = self::getRequired($input, $required);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, 'custom-control-label');
+            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
 
             // Wrap div
             return self::getWrap($input . $label, 'mb-3 custom-control custom-checkbox ' . $class);
@@ -259,7 +259,7 @@ class Form implements FormInterface
             $input = self::getRequired($input, $required);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, 'custom-control-label');
+            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
 
             // Wrap div
             return self::getWrap($input . $label, 'mb-3 custom-control custom-switch ' . $class);
@@ -304,7 +304,7 @@ class Form implements FormInterface
             $input = self::getRequired($input, $required);
 
             // Label
-            $label = self::getLabel($id, $required, $label, $placeholder, 'custom-control-label');
+            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
 
             // Wrap div
             return self::getWrap($input . $label, 'mb-2 custom-control custom-radio ' . $class);

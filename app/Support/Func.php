@@ -153,6 +153,21 @@ class Func
 
     /**
      *
+     * @return array
+     * Возвращаем массив с emails admin.
+     */
+    public static function getAdminEmails()
+    {
+        $emails = self::site('admin_email');
+        if ($emails) {
+            return explode(',', str_replace(' ', '', $emails));
+        }
+        return null;
+    }
+
+
+    /**
+     *
      * @return string
      *
      * Возвращает строку: Url, Email, IP пользователя.
