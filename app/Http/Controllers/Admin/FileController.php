@@ -113,7 +113,7 @@ class FileController extends AppController
         $request->validate(['files' => 'required']);
 
         $dateDir = date('Y_m');
-        $dir = 'file/' . $dateDir;
+        $dir = config('add.file') . '/' . $dateDir;
         $dirFull = public_path($dir);
 
         // Создадим папку если нет
