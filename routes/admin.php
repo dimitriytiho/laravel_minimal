@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 $namespaceAdmin = config('add.controllers') . '\\Admin';
 
 
@@ -7,7 +9,7 @@ $namespaceAdmin = config('add.controllers') . '\\Admin';
 Route::namespace($namespaceAdmin)
     ->prefix(config('add.admin', 'dashboard'))
     ->name('admin.')
-    ->middleware(['auth', 'role:admin'])
+    ->middleware(['auth', 'role:' . User::getRoleAdmin()])
     ->group(function () {
 
 

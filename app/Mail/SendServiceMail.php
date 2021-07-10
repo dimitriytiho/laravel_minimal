@@ -3,7 +3,6 @@
 
 namespace App\Mail;
 
-use App\Support\Func;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,12 +12,9 @@ class SendServiceMail extends Notification
 {
     use Queueable;
 
-    public $title;
-    public $body;
-    public $values;
-    public $template;
-    public $h1;
-    private $layout;
+    private $title;
+    private $body;
+    private $subjectMail;
 
     /**
      * Create a new notification instance.
@@ -26,23 +22,15 @@ class SendServiceMail extends Notification
      * @return void
      *
      *
-     * Переменные для отправки письма
-     * $title - Заголовок письма.
-     * $body - Содержимое письма, можно просто текст или вёрстку. Если используется $template дополнительный вид, то этот параметр не используется, передайте null, необязательный параметр.
-     * $values - Данные для использования в видах, необязательный параметр.
-     * $template - Название вида для оптравки письма из папки views/mail (к примеру user), необязательный параметр.
-     * $h1 - Если нужно H1 передать из вида $template, то передайте null, тогда заголовок $title используйте в виде, который передаёте в $template, необязательный параметр.
-     *
-     *
+     * @param string $title - Заголовок письма, передайте null, чтобы не использовать заголовок и футер, необязательный параметр.
+     * @param string $body - Содержимое письма, необязательный параметр.
+     * @param string $subject - Тема письма, по-умолчанию: Информационное письмо, необязательный параметр.
      */
-    public function __construct($title, $body = null, $values = null, $template = null, $h1 = true)
+    public function __construct($title = null, $body = null, $subject = null)
     {
-        $this->layout = 'mail';
         $this->title = $title;
         $this->body = $body;
-        $this->values = $values;
-        $this->template = $template;
-        $this->h1 = $h1;
+        $this->subjectMail = $subject;
     }
 
     /**
@@ -65,34 +53,11 @@ class SendServiceMail extends Notification
     public function toMail($notifiable)
     {
         $title = $this->title;
-        $values = $this->values;
-        $h1 = $this->h1;
         $body = $this->body;
-        $view = null;
-        $site_name = Func::site('name') ?? ' ';
-        $color = config('add.primary', '#ccc');
-
-        if ($this->template && view()->exists("mail.{$this->template}")) {
-            $view = view("mail.{$this->template}",
-                compact('title', 'values', 'body', 'color', 'site_name'))
-                ->render();
-        }
-
-        $email = Func::site('email');
-        $tel = Func::site('tel');
-        $tel = $tel ? __('s.or_call') . $tel : null;
-
+        $subject = $this->subjectMail ?: __('s.Information_letter');
         return (app()->make(MailMessage::class))
-            ->view("layouts.{$this->layout}",
-                compact('view', 'title', 'values', 'h1', 'body', 'site_name', 'color', 'email', 'tel'))
-            ->subject(__('s.Information_letter'));
-
-
-
-        /*return (new MailMessage)
-            ->greeting('Hello!')
-            ->line('One of your invoices has been paid!')
-            ->action('View Invoice', url('/invoice/'.$this->invoice->id))
-            ->line('Thank you for using our application!');*/
+            ->view('layouts.mail',
+                compact('title', 'body', 'subject'))
+            ->subject($subject);
     }
 }

@@ -169,9 +169,7 @@ class RoleController extends AppController
         $data = $request->all();
 
         // Разрешения
-        if ($request->permissions) {
-            $values->syncPermissions($request->permissions);
-        }
+        $values->syncPermissions($request->permissions);
 
         // Заполняем модель новыми данными
         $values->fill($data);

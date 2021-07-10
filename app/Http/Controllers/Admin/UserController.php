@@ -109,9 +109,9 @@ class UserController extends AppController
      */
     public function store(Request $request)
     {
-        // Роль Admin может создавать Admin
-        if (Str::contains($this->adminRoleName, $request->roles) && !auth()->user()->hasRole($this->adminRoleName)) {
-            return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+        // Роль Admin может создать Admin
+        if (!auth()->user()->hasRole($this->adminRoleName) && $request->roles && is_array($request->roles) && in_array($this->adminRoleId, $request->roles)) {
+            return back()->withErrors(__('s.admin_choose_admin'));
         }
 
         $rules = [
@@ -152,9 +152,7 @@ class UserController extends AppController
         $values->syncPermissions($request->permissions);
 
         // Связь с файлами
-        if ($request->file) {
-            $values->file()->sync($request->file);
-        }
+        $values->file()->sync($request->file);
 
         // Удалить все кэши
         cache()->flush();
@@ -233,13 +231,13 @@ class UserController extends AppController
      */
     public function update(Request $request, $id)
     {
+        // Роль Admin может редактировать Admin
+        if (!auth()->user()->hasRole($this->adminRoleName) && $request->roles && is_array($request->roles) && in_array($this->adminRoleId, $request->roles)) {
+            return back()->withErrors(__('s.admin_choose_admin'));
+        }
+
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info['model']::findOrFail($id);
-
-        // Роль Admin может редактировать Admin
-        if ($values->hasRole($this->adminRoleName) && !auth()->user()->hasRole($this->adminRoleName)) {
-            return redirect()->back()->withErrors(__('s.admin_choose_admin'));
-        }
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -271,9 +269,7 @@ class UserController extends AppController
         $values->syncPermissions($request->permissions);
 
         // Связь с файлами
-        if ($request->file) {
-            $values->file()->sync($request->file);
-        }
+        $values->file()->sync($request->file);
 
         // Если есть связанные элементы, то синхронизируем их
         /*if ($this->relatedManyToManyEdit) {

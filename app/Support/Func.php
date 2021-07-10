@@ -50,17 +50,18 @@ class Func
      *
      * Возвращает настройку сайта из таблицы settings.
      * Func::site('name') - достать настройку.
+     * @param string $default - значение по-умолчание, необязательный параметр.
      *
      * @param string $settingName - название настройки.
      */
-    public static function site($settingName)
+    public static function site($settingName, $default = null)
     {
         // Получаем все настройки и кэшируем запрос
-        $settings = cache()->rememberForever('users', function () {
+        $settings = cache()->rememberForever('settings_all', function () {
             return Setting::all()->pluck('value', 'key')->toArray();
         });
 
-        return $settings[$settingName] ?? null;
+        return $settings[$settingName] ?? $default;
     }
 
 

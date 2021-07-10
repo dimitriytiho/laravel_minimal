@@ -83,8 +83,8 @@ Breadcrumbs --}}
                             @endif
                             {{--
 
-                            Разрешения --}}
-                            @if(!empty($permissions))
+                            Разрешения. Если авторизированный пользователь не админ и редактируемый пользователь админ, то не показываем --}}
+                            @if(!empty($permissions) && !(!auth()->user()->hasRole($adminRoleName) && isset($values->id) && $values->hasRole($adminRoleName)))
                                 <div class="col-md-6">
                                     {{ $form::select('permissions[]', $permissions, ['id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getPermissionNames() : null, false, 'permissions', null, null, true) }}
                                 </div>

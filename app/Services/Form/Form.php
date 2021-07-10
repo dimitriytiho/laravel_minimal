@@ -147,9 +147,21 @@ class Form implements FormInterface
                         $html .= "<option value='{$val}'";
                         // Selected
                         if (is_object($value)) {
-                            $html .= isset($value[$val]) || $value->contains($val) || isset($value[$option]) || $value->contains($option) ? ' selected' : null;
+
+                            if ($optionValueFromId) {
+                                $html .= isset($value[$option]) || $value->contains($option) ? ' selected' : null;
+                            } else {
+                                $html .= isset($value[$val]) || $value->contains($val) ? ' selected' : null;
+                            }
+
                         } elseif (is_array($value)) {
-                            $html .= isset($value[$val]) || in_array($val, $value) || isset($value[$option]) || in_array($val, $option) ? ' selected' : null;
+                            
+                            if ($optionValueFromId) {
+                                $html .= isset($value[$option]) || in_array($val, $option);
+                            } else {
+                                $html .= isset($value[$val]) || in_array($val, $value);
+                            }
+                            
                         } else {
                             $html .= $value == $val ? ' selected' : null;
                         }

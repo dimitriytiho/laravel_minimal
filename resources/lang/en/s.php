@@ -279,5 +279,6 @@ return [
     'gift' => 'Gift',
     'select_promo' => 'Select promo',
     'select_delivery' => 'Select delivery',
+    'you_success_registered' => 'You have successfully registered',
 
 ];

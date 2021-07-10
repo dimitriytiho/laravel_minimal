@@ -31,7 +31,7 @@ return [
 
     'You_have_filled_out_form' => 'Вы заполнили форму на сайте ',
     'You_placed_order' => 'Вы сделали заказ на сайте ',
-    'Completed_form' => 'Заполнена форма :name на сайте ',
+    'Completed_form' => 'Заполнена форма :name on the website ',
     'An_order_has_been_placed' => 'Оформлен заказ №:order_id на сайте ',
     'Your_form_has_been_received' => 'Ваша форма получена. Спасибо за ваше внимание и уделённое время!<br>Мы ознакомимся и при необходимости свяжемся с вами.',
     'Your_order_was_successfully_received' => 'Ваш заказ успешно получен.<br>Мы свяжемся с вами в рабочее время. Спасибо за ваше внимание и уделённое время!',
@@ -280,5 +280,6 @@ return [
     'gift' => 'Подарок',
     'select_promo' => 'Выберите акцию',
     'select_delivery' => 'Выберите доставку',
+    'you_success_registered' => 'Вы успешно зарегистрированы',
 
 ];

@@ -3,6 +3,7 @@
 
 namespace App\Support\Admin;
 
+use App\Support\Func;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
@@ -42,5 +43,18 @@ class App
             }
         }
         return $models ?? null;
+    }
+
+
+    /**
+     *
+     * @return bool
+     * Разрешения ролей пользователей.
+     *
+     * @param string|null $permission - разрешение будет приведено к формату foo_str.
+     */
+    public static function canUser($permission)
+    {
+        return auth()->check() && $permission && auth()->user()->can(Str::snake($permission));
     }
 }

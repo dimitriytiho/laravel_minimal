@@ -13,10 +13,16 @@ class AttributeController extends AppController
     {
         parent::__construct($request);
 
+
+        // Связанная таблица
+        $this->belongTable = 'properties';
+
+        // Связанный маршрут
+        $this->belongRoute = 'property';
+
+
         // Получаем данные о текущем классе в массив $info
         $this->info = $this->info();
-
-        $this->belongTable = 'properties';
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
@@ -72,10 +78,17 @@ class AttributeController extends AppController
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
+
         // Получаем елементы таблицы родителя
-        $all = null;
         if (Schema::hasTable($this->belongTable)) {
-            $all = DB::table($this->belongTable)->pluck('title', 'id');
+            $all = DB::table($this->belongTable)->whereNull('deleted_at')->pluck('title', 'id');
+            
+            // Проверяем есть ли данные у родителя, если нет, то предлагаем создать их
+            if (!$all->count()) {
+                return redirect()
+                    ->route("admin.{$this->belongRoute}.create")
+                    ->with('info', __('a.create_parent_element'));
+            }
         }
 
         // Хлебные крошки
@@ -156,7 +169,7 @@ class AttributeController extends AppController
         // Получаем елементы таблицы родителя
         $all = null;
         if (Schema::hasTable($this->belongTable)) {
-            $all = DB::table($this->belongTable)->pluck('title', 'id');
+            $all = DB::table($this->belongTable)->whereNull('deleted_at')->pluck('title', 'id');
         }
 
         // Хлебные крошки

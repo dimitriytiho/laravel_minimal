@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use App\Support\UserLog;
+use App\Support\Admin\App;
+use App\Support\{Func, UserLog};
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,7 @@ class AppController extends Controller
     protected $pagination;
     protected $paginationQty;
     protected $adminRoleName;
+    protected $adminRoleId;
 
     // Связанный родитель
     protected $belongTable;
@@ -61,10 +63,25 @@ class AppController extends Controller
         $this->pagination = config('admin.pagination_default');
         $this->paginationQty = config('admin.pagination');
         $adminRoleName = $this->adminRoleName = User::getRoleAdmin();
+        $this->adminRoleId = cache()->rememberForever('admin_role_id', function () {
+            return DB::table('roles')->whereName($this->adminRoleName)->value('id');
+        });
 
 
         // Только внутри этой конструкции работают некоторые методы
         $this->middleware(function ($request, $next) {
+
+
+
+            /*
+             * Разрешения ролей пользователей.
+             * Запрещение раздела, должена быть строка из сегмента URL, например http://site/page/create - значит page.
+             * При переходе пользователя с этми запрещением будет 404 ошибка.
+             */
+            if (App::canUser($request->segment(2))) {
+                Func::getError(auth()->user()->email . ' forbidden ' . $request->segment(2), __METHOD__, true, 'critical');
+            }
+
 
             // Устанавливаем локаль
             Locale::setLocaleFromCookie($request);

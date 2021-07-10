@@ -1,3 +1,19 @@
+@php
+
+
+
+/*
+ * Разрешения ролей пользователей.
+ * Запрещение раздела, должена быть строка из сегмента URL, например http://site/page/create - значит page.
+ * При переходе пользователя с этми запрещением будет 404 ошибка.
+ */
+if (\App\Support\Admin\App::canUser(request()->segment(2))) {
+    Func::getError(auth()->user()->email . ' forbidden ' . request()->segment(2), __METHOD__, true, 'critical');
+}
+
+
+
+@endphp
 @extends('layouts.admin')
 {{--
 

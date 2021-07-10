@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class Img
@@ -40,8 +41,8 @@ class Img
         $imgResize = Image::make($img->getRealPath());
 
 
-        $width = (int)config('admin.imgWidth');
-        $height = (int)config('admin.imgHeight');
+        $width = (int) config('admin.images_ext')[0][1] ?? 800;
+        $height = (int) config('admin.images_ext')[0][2] ?? 800;
         if ($crop && $imgResize->width() > $width || $crop && $imgResize->height() > $height) {
 
 
@@ -107,7 +108,7 @@ class Img
 
         } else {
 
-            $imgSize = $imgSize ?: config('admin.imgMaxSizeSM');
+            $imgSize = $imgSize ?: (int) config('admin.images_ext')[0][1] ?? 800;
             $width = $imgResize->width() > $imgSize ? $imgSize : $imgResize->width();
             $height = $imgResize->height() > $imgSize ? $imgSize : $imgResize->height();
 
@@ -118,20 +119,20 @@ class Img
 
 
         // Сохраняем картинку
-        $ImgFolder = config("admin.img{$thisClass}") . '/' . date('Y_m');
+        $ImgFolder = config('add.img') . '/' . $thisClass . '/' . date('Y_m');
 
         // Создадим папку если нет
         File::ensureDirectoryExists(public_path($ImgFolder));
 
         // Уникальное имя
-        $imgPath = "{$ImgFolder}/" . uniqid() . ".{$imgExt}";
+        $imgPath = "{$ImgFolder}/" . Str::lower(Str::random()) . ".{$imgExt}";
 
         // Сохраняем картинку
         $imgResize->save(public_path($imgPath));
         //empty($canvas) ? $imgResize->save(public_path($imgPath)) : $canvas->save(public_path($imgPath));
 
         // Удаляем картинку, которая была
-        if ($oldImage && $oldImage !== config("admin.img{$thisClass}Default") && File::exists(public_path($oldImage))) {
+        if ($oldImage && $oldImage !== config('add.imgDefault') && File::exists(public_path($oldImage))) {
             File::delete(public_path($oldImage));
 
             // Удалим картинку Webp
