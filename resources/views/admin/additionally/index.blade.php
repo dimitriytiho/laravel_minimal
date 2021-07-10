@@ -1,6 +1,13 @@
 @extends('layouts.admin')
 {{--
 
+
+Breadcrumbs --}}
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('class') }}
+@endsection
+{{--
+
 Вывод контента
 
 --}}

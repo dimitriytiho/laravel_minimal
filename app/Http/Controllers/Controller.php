@@ -48,26 +48,30 @@ class Controller extends BaseController
                 $model = config('add.models') . '\\' . $class;
             }*/
 
-            $view = Str::snake($class); // foo_bar
-            $slug = Str::kebab($class); // foo-bar
+            $snake = Str::snake($class);
+            $kebab = Str::kebab($class);
+            $view = Str::snake($action);
+            $slug = Str::kebab($action);
             $route = request()->route()->getName();
 
             // Таблица
-            $table = Str::plural($view); // к множественному числу
+            $table = Str::plural($snake); // к множественному числу
             /*if (!empty($model)) {
                 $table = with(app()->make($model))->getTable();
             }*/
         }
 
         $info = [
-            'controller' => $params['controller'] ?? $controller ?? null,
-            'action' => $params['action'] ?? $action ?? null,
-            'class' => $params['class'] ?? $class ?? null,
-            'model' => $params['model'] ?? $model ?? null,
-            'table' => $params['table'] ?? $table ?? null,
-            'view' => $params['view'] ?? $view ?? null,
-            'route' => $params['route'] ?? $route ?? null,
-            'slug' => $params['slug'] ?? $slug ?? null,
+            'controller' => $params['controller'] ?? $controller ?? null, // FooDummyController
+            'action' => $params['action'] ?? $action ?? null, // myDummy
+            'class' => $params['class'] ?? $class ?? null, // FooDummy
+            'snake' => $params['snake'] ?? $snake ?? null, // foo_dummy
+            'kebab' => $params['kebab'] ?? $kebab ?? null, // foo-dummy
+            'model' => $params['model'] ?? $model ?? null, // App\Models\FooDummy
+            'table' => $params['table'] ?? $table ?? null, // foo_dummies
+            'view' => $params['view'] ?? $view ?? null, // my_dummy
+            'route' => $params['route'] ?? $route ?? null, // foo-dummy из routes/web.php из метода name()
+            'slug' => $params['slug'] ?? $slug ?? null, // foo-dummy
         ];
         view()->share(compact('info'));
         return $info;

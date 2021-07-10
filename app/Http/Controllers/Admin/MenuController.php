@@ -26,7 +26,7 @@ class MenuController extends AppController
 
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
         $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
-            [$this->info['table'], $this->info['slug']],
+            [$this->info['table'], $this->info['kebab']],
         ];
 
 
@@ -34,7 +34,7 @@ class MenuController extends AppController
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.menu_groups'), route("{$this->viewPath}.menu-group.index"));
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
+            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
         });
 
         view()->share(compact('relatedManyToManyDelete'));
@@ -68,7 +68,7 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['slug']}.index")
+                ->route("admin.{$this->info['kebab']}.index")
                 ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
                 );
         }
@@ -106,7 +106,7 @@ class MenuController extends AppController
         }
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
 
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell', 'currentParent', 'parentValues'));
@@ -140,7 +140,7 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['view']}.index")
+                ->route("admin.{$this->info['kebab']}.index")
                 ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
                 );
         }
@@ -154,7 +154,7 @@ class MenuController extends AppController
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -196,7 +196,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -240,7 +240,7 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['slug']}.index")
+                ->route("admin.{$this->info['kebab']}.index")
                 ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
                 );
         }
@@ -250,7 +250,7 @@ class MenuController extends AppController
         $values = $this->info['model']::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -302,7 +302,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -323,7 +323,7 @@ class MenuController extends AppController
             foreach ($this->relatedManyToManyDelete as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
                     return redirect()
-                        ->route("admin.{$this->info['slug']}.edit", $id)
+                        ->route("admin.{$this->info['kebab']}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
                 }
             }
@@ -337,7 +337,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.index")
+            ->route("admin.{$this->info['kebab']}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

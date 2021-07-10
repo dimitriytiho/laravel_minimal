@@ -41,7 +41,7 @@ if (File::isFile($routesAdmin = __DIR__ . '/admin.php')) {
 
 // Routes
 Auth::routes();
-Route::get('auth/logout', [LoginController::class, 'logout'])->name('logout_get');
+Route::get('auth/logout', [LoginController::class, 'logout'])->name('logout-get');
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/{slug}', [PageController::class, 'show'])->name('page');

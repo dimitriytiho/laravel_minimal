@@ -10,7 +10,7 @@
                 @if($isMobile ?? null)
                     data-widget="pushmenu"
                 @else
-                    data-url="{{ route('admin.sidebar_mini') }}"
+                    data-url="{{ route('admin.sidebar-mini') }}"
                     data-val="@if(request()->cookie('sidebar_mini') === 'full') mini @else full @endif"
                 @endif
             >
@@ -56,7 +56,7 @@
                     </div>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="{{ route('logout_get') }}" class="dropdown-item">@lang('a.exit')</a>
+                <a href="{{ route('logout-get') }}" class="dropdown-item">@lang('a.exit')</a>
             </div>
         </li>
         <li class="nav-item">

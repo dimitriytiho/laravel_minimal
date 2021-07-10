@@ -25,7 +25,7 @@ Breadcrumbs --}}
                             Удаление картинки --}}
                             @if(!empty($values->file[0]) && !empty($values->file[0]->path) && $values->file[0]->path !== config('add.imgDefault'))
                                 <a href="{{ route(
-                                        'admin.delete_file',
+                                        'admin.delete-file',
                                         [
                                             'token' => csrf_token(),
                                             'id' => $values->file[0]->id ?? 0,
@@ -58,7 +58,7 @@ Breadcrumbs --}}
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ isset($values->id) ? route("admin.{$info['slug']}.update", $values->id) : route("admin.{$info['slug']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
+                    <form action="{{ isset($values->id) ? route("admin.{$info['kebab']}.update", $values->id) : route("admin.{$info['kebab']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
                         @isset($values->id)
                             @method('put')
                         @endisset
@@ -152,7 +152,7 @@ Breadcrumbs --}}
 
                     Кнопка удалить, удалить может только Admin --}}
                     @if(isset($values->id) && auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
-                        <form action="{{ route("admin.{$info['slug']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
+                        <form action="{{ route("admin.{$info['kebab']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                             @method('delete')
                             @csrf
                             <button type="submit" class="btn btn-danger mt-3 pulse">@lang('s.remove')</button>

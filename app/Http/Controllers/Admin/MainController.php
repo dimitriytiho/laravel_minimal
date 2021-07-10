@@ -20,7 +20,7 @@ class MainController extends AppController
     public function index()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
 
         $title = __('a.dashboard');
         return view($view, compact('title'));

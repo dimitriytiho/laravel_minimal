@@ -15,8 +15,8 @@
     
     
     
-    <link href="//use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet" />
-    <meta name="csrf-token" content="mf6IKSi6p1AsHmIiq1h7Lg6Y1NIM7KuaSWIHyF8J" />
+    <link href="//use.fontawesome.com/releases/v5.15.3/css/all.css" rel="stylesheet" />
+    <meta name="csrf-token" content="w5Tt8nUOmi8VkxCqtcjVTB2QG52yJO3IMziDSkce" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Профилактические работы | ОмегаКонтур</title>
     <meta name="description" content=" " />
@@ -93,7 +93,7 @@
     
     
 
-    var _token = 'mf6IKSi6p1AsHmIiq1h7Lg6Y1NIM7KuaSWIHyF8J',
+    var _token = 'w5Tt8nUOmi8VkxCqtcjVTB2QG52yJO3IMziDSkce',
         path = 'http://127.0.0.1:8000',
         site_name = 'ОмегаКонтур',
         site_tel = '+7(111)111-11-11',

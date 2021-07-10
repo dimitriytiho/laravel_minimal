@@ -28,7 +28,7 @@ class AttributeController extends AppController
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.properties'), route("{$this->viewPath}.property.index"));
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
+            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
         });
     }
 
@@ -59,7 +59,7 @@ class AttributeController extends AppController
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
 
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
@@ -74,7 +74,7 @@ class AttributeController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -82,7 +82,7 @@ class AttributeController extends AppController
         // Получаем елементы таблицы родителя
         if (Schema::hasTable($this->belongTable)) {
             $all = DB::table($this->belongTable)->whereNull('deleted_at')->pluck('title', 'id');
-            
+
             // Проверяем есть ли данные у родителя, если нет, то предлагаем создать их
             if (!$all->count()) {
                 return redirect()
@@ -133,7 +133,7 @@ class AttributeController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -162,7 +162,7 @@ class AttributeController extends AppController
         $values = $this->info['model']::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -216,7 +216,7 @@ class AttributeController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -240,7 +240,7 @@ class AttributeController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.index")
+            ->route("admin.{$this->info['kebab']}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

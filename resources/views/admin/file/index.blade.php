@@ -25,23 +25,23 @@ Breadcrumbs --}}
                             <th scope="col">@lang('a.img')</th>
                             <th scope="col">
                                 <span>@lang('a.name')</span>
-                                {!! $dbSort::viewIcons('name', $info['view'], $info['view']) !!}
+                                {!! $dbSort::viewIcons('name', $info['view'], $info['kebab']) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.path')</span>
-                                {!! $dbSort::viewIcons('path', $info['view'], $info['view']) !!}
+                                {!! $dbSort::viewIcons('path', $info['view'], $info['kebab']) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.old_name')</span>
-                                {!! $dbSort::viewIcons('old_name', $info['view'], $info['view']) !!}
+                                {!! $dbSort::viewIcons('old_name', $info['view'], $info['kebab']) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.type')</span>
-                                {!! $dbSort::viewIcons('type', $info['view'], $info['view']) !!}
+                                {!! $dbSort::viewIcons('type', $info['view'], $info['kebab']) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.id')</span>
-                                {!! $dbSort::viewIcons('id', $info['view'], $info['slug']) !!}
+                                {!! $dbSort::viewIcons('id', $info['view'], $info['kebab']) !!}
                             </th>
                         </tr>
                         </thead>
@@ -49,10 +49,10 @@ Breadcrumbs --}}
                         @foreach($values as $item)
                             <tr @if($item->status && $item->status !== $active) class="table-active"@endif>
                                 <th scope="row" class="d-flex">
-                                    <a href="{{ Route::has("admin.{$info['view']}.edit") ? route("admin.{$info['slug']}.edit", $item->id) :  route("admin.{$info['slug']}.show", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
+                                    <a href="{{ Route::has("admin.{$info['kebab']}.edit") ? route("admin.{$info['kebab']}.edit", $item->id) :  route("admin.{$info['kebab']}.show", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <form action="{{ route("admin.{$info['slug']}.destroy", $item->id) }}" method="post" class="confirm_form">
+                                    <form action="{{ route("admin.{$info['kebab']}.destroy", $item->id) }}" method="post" class="confirm_form">
                                         @method('delete')
                                         @csrf
                                         <button type="submit" class="btn btn-danger btn-sm pulse" title="@lang('a.remove')">

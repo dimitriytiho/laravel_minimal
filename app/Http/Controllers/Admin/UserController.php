@@ -21,7 +21,7 @@ class UserController extends AppController
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['slug']}.index"));
+            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
         });
 
 
@@ -59,7 +59,7 @@ class UserController extends AppController
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
 
         $title = __('a.' . $this->info['table']);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
@@ -74,7 +74,7 @@ class UserController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
         // Роли пользователей
         $roles = DB::table('roles')->pluck('name', 'id');
@@ -165,7 +165,7 @@ class UserController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -182,7 +182,7 @@ class UserController extends AppController
         $values = $this->info['model']::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
 
         // Роли
@@ -304,7 +304,7 @@ class UserController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.edit", $values->id)
+            ->route("admin.{$this->info['kebab']}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -365,12 +365,12 @@ class UserController extends AppController
 
         // Если пользователь удаляет сам себя
         if (auth()->user()->id == $id) {
-            return redirect()->route('logout_get');
+            return redirect()->route('logout-get');
         }
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['slug']}.index")
+            ->route("admin.{$this->info['kebab']}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

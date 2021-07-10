@@ -31,13 +31,13 @@ Route::namespace($namespaceAdmin)
 
 
     // Add routes get
-    Route::get('delete-file', 'FileController@delete')->name('delete_file');
-    Route::get('sidebar-mini', 'MainController@sidebarMini')->name('sidebar_mini');
-    Route::get('get-cookie', 'MainController@getCookie')->name('get_cookie');
+    Route::get('delete-file', 'FileController@delete')->name('delete-file');
+    Route::get('sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
+    Route::get('get-cookie', 'MainController@getCookie')->name('get-cookie');
     Route::get('pagination', 'MainController@pagination')->name('pagination');
     Route::get('locale/{locale}', 'MainController@locale')->name('locale');
     Route::get('/', 'MainController@index')->name('main');
 
     // Add routes post
-    Route::post('get-slug', 'MainController@getSlug')->name('get_slug');
+    Route::post('get-slug', 'MainController@getSlug')->name('get-slug');
 });

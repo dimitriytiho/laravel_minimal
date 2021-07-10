@@ -30,7 +30,7 @@
 
                     {{ __('You are logged in!') }}
                     <div class="mt-3">
-                        <a href="{{ route('logout_get') }}">Logout</a>
+                        <a href="{{ route('logout-get') }}">Logout</a>
                     </div>
                 </div>
             </div>

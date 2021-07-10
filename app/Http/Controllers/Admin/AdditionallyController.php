@@ -20,7 +20,7 @@ class AdditionallyController extends AppController
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['view']), route("{$this->viewPath}.{$this->info['slug']}.index"));
+            $trail->push(__('a.' . $this->info['snake']), route("{$this->viewPath}.{$this->info['kebab']}"));
         });
     }
 
@@ -34,22 +34,22 @@ class AdditionallyController extends AppController
                 case 'db':
                     cache()->flush();
                     session()->flash('success', __('a.cache_deleted'));
-                    return redirect()->route("admin.{$this->info['slug']}");
+                    return redirect()->route("admin.{$this->info['kebab']}");
 
                 case 'views':
                     $res = Commands::getCommand('php artisan view:clear');
                     $res ? session()->flash('success', $res) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['slug']}");
+                    return redirect()->route("admin.{$this->info['kebab']}");
 
                 case 'routes':
                     $res1 = Commands::getCommand('php artisan route:clear');
                     $res1 ? session()->flash('success', $res1) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['slug']}");
+                    return redirect()->route("admin.{$this->info['kebab']}");
 
                 case 'config':
                     $res1 = Commands::getCommand('php artisan config:clear');
                     $res1 ? session()->flash('success', $res1) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['slug']}");
+                    return redirect()->route("admin.{$this->info['kebab']}");
             }
         }
 
@@ -60,15 +60,15 @@ class AdditionallyController extends AppController
             Seo::getUpload();
 
             return redirect()
-                ->route("admin.{$this->info['slug']}")
+                ->route("admin.{$this->info['kebab']}")
                 ->with('success', __('a.completed_successfully'));
         }
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['view']}.{$this->info['action']}";
+        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
 
-        $title = __('a.' . $this->info['view']);
+        $title = __('a.' . $this->info['snake']);
         return view($view, compact('title'));
     }
 }

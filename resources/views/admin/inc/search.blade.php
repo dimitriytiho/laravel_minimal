@@ -2,22 +2,22 @@
     {{--
 
     Кнопка создать для текущего класса --}}
-    @if(Route::has("admin.{$info['slug']}.create"))
+    @if(Route::has("admin.{$info['kebab']}.create"))
         <div class="col-md-1">
-            <a href="{{ route("admin.{$info['slug']}.create") }}" class="btn btn-info btn-sm d-block pulse">@lang('a.create')</a>
+            <a href="{{ route("admin.{$info['kebab']}.create") }}" class="btn btn-info btn-sm d-block pulse">@lang('a.create')</a>
         </div>
     @endif
-    @if(!empty($queryArr) && Route::has("admin.{$info['slug']}.index"))
+    @if(!empty($queryArr) && Route::has("admin.{$info['kebab']}.index"))
         <div class="col-md-11">
             {{--
 
             Форма поиска --}}
-            <form action="{{ route("admin.{$info['slug']}.index") }}" class="mb-1">
+            <form action="{{ route("admin.{$info['kebab']}.index") }}" class="mb-1">
                 <div class="row">
                     @isset($parentValues)
                         <div class="col-md-2 col-sm-3 mb-2">
                             <label for="parent_values" class="sr-only"></label>
-                            <select class="custom-select custom-select-sm select_change" id="parent_values" data-url="{{ route('admin.get_cookie') }}" data-key="{{ $info['table'] }}_id">
+                            <select class="custom-select custom-select-sm select_change" id="parent_values" data-url="{{ route('admin.get-cookie') }}" data-key="{{ $info['table'] }}_id">
                                 @foreach($parentValues as $id => $title)
                                     <option value="{{ $id }}" @if(!empty($currentParent) && $currentParent->id == $id) selected @endif>{{ Func::__($title, 'a') }}</option>
                                 @endforeach
@@ -47,7 +47,7 @@
                     </div>
                     @if($cell)
                         <div class="col-1 mb-2">
-                            <a href="{{ route("admin.{$info['slug']}.index") }}" class="btn btn-link btn-sm px-0 pulse">
+                            <a href="{{ route("admin.{$info['kebab']}.index") }}" class="btn btn-link btn-sm px-0 pulse">
                                 <i class="fas fa-times" title="@lang('s.reset')"></i>
                             </a>
                         </div>
