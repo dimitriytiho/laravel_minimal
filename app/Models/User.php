@@ -56,16 +56,9 @@ class User extends Authenticatable
     // Меняем шаблон письма при сбросе пароля
     public function sendPasswordResetNotification($token)
     {
-        $title = __('s.link_to_change_password');
-        $values = [
-            'title' => __('s.you_forgot_password'),
-            'btn' => __('s.reset_password'),
-            'link' => route('password.reset', $token),
-        ];
         $this->notify(app()->make(SendServiceMail::class, [
-            'title' => $title,
-            'values' => $values,
-            'template' => 'service',
+            'title' => __('s.link_to_change_password'),
+            'body' => html()->a(route('password.reset', $token), __('s.reset_password')),
         ]));
     }
 

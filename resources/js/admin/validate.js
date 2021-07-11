@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Маска для телефона
-    $('input[type=tel]').inputmask('+7(999)999-99-99')
+    $('input[type=tel]').inputmask('+9(999)999-99-99')
 
 
     // Настройки по-умолчанию

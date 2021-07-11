@@ -53,8 +53,8 @@ Breadcrumbs --}}
                     <span id="btn-sticky">
                         <button type="submit" class="btn btn-primary mt-3 mr-2 pulse">{{ isset($values->id) ? __('s.save') : __('s.submit') }}</button>
                     </span>
-                    {{--@if(isset($values->slug) && Route::has($info['snake']))
-                        <a href="{{ route($info['snake'], $values->slug) }}" class="btn btn-outline-info mt-3 pulse" target="_blank">@lang('s.go')</a>
+                    {{--@if(isset($values->slug) && Route::has($info['kebab']))
+                        <a href="{{ route($info['kebab'], $values->slug) }}" class="btn btn-outline-info mt-3 pulse" target="_blank">@lang('s.go')</a>
                     @endif--}}
                 </div>
             </form>

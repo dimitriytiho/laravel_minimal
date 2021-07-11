@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
         $('.select2_img').select2({
             language: 'ru',
             templateResult: function (option) {
-                return $('<span><img src="' + document.location.origin + '/' + option.text + '" class="img-size-32"> ' + option.text + '</span>')
+                return $('<span><img src="' + document.location.origin + option.text + '" class="img-size-32"> ' + option.text + '</span>')
             },
             templateSelection: function (option) {
-                return $('<span><img src="' + document.location.origin + '/' + option.text + '" class="img-size-32" style="margin-top: -7px;"> ' + option.text + '</span>')
+                return $('<span><img src="' + document.location.origin + option.text + '" class="img-size-32" style="margin-top: -7px;"> ' + option.text + '</span>')
             }
 
         })

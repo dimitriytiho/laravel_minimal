@@ -114,6 +114,10 @@ class FormAdmin implements FormInterface
      * @param string|array|object $options - передать options: строкой, массивом или объектом (если $value будет равно одному из значений $options, то этот option будет selected).
      * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
+     * Дополнительно:
+     * 'label' => 'false' - чтобы не показывать лэйбл,
+     * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected.
+     *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label показывается, если надо не показывать передать в $attrs ['label' => 'false'] false строкой, необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
@@ -149,7 +153,15 @@ class FormAdmin implements FormInterface
                         if (is_object($value)) {
                             
                             if ($optionValueFromId) {
-                                $html .= isset($value[$option]) || $value->contains($option) ? ' selected' : null;
+                                
+                                if (empty($attrs['values'])) {
+                                    $html .= isset($value[$option]) || $value->contains($option) ? ' selected' : null;
+                                } else {
+
+                                    // Если в атрибутах передаём название ключа в объекте $value
+                                    $html .= isset($value[$option]) || $value->contains($attrs['values'], $option) ? ' selected' : null;
+                                }
+
                             } else {
                                 $html .= isset($value[$val]) || $value->contains($val) ? ' selected' : null;
                             }
@@ -166,7 +178,7 @@ class FormAdmin implements FormInterface
                             $html .= $value == $val ? ' selected' : null;
                         }
                         // Disabled
-                        $html .= $disabled == $val ? ' disabled' : null;
+                        $html .= !is_null($disabled) && $disabled == $val ? ' disabled' : null;
                         // Translation
                         $option = Func::__($option, 'a');
                         // End option
