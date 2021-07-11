@@ -39,6 +39,13 @@ if (File::isFile($routesAdmin = __DIR__ . '/admin.php')) {
 }
 
 
+// Ex - маршруты чтобы отдать или получить данные из БД
+/*Route::prefix('ex')->namespace($namespace)->name('ex.')->group(function () {
+    Route::get('json/{code_enter}/{table}', 'ExController@json')->name('get');
+    Route::get('get/{code_enter}/{domain}/{table}', 'ExController@get')->name('get');
+});*/
+
+
 // Routes
 Auth::routes();
 Route::get('auth/logout', [LoginController::class, 'logout'])->name('logout-get');
