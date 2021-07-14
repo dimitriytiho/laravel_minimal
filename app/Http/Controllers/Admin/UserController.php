@@ -236,13 +236,19 @@ class UserController extends AppController
      */
     public function update(Request $request, $id)
     {
+        // Получаем элемент по id, если нет - будет ошибка
+        $values = $this->info['model']::findOrFail($id);
+
+
         // Роль Admin может редактировать Admin
         if (!auth()->user()->hasRole($this->adminRoleName) && $request->roles && is_array($request->roles) && in_array($this->adminRoleId, $request->roles)) {
             return back()->withErrors(__('s.admin_choose_admin'));
         }
-
-        // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        // Роль Admin может удалить только Admin
+        if (!auth()->user()->hasRole($this->adminRoleName) && $values->hasRole($this->adminRoleName)) {
+            return back()->withErrors(__('s.admin_choose_admin'));
+        }
+        
 
         $rules = [
             'name' => 'required|string|max:255',

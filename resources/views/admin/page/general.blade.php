@@ -45,7 +45,7 @@ Breadcrumbs --}}
                         Свойства --}}
                         @if(!empty($properties))
                             <div class="col-md-4">
-                                {{ $form::select('properties[]', $properties, ['id' => 'properties', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], $values->properties ?? null, false, 'properties', null, null, true) }}
+                                {{ $form::select('properties[]', $properties, ['id' => 'properties', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple', 'values' => 'title'], $values->properties ?? null, false, 'properties', null, null, true) }}
                             </div>
                         @endif
                         {{--

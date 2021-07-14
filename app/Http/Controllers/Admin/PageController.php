@@ -293,6 +293,9 @@ class PageController extends AppController
             }
         }
 
+        // Связь со свойствами
+        $values->properties()->sync([]);
+
         // Удаляем элемент
         $values->delete();
 

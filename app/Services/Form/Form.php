@@ -152,28 +152,14 @@ class Form implements FormInterface
                         // Selected
                         if (is_object($value)) {
 
-                            if ($optionValueFromId) {
-                                
-                                if (empty($attrs['values'])) {
-                                    $html .= isset($value[$option]) || $value->contains($option) ? ' selected' : null;
-                                } else {
-
-                                    // Если в атрибутах передаём название ключа в объекте $value
-                                    $html .= isset($value[$option]) || $value->contains($attrs['values'], $option) ? ' selected' : null;
-                                }
-                                
-                            } else {
-                                $html .= isset($value[$val]) || $value->contains($val) ? ' selected' : null;
-                            }
+                            // Если в атрибутах передаём название ключа в объекте $value
+                            $selected = empty($attrs['values']) ? $value->contains($val) : $value->contains($attrs['values'], $val);
+                            $html .= $selected ? ' selected' : null;
 
                         } elseif (is_array($value)) {
-                            
-                            if ($optionValueFromId) {
-                                $html .= isset($value[$option]) || in_array($val, $option);
-                            } else {
-                                $html .= isset($value[$val]) || in_array($val, $value);
-                            }
-                            
+
+                            $html .= in_array($val, $value) ? ' selected' : null;
+
                         } else {
                             $html .= $value == $val ? ' selected' : null;
                         }

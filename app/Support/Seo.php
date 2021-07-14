@@ -236,6 +236,6 @@ class Seo
             $r .= 'SetEnvIfNoCase User-Agent "^BlogPulseLive" search_bot' . PHP_EOL;
             $r .= 'SetEnvIfNoCase User-Agent "^Parser" search_bot' . PHP_EOL;
         }
-        File::put(public_path('.htaccess'), $r);
+        File::put(base_path('.htaccess'), $r);
     }
 }
