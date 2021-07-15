@@ -17,7 +17,7 @@ class CreateMenuGroupsTable extends Migration
             $table->id();
             $table->string('title');
             $table->index('title');
-            $table->smallInteger('sort')->unsigned()->default('5000');
+            $table->smallInteger('sort')->unsigned()->default('5000')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
