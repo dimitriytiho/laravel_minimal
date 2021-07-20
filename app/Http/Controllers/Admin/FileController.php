@@ -6,7 +6,7 @@ use App\Support\Admin\Img;
 use App\Support\Func;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{DB, File};
+use Illuminate\Support\Facades\{DB, File, Schema};
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -375,5 +375,38 @@ class FileController extends AppController
         return redirect()
             ->back()
             ->withErrors(__('s.whoops'));
+    }
+
+
+    /*
+     * Удаляет file и webp картинку, если она есть.
+     *
+     * Передать в ссылке get параметры:
+     * &token=token - токен.
+     * &table=users - название таблицы.
+     * &id=1 - id файла в БД.
+     */
+    public function deleteImg(Request $request)
+    {
+        $table = $request->table;
+        $id = $request->id;
+        $imgDefault = config('add.imgDefault');
+        if ($request->token === csrf_token() && Schema::hasColumn($table, 'img')) {
+            $values = DB::table($table)->find($id);
+            if ($values && $values->img !== $imgDefault) {
+
+                // Удалить картинку
+                Img::deleteImg($values->img);
+
+                // Сохранить картинку по-умолчанию
+                DB::table($table)->where('id', $id)->update(['img' => $imgDefault]);
+
+                // Сообщение об успехе
+                return back()->with('success', __('s.success_destroy'));
+            }
+        }
+
+        // Сообщение что-то пошло не так
+        return back()->withErrors(__('s.whoops'));
     }
 }

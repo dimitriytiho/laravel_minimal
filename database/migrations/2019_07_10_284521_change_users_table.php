@@ -26,6 +26,7 @@ class ChangeUsersTable extends Migration
             $table->float('score')->unsigned()->default('0')->after('note');
             $table->string('ip')->nullable()->after('note');
             $table->enum('accept', ['0', '1'])->default('0')->after('ip');
+            $table->string('img')->nullable()->default(config('add.imgDefault'))->after('accept');
             //$table->string('name', 50)->change(); // Если нужно изменить поле, для этого необходимо установить зависимость composer require doctrine/dbal
             //$table->renameColumn('from', 'to'); // Если нужно переименовать колонку
             $table->softDeletes();

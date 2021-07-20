@@ -19,11 +19,11 @@ Breadcrumbs --}}
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img_sm img-circle img_replace" src="{{ asset($values->file[0]->path ?? config('add.imgDefault')) }}" alt="{{ $values->name }}">
+                            <img class="profile-user-img img_sm img-circle img_replace" src="{{ asset($values->img ?? config('add.imgDefault')) }}" alt="{{ $values->name }}">
                             {{--
 
                             Удаление картинки --}}
-                            @if(!empty($values->file[0]) && !empty($values->file[0]->path) && $values->file[0]->path !== config('add.imgDefault'))
+                            @if(isset($values->id) && $values->img !== config('add.imgDefault'))
                                 <a href="{{ route(
                                         'admin.delete-file',
                                         [
@@ -106,11 +106,48 @@ Breadcrumbs --}}
                             {{--
 
                             Картинка --}}
-                            @if(!empty($images))
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <label for="img">@lang('a.img')</label>
+                                            <img src="{{ asset($values->img ?? config('add.imgDefault')) }}" class="img-thumbnail img_replace" alt="{{ $values->title ?? null }}">
+                                        </div>
+                                        {{--
+
+                                        Удаление картинки --}}
+                                        @if(isset($values->id) && $values->img !== config('add.imgDefault'))
+                                            <div class="col-1 mt-3 px-0">
+                                                <a href="{{ route(
+                                                    'admin.delete-img',
+                                                    [
+                                                        'token' => csrf_token(),
+                                                        'table' => $info['table'],
+                                                        'id' => $values->id,
+                                                    ]
+                                                    ) }}" class="text-danger p confirm_link">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div class="form-group">
+                                        <div class="form-group mt-0">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="img" id="img">
+                                                <label class="custom-file-label" for="img">{{ $values->img ?? __('a.choose_file') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{--@if(!empty($images))
                                 <div class="col-md-6">
                                     {{ $form::select('file', $images, ['data-placeholder' => __('s.choose'), 'class' => 'w-100 select2_img'], $values->file[0]->id ?? null, false, 'img', null, null, true) }}
                                 </div>
-                            @endif
+                            @endif--}}
                         </div>
 
                         <div class="row">

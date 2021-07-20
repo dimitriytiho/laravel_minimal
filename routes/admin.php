@@ -31,6 +31,7 @@ Route::namespace($namespaceAdmin)
 
 
     // Add routes get
+    Route::get('delete-img', 'FileController@deleteImg')->name('delete-img');
     Route::get('delete-file', 'FileController@delete')->name('delete-file');
     Route::get('sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
     Route::get('get-cookie', 'MainController@getCookie')->name('get-cookie');

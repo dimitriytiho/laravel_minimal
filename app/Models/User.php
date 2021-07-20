@@ -45,11 +45,11 @@ class User extends Authenticatable
 
 
     // Связь многие ко многим для любых моделей
-    public function file()
+    /*public function file()
     {
         return $this->morphToMany(File::class, 'fileable')
             ->withTimestamps(); // Добавить, чтобы записывать в БД created_at updated_at;
-    }
+    }*/
 
 
 

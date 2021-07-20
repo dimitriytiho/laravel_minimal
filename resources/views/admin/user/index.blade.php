@@ -22,6 +22,7 @@ Breadcrumbs --}}
                         <thead>
                         <tr>
                             <th scope="col">@lang('a.action')</th>
+                            <th scope="col">@lang('a.img')</th>
                             <th scope="col">
                                 <span>@lang('a.name')</span>
                                 {!! $dbSort::viewIcons('name', $info['view'], $info['kebab']) !!}
@@ -58,6 +59,9 @@ Breadcrumbs --}}
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </th>
+                                <td>
+                                    <img src="{{ $item->img }}" class="img-size-64" alt="{{ $item->title }}">
+                                </td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>

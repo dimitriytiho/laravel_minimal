@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Support\Admin\Img;
 use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
@@ -83,10 +84,9 @@ class UserController extends AppController
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
         // Картинка (получаем только картинки и для этого класса)
-        $images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
-
+        //$images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
         // Добавить в начало коллекции
-        $images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
+        //$images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
 
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
@@ -97,7 +97,7 @@ class UserController extends AppController
             $trail->push($title);
         });
 
-        return view($view, compact('title', 'roles', 'permissions', 'images'));
+        return view($view, compact('title', 'roles', 'permissions'));
     }
 
 
@@ -130,6 +130,19 @@ class UserController extends AppController
         ]);
         $data = $request->all();
 
+
+        if ($request->hasFile('img')) {
+
+            // Обработка картинки
+            $data['img'] = Img::upload($request, $this->info['snake']);
+
+        } else {
+
+            // Если нет картинки
+            $data['img'] = config('add.imgDefault');
+        }
+
+
         // Создаём экземкляр модели
         $values = app()->make($this->info['model']);
 
@@ -152,7 +165,7 @@ class UserController extends AppController
         $values->syncPermissions($request->permissions);
 
         // Связь с файлами
-        $values->file()->sync($request->file);
+        //$values->file()->sync($request->file);
 
         // Удалить все кэши
         cache()->flush();
@@ -192,10 +205,9 @@ class UserController extends AppController
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
         // Картинка (получаем только картинки и для этого класса)
-        $images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
-
+        //$images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
         // Добавить в начало коллекции
-        $images->prepend(config('add.imgDefault'), 0);
+        //$images->prepend(config('add.imgDefault'), 0);
 
         $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
 
@@ -223,7 +235,7 @@ class UserController extends AppController
             }
         }*/
 
-        return view($view, compact('title', 'values', 'roles', 'permissions', 'images'));
+        return view($view, compact('title', 'values', 'roles', 'permissions'));
     }
 
 
@@ -248,7 +260,7 @@ class UserController extends AppController
         if (!auth()->user()->hasRole($this->adminRoleName) && $values->hasRole($this->adminRoleName)) {
             return back()->withErrors(__('s.admin_choose_admin'));
         }
-        
+
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -263,6 +275,18 @@ class UserController extends AppController
 
         // Сохраним прошлые данные
         LastData::saveData($id, $this->info['table']);
+
+
+        if ($request->hasFile('img')) {
+
+            // Обработка картинки
+            $data['img'] = Img::upload($request, $this->info['snake'], $values->img);
+
+        } else {
+
+            // Если нет картинки
+            $data['img'] = $values->img;
+        }
 
 
         // Если есть пароль, то он хэшируется
@@ -280,7 +304,7 @@ class UserController extends AppController
         $values->syncPermissions($request->permissions);
 
         // Связь с файлами
-        $values->file()->sync($request->file);
+        //$values->file()->sync($request->file);
 
         // Если есть связанные элементы, то синхронизируем их
         /*if ($this->relatedManyToManyEdit) {
@@ -364,8 +388,12 @@ class UserController extends AppController
         }*/
 
 
+        // Удалить картинку, кроме картинки по-умолчанию
+        Img::deleteImg($values->img, config('add.imgDefault'));
+
+
         // Удалить прикреплённые файлы из таблицы files и с сервера
-        File::deleteFiles($values);
+        //File::deleteFiles($values);
 
         // Удаляем элемент
         $values->delete();
