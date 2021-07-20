@@ -188,7 +188,7 @@ Breadcrumbs --}}
 
 
                     Кнопка удалить, удалить может только Admin --}}
-                    @if(isset($values->id) && auth()->user()->hasRole(\App\Models\User::getRoleAdmin()))
+                    @if(isset($values->id) && auth()->user()->hasRole($adminRoleName))
                         <form action="{{ route("admin.{$info['kebab']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                             @method('delete')
                             @csrf

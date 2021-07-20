@@ -53,7 +53,7 @@ Breadcrumbs --}}
 
 
                             Выделяем активный ряд для роли admin --}}
-                            <tr @if(Str::contains($info['model']::getRoleAdmin(), $roles)) class="table-active"@endif>
+                            <tr @if(Str::contains($adminRoleName, $roles)) class="table-active"@endif>
                                 <th scope="row" class="d-flex">
                                     <a href="{{ Route::has("admin.{$info['kebab']}.edit") ? route("admin.{$info['kebab']}.edit", $item->id) :  route("admin.{$info['kebab']}.show", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
                                         <i class="fas fa-pencil-alt"></i>

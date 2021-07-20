@@ -1,18 +1,15 @@
 @php
 
-    use App\Models\{Menu, User};
+    use App\Models\Menu;
 
 
-
-    // Имя роли Admin
-    $adminRoleName = User::getRoleAdmin();
 
     // Левое меню, получаем по belong_id = 2  и кэшируем
     $leftMenu = cache()->rememberForever('admin_left_menu', function () {
         return Menu::whereBelongId(2)
         ->active()
         ->orderBy('sort')
-        ->order()
+        ->orderBy('id')
         ->get()
         ->toTree();
     });
