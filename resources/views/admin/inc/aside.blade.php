@@ -1,8 +1,11 @@
 @php
 
-    use App\Models\Menu;
+    use App\Models\{Menu, User};
 
 
+
+    // Имя роли Admin
+    $adminRoleName = User::getRoleAdmin();
 
     // Левое меню, получаем по belong_id = 2  и кэшируем
     $leftMenu = cache()->rememberForever('admin_left_menu', function () {
