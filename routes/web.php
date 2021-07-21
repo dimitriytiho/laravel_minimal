@@ -21,9 +21,11 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 
-// Если выключен веб-сайт, то редирект на страницу /error.php, кроме админской части
-if (env('OFF_WEBSITE') && !Str::contains(request()->path(), config('add.admin', 'dashboard'))) {
-    Route::redirect(request()->path(), '/error.php');
+// Если выключен веб-сайт, то редирект на страницу /error.php, кроме админской части и страницы авторизации
+if (env('OFF_WEBSITE') && !Str::contains(request()->path(), [config('add.admin', 'dashboard'), 'login'])) {
+    header('Location: /error.php');
+    die;
+    //Route::redirect(request()->path(), '/error.php');
 }
 
 
