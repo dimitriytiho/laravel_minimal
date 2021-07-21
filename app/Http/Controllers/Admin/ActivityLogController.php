@@ -71,7 +71,7 @@ class ActivityLogController extends AppController
             }
 
             // Получаем логи
-            $values = $values->paginate(session('pagination') ?: $this->pagination);
+            $values = $values->orderBy('id', 'desc')->paginate(session('pagination') ?: $this->pagination);
         }
 
 

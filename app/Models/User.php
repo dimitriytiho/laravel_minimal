@@ -82,7 +82,7 @@ class User extends Authenticatable
     // Возвращает имена ролей с доступом в admin панель, перечислить роли в массиве
     public static function getRolesAdminPanel()
     {
-        return ['admin'];
+        return ['admin', 'editor'];
     }
 
 

@@ -53,11 +53,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Если пользователь админ
-        if ($user->hasRole(User::getRoleAdmin())) {
+        // Если у пользователя есть доступ к админке
+        if ($user->hasRole(User::getRolesAdminPanel())) {
 
-            // Логируем авторизацию админа
-            UserLog::save('auth', 'Admin authenticated '  . $user->email . ' ' . __METHOD__);
+            // Логируем авторизацию
+            UserLog::save('auth', 'Authorization Admin Panel');
         }
     }
 }

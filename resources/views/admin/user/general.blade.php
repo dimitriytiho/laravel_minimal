@@ -78,7 +78,7 @@ Breadcrumbs --}}
                             Роли --}}
                             @if(!empty($roles))
                                 <div class="col-md-6">
-                                    {{ $form::select('roles[]', $roles, ['id' => 'roles', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getRoleNames() : null, false, 'roles', null, null, true) }}
+                                    {{ $form::select('roles[]', $roles, ['lang' => 'false', 'id' => 'roles', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->roles->pluck('id') : null, false, 'roles', null, null, true) }}
                                 </div>
                             @endif
                             {{--
@@ -86,7 +86,7 @@ Breadcrumbs --}}
                             Разрешения. Если авторизированный пользователь не админ и редактируемый пользователь админ, то не показываем --}}
                             @if(!empty($permissions) && !(!auth()->user()->hasRole($adminRoleName) && isset($values->id) && $values->hasRole($adminRoleName)))
                                 <div class="col-md-6">
-                                    {{ $form::select('permissions[]', $permissions, ['id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getPermissionNames() : null, false, 'permissions', null, null, true) }}
+                                    {{ $form::select('permissions[]', $permissions, ['lang' => 'false', 'id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->permissions->pluck('id') : null, false, 'permissions', null, null, true) }}
                                 </div>
                             @endif
                             {{--

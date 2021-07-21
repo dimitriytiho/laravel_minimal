@@ -24,7 +24,7 @@ Breadcrumbs --}}
 
                 Разрешения --}}
                 @if(!empty($permissions))
-                    {{ $form::select('permissions[]', $permissions, ['id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->getPermissionNames() : null, false, 'permissions', null, null, true) }}
+                    {{ $form::select('permissions[]', $permissions, ['lang' => 'false', 'id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->permissions->pluck('id') : null, false, 'permissions', null, null, true) }}
                 @endif
 
                 @isset($values->id)
