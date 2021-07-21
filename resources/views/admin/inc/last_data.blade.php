@@ -2,26 +2,26 @@
     @php
 
 
-    // Модель LastData
-    $lastDataModel = '\App\Models\LastData';
+        // Модель LastData
+        $lastDataModel = config('add.models') . '\LastData';
 
 
-    // Колонки, которые используем у текущей модели
-    $columns = array_keys($values->getAttributes());
+        // Колонки, которые используем у текущей модели
+        $columns = array_keys($values->getAttributes());
 
-    // Убираем исключения
-    $columns = array_diff($columns, $lastDataModel::$exception);
+        // Убираем исключения
+        $columns = array_diff($columns, $lastDataModel::$exception);
 
-    // Получаем в массив данные полей, кроме исключений
-    if ($columns) {
-        foreach ($columns as $column) {
-            $columnsData[$column] = $values->$column;
+        // Получаем в массив данные полей, кроме исключений
+        if ($columns) {
+            foreach ($columns as $column) {
+                $columnsData[$column] = str_replace(['\'', '`'], '"', $values->$column);
+            }
         }
-    }
 
 
-    // Получаем данные для данного элемента
-    $lastData = $lastDataModel::whereTable($info['table'])->whereElementId($values->id)->get();
+        // Получаем данные для данного элемента
+        $lastData = $lastDataModel::whereTable($info['table'])->whereElementId($values->id)->get();
 
 
     @endphp
@@ -37,7 +37,7 @@
             </div>
             <div class="card-body">
                 <div class="chop" data-columns='{!! json_encode($columns ?? [], JSON_UNESCAPED_UNICODE) !!}'>
-                    @foreach($lastData as $key =>$item)
+                    @foreach($lastData as $key => $item)
                         @if($item->users)
                             @php
 
@@ -45,7 +45,7 @@
                                 $data = json_decode($item->data);
                                 foreach ($columns as $column) {
                                     if (!empty($data->$column)) {
-                                        $dataOld[$column] = $data->$column;
+                                        $dataOld[$column] = str_replace(['\'', '`'], '"', $data->$column);
                                     }
                                 }
                                 $json = json_encode($dataOld ?? [], JSON_UNESCAPED_UNICODE);
@@ -102,7 +102,7 @@
                         data = self.data('json')
 
                     // Вставляем данные в значения формы
-                    insertData(data, columns)
+                    insertData(data, columns, false)
 
                     // Удаляем класс active у всех
                     btnLast.removeClass('active')
@@ -116,8 +116,9 @@
                  * Функция вставляет данные в значения формы по id.
                  * data - данные для вставки.
                  * columns - массив с колонками, которые нужно брать из данных.
+                 * addClassValid - добавлять класс .is-valid, при вставке данных, необязательный параметр, передать false если не надо.
                  */
-                function insertData(data, columns) {
+                function insertData(data, columns, addClassValid = true) {
                     if (data && columns) {
 
                         for (var key in columns) {
@@ -129,7 +130,11 @@
 
                                 // Вставляем данные в поля формы если есть разница значений, добавить класс is-valid
                                 if (data[columns[key]] && data[columns[key]] !== $(id).val()) {
-                                    $(id).val(data[columns[key]]).addClass('is-valid')
+                                    $(id).val(data[columns[key]])
+
+                                    if (addClassValid) {
+                                        $(id).addClass('is-valid')
+                                    }
                                 }
                             }
                         }

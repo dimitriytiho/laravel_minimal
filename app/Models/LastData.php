@@ -13,8 +13,10 @@ class LastData extends Model
     // Массив c исключениями колонок
     public static $exception = [
         'id',
+        'img',
         'created_at',
         'updated_at',
+        'deleted_at',
         'password',
         'password_confirmation',
     ];
