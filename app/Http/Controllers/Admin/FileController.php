@@ -107,7 +107,8 @@ class FileController extends AppController
         // Сохраняем данные в переменную
         $exts = $request->ext ?: 0;
         $exts = config('admin.images_ext')[$exts] ?? null;
-        $webp = $request->webp ? true : false;
+        $webp = true;
+        //$webp = $request->webp ? true : false;
 
         // Валидация данных
         $request->validate(['files' => 'required']);

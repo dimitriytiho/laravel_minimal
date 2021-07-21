@@ -43,7 +43,7 @@ return [
 
 
     // SEO Настройки
-    'not_index_website' => true, // Если не нужно индексировать сайт, то true, если нужно, то false
+    'not_index_website' => env('NOT_INDEX_WEBSITE'), // Если не нужно индексировать сайт, то true, если нужно, то false
 
     // Перечислить те страницы, которые не нужно индексировать
     'disallow' => [

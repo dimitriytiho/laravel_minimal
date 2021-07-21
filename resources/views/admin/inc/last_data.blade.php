@@ -38,23 +38,25 @@
             <div class="card-body">
                 <div class="chop" data-columns='{!! json_encode($columns ?? [], JSON_UNESCAPED_UNICODE) !!}'>
                     @foreach($lastData as $key =>$item)
-                        @php
+                        @if($item->users)
+                            @php
 
 
-                        $data = json_decode($item->data);
-                        foreach ($columns as $column) {
-                            if (!empty($data->$column)) {
-                                $dataOld[$column] = $data->$column;
-                            }
-                        }
-                        $json = json_encode($dataOld ?? [], JSON_UNESCAPED_UNICODE);
+                                $data = json_decode($item->data);
+                                foreach ($columns as $column) {
+                                    if (!empty($data->$column)) {
+                                        $dataOld[$column] = $data->$column;
+                                    }
+                                }
+                                $json = json_encode($dataOld ?? [], JSON_UNESCAPED_UNICODE);
 
 
-                        @endphp
-                        <div class="chop_item last_data_click" data-json='{!! $json !!}'>
-                            <p class="chop_item_p">{{ $item->created_at->format(config('admin.date_format')) }}</p>
-                            <p class="chop_item_p font-weight-light">{{ $item->users->name }}</p>
-                        </div>
+                            @endphp
+                            <div class="chop_item last_data_click" data-json='{!! $json !!}'>
+                                <p class="chop_item_p">{{ $item->created_at->format(config('admin.date_format')) }}</p>
+                                <p class="chop_item_p font-weight-light">{{ $item->users->name }}</p>
+                            </div>
+                        @endif
                     @endforeach
                     <div class="chop_item js-none last_data_click_back" data-json='{!! json_encode($columnsData ?? [], JSON_UNESCAPED_UNICODE) !!}'>
                         <p class="chop_item_p">@lang('s.back')</p>

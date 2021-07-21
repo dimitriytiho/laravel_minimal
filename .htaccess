@@ -1,5 +1,5 @@
 addDefaultCharset utf-8
-ErrorDocument 500 /error.php
+ErrorDocument 500 /public/error.php
 
 RewriteEngine On
 

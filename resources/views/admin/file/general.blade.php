@@ -31,9 +31,9 @@ Breadcrumbs --}}
                         <div class="col-md-4">
                             {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
                         </div>
-                        <div class="col-md-4">
-                            {{ $form::toggle('webp', ['data-on-text' => 'save', 'data-off-text' => 'no_save'], false, null, false, __('a.webp')) }}
-                        </div>
+                        {{--<div class="col-md-4">
+                            {{ $form::toggle('webp', ['data-on-text' => 'save', 'data-off-text' => 'no_save'], true, null, false, __('a.webp')) }}
+                        </div>--}}
                     </div>
 
 
