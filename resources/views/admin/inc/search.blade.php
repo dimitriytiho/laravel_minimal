@@ -56,9 +56,9 @@
                         <div class="col-sm-2 col-xl-1 ml-0 ml-md-auto">
                             <div class="dataTables_length">
                                 <label>
-                                    <select aria-controls="quantity_pagination" class="custom-select custom-select-sm select_change" data-url="{{ route('admin.pagination') }}">
+                                    <select aria-controls="quantity_pagination" class="custom-select custom-select-sm select_change" data-url="{{ route('admin.get-session') }}" data-key="pagination">
                                         @foreach(config('admin.pagination') as $qty)
-                                            <option value="{{ $qty }}" {{ $qty == session()->has('pagination') ? ($qty == session('pagination') ? 'selected' : null) : ($qty == config('admin.pagination_default') ? 'selected' : null) }}>{{ $qty }}</option>
+                                            <option value="{{ $qty }}" {{ $qty == (session('pagination') ?: config('admin.pagination_default')) ? 'selected' : null }}>{{ $qty }}</option>
                                         @endforeach
                                     </select>
                                 </label>

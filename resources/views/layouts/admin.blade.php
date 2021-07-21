@@ -113,7 +113,7 @@ Js files --}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
 @endif
 <script>
-    var _token = '{{ session()->token() }}',
+    var _token = '{{ csrf_token() }}',
         siteName = '{{ Func::site('name') ?: ' ' }}',
         requestPath = '{{ route('admin.main') }}',
         spinner = $('#spinner'),

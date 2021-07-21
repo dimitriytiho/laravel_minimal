@@ -251,5 +251,8 @@ return [
     'old' => 'Old',
     'history_change' => 'History of change',
     'add' => 'Add',
+    'app_log' => 'Application log',
+    'activity_log' => 'Activity log',
+    'tag' => 'Tag',
 
 ];

@@ -25,6 +25,11 @@ class AdditionallyController extends AppController
     }
 
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request) {
 
         // Работа с Кэшем

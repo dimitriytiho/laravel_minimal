@@ -116,6 +116,7 @@ class Form implements FormInterface
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * Дополнительно:
      * 'label' => 'true' - чтобы показывать лэйбл,
+     * 'lang' => 'false' - чтобы не переводить options,
      * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected.
      *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
@@ -166,7 +167,9 @@ class Form implements FormInterface
                         // Disabled
                         $html .= !is_null($disabled) && $disabled == $val ? ' disabled' : null;
                         // Translation
-                        $option = Func::__($option, 'a');
+                        if (empty($attrs['lang'])) {
+                            $option = Func::__($option);
+                        }
                         // End option
                         $html .= ">{$option}</option>";
                     }

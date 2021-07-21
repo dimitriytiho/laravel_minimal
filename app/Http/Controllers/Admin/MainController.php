@@ -40,33 +40,30 @@ class MainController extends AppController
     // Записывает в куку
     public function getCookie(Request $request)
     {
-        $key = $request->query('key');
-        $val = $request->query('val');
-        if ($key && $val) {
-            return redirect()->back()->withCookie($key, $val);
+        if (csrf_token() === $request->token && $request->key && $request->val) {
+            return redirect()->back()->withCookie($request->key, $request->val);
         }
         return redirect()->back();
     }
 
 
-    public function getSlug(Request $request)
+    // Записывает в сессию
+    public function getSession(Request $request)
     {
-        if ($request->ajax()) {
-            $slug = $request->slug;
-            return App::cyrillicToLatin($slug);
+        if (csrf_token() === $request->token && $request->key && $request->val) {
+            session()->put($request->key, $request->val);
         }
-        Func::getError('Request No Ajax', __METHOD__);
+        return redirect()->back();
     }
 
 
-    public function pagination(Request $request)
+
+    public function getSlug(Request $request)
     {
-        $val = $request->input('val');
-        if ((int)$val) {
-            session()->put('pagination', (int)$val);
-            return redirect()->back();
+        if ($request->ajax()) {
+            return App::cyrillicToLatin($request->slug);
         }
-        Func::getError('Request to', __METHOD__);
+        Func::getError('Request No Ajax', __METHOD__);
     }
 
 

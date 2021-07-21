@@ -162,7 +162,7 @@ jquery-validation --}}
     {{-- Поддержка Svg из sprite во всех браузерах
     https://github.com/jonathantneal/svg4everybody --}}
 
-    var _token = '{{ session()->token() }}',
+    var _token = '{{ csrf_token() }}',
         path = '{{ route('index') }}',
         site_name = '{{ Func::site('name') ?: ' ' }}',
         site_tel = '{{ Func::site('tel') ?: ' ' }}',

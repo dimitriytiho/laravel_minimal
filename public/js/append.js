@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.select2_img').select2({
       language: 'ru',
       templateResult: function templateResult(option) {
-        return $('<span><img src="' + document.location.origin + '/' + option.text + '" class="img-size-32"> ' + option.text + '</span>');
+        return $('<span><img src="' + document.location.origin + option.text + '" class="img-size-32"> ' + option.text + '</span>');
       },
       templateSelection: function templateSelection(option) {
-        return $('<span><img src="' + document.location.origin + '/' + option.text + '" class="img-size-32" style="margin-top: -7px;"> ' + option.text + '</span>');
+        return $('<span><img src="' + document.location.origin + option.text + '" class="img-size-32" style="margin-top: -7px;"> ' + option.text + '</span>');
       }
     }); // Bootstrap Switch
 
@@ -193,16 +193,16 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   /*
    * При выборе файла, подставим его имя в input file.
-   * В класс .img_replace заменить картинку на загруженную.
+   * В класс .img_replace заменить картинку на загруженную (если он есть в теге img).
    */
-  $('input[name=img]').change(function (e) {
+  $('input[type=file]').change(function (e) {
     var name = e.target.files[0] ? e.target.files[0].name : null;
 
     if (name) {
       $(this).siblings('label').text(name);
       var path = URL.createObjectURL(e.target.files[0]);
 
-      if (path) {
+      if (path && $('img').hasClass('img_replace')) {
         $('.img_replace').attr('src', path); //$(this).closest('.row').find('.this_img_replace').attr('src', path)
       }
     }
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (url && val) {
-      window.location = url + '?val=' + val + key + id;
+      window.location = url + '?token=' + _token + '&val=' + val + key + id;
     }
   }); // При клике на .link_click делается Get запрос
 
@@ -296,10 +296,15 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var self = $(this),
         url = self.data('url'),
-        val = self.data('val');
+        val = self.data('val'),
+        id = self.data('id') || '';
+
+    if (id) {
+      id = '&id=' + id;
+    }
 
     if (url && val) {
-      window.location = url + '?val=' + val;
+      window.location = url + '?token=' + _token + '&val=' + val + id;
     }
   }); // При клике на .get_disabled добавиться атрибут disabled
 
@@ -354,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   // Маска для телефона
-  $('input[type=tel]').inputmask('+7(999)999-99-99'); // Настройки по-умолчанию
+  $('input[type=tel]').inputmask('+9(999)999-99-99'); // Настройки по-умолчанию
 
   $.validator.setDefaults({
     // Правила валидации

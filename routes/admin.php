@@ -27,7 +27,8 @@ Route::namespace($namespaceAdmin)
 
     // Website add controllers
     Route::match(['get'],'additionally', 'AdditionallyController@index')->name('additionally');
-    Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+    Route::get('activity-log', 'ActivityLogController@index')->name('activity-log');
+    Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log');
 
 
     // Add routes get
@@ -35,7 +36,7 @@ Route::namespace($namespaceAdmin)
     Route::get('delete-file', 'FileController@delete')->name('delete-file');
     Route::get('sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
     Route::get('get-cookie', 'MainController@getCookie')->name('get-cookie');
-    Route::get('pagination', 'MainController@pagination')->name('pagination');
+    Route::get('get-session', 'MainController@getSession')->name('get-session');
     Route::get('locale/{locale}', 'MainController@locale')->name('locale');
     Route::get('/', 'MainController@index')->name('main');
 

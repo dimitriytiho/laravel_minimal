@@ -70,16 +70,21 @@ class AppController extends Controller
 
         // Только внутри этой конструкции работают некоторые методы
         $this->middleware(function ($request, $next) {
+            if (auth()->check()) {
 
 
 
-            /*
-             * Разрешения ролей пользователей.
-             * Запрещение раздела, должена быть строка из сегмента URL, например http://site/page/create - значит page.
-             * При переходе пользователя с этми запрещением будет 404 ошибка.
-             */
-            if (App::canUser($request->segment(2))) {
-                Func::getError(auth()->user()->email . ' forbidden ' . $request->segment(2), __METHOD__, true, 'critical');
+                /*
+                 * Разрешения ролей пользователей.
+                 * Запрещение раздела, должена быть строка из сегмента URL, например http://site/page/create - значит page.
+                 * При переходе пользователя с этми запрещением будет 404 ошибка.
+                 */
+                if (App::canUser($request->segment(2))) {
+                    Func::getError(auth()->user()->email . ' forbidden ' . $request->segment(2), __METHOD__, true, 'critical');
+                }
+
+                // Записываем все действия пользователей
+                $this->userLog(auth()->user());
             }
 
 
@@ -95,6 +100,7 @@ class AppController extends Controller
             if (!($containAdmin || $containEnter)) {
                 session()->put('back_link_site', $previousUrl);
             }
+
 
             return $next($request);
         });
@@ -115,17 +121,13 @@ class AppController extends Controller
         $countTable = $this->tablesCount();
 
 
-        // Записываем все действия пользователей
-        //$this->userLog();
-
-
         view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
     }
 
 
 
     // Записываем все действия пользователей
-    private function userLog()
+    private function userLog($user)
     {
         // Методы, которые записываем
         $methodsLog = [
@@ -145,7 +147,7 @@ class AppController extends Controller
             if (method_exists(request()->route(), 'getActionName')) {
                 $text .= ' ' . request()->route()->getActionName();
             }
-            UserLog::save('admin', $text);
+            UserLog::save('admin', $text, $user);
         }
     }
 

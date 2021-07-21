@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (url && val) {
-            window.location = url + '?val=' + val + key + id
+            window.location = url + '?token=' + _token + '&val=' + val + key + id
         }
     })
 
@@ -32,10 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault()
         var self = $(this),
             url = self.data('url'),
-            val = self.data('val')
+            val = self.data('val'),
+            id = self.data('id') || ''
+
+        if (id) {
+            id = '&id=' + id
+        }
 
         if (url && val) {
-            window.location = url + '?val=' + val
+            window.location = url + '?token=' + _token + '&val=' + val + id
         }
     })
 

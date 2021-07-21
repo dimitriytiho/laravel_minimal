@@ -60,7 +60,7 @@ Admin LTE --}}
 <script src="{{ asset('lte/dist/js/adminlte.min.js') }}"></script>
 <script>
 
-    var _token = '{{ session()->token() }}',
+    var _token = '{{ csrf_token() }}',
         spinner = $('#spinner'),
         requestPath = '',
         spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>'

@@ -116,7 +116,8 @@ class FormAdmin implements FormInterface
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * Дополнительно:
      * 'label' => 'false' - чтобы не показывать лэйбл,
-     * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected.
+     * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected,
+     * 'lang' => 'false' - чтобы не переводить options.
      *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label показывается, если надо не показывать передать в $attrs ['label' => 'false'] false строкой, необязательный параметр.
@@ -166,7 +167,9 @@ class FormAdmin implements FormInterface
                         // Disabled
                         $html .= !is_null($disabled) && $disabled == $val ? ' disabled' : null;
                         // Translation
-                        $option = Func::__($option, 'a');
+                        if (empty($attrs['lang'])) {
+                            $option = Func::__($option, 'a');
+                        }
                         // End option
                         $html .= ">{$option}</option>";
                     }
