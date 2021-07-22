@@ -256,7 +256,7 @@ class MenuController extends AppController
 
         // Дерево элементов
         $tree = $this->info['model']::where('belong_id', $currentParent->id)
-            ->order('sort', 'asc')
+            ->order()
             ->get()
             ->toTree();
 

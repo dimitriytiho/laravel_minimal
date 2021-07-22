@@ -17,43 +17,18 @@ trait ModelScopesTrait
      */
     public function scopeActive($query)
     {
-        return $query->where('status', config('add.statuses')[1] ?: 'active');
+        return $query->where('status', config('add.statuses')[1] ?? 'active');
     }
 
 
     /**
-     * Scope сортировке по сортировке или любой другой.
+     * Scope сортировки по сортировке (меньшие кверху) и по id (большие кверху).
      *
-     * Использование ->order(), можно например ->order('title', 'asc')
-     *
-     * @param string $sort - название сортировки, по-умолчанию по сортировке, необязательный параметр.
-     * @param string $direction - напровление сортировки, по-умолчанию по asc, необязательный параметр.
+     * Использование ->order()
      */
-    public function scopeOrder($query, $sort = 'sort', $direction = 'asc')
+    public function scopeOrder($query)
     {
-        return $query->orderBy($sort, $direction)->orderBy('id', $direction);
-    }
-
-
-    /**
-     * Добавляет в запрос связь из привязанной моделе.
-     *
-     * Использование ->withActiveSort('pages') - параметром передать название связи.
-     *
-     * Scope для привязанной таблицы, с условиями:
-     * статус active,
-     * сортировка по-сортировке,
-     *
-     * @param string $type - привязанная модель.
-     */
-    public function scopeWithActiveSort($query, $type)
-    {
-        return $query->with([$type => function ($query) {
-            $query
-                ->where('status', config('add.statuses')[1] ?? 'active')
-                ->orderBy('sort')
-                ->orderBy('id');
-        }]);
+        return $query->orderBy('sort')->orderBy('id', 'desc');
     }
 
 
