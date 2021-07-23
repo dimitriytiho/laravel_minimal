@@ -76,6 +76,6 @@ class RegisterController extends Controller
         ]);
 
         // Назначаем роль пользователя
-        return $user ? $user->assignRole($this->info['model']::getRoleUser() ?? 'user') : null;
+        return $user ? $user->assignRole(User::getRoleUser() ?? 'user') : null;
     }
 }

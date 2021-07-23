@@ -25,10 +25,13 @@ trait ModelScopesTrait
      * Scope сортировки по сортировке (меньшие кверху) и по id (большие кверху).
      *
      * Использование ->order()
+     *
+     * @param string $column - колонка, по которой сортировать.
+     * @param string $direction - направление сортировки, по-умолчанию desc, может быть asc.
      */
-    public function scopeOrder($query)
+    public function scopeOrder($query, $column = 'sort', $direction = 'asc')
     {
-        return $query->orderBy('sort')->orderBy('id', 'desc');
+        return $query->orderBy($column, $direction)->orderBy('id', 'desc');
     }
 
 

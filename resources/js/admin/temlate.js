@@ -4,25 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     /*
      * При изменении select с классом .select_change делается Get запрос.
      * Записать в data-url="" url на который отправлять запрос.
+     * Записать в data-key="" ключ для url запроса.
      * Отправится значение из select.
-     * Записать в data-key="" ключ для url запроса, необязательный параметр.
      */
     $('.select_change').change(function () {
         var self = $(this),
             url = self.data('url'),
-            val = self.val(),
-            key = self.data('key') || '',
-            id = self.data('id') || ''
+            key = self.data('key'),
+            val = self.val() || ''
 
-        if (key) {
-            key = '&key=' + key
-        }
-        if (id) {
-            id = '&id=' + id
-        }
-
-        if (url && val) {
-            window.location = url + '?token=' + _token + '&val=' + val + key + id
+        if (url && key) {
+            window.location = url + '?token=' + _token + '&key=' + key + '&val=' + val
         }
     })
 
