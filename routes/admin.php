@@ -22,7 +22,7 @@ Route::namespace($namespaceAdmin)
     ->name('admin.')
 
     // Проверяем: 1. Пользователь авторизирован. 2. У пользователя роль с доступом к админ панели. 3. У пользователя есть разрешение к текущему классу.
-    ->middleware(['auth', 'role:' . implode('|', User::getRolesAdminPanel()), 'can:' . (request()->segment(2) ?: 'main')])
+    ->middleware(['auth', 'role:' . implode('|', User::getRolesAdminPanel()), 'can:' . request()->segment(2)])
     ->group(function () {
 
 
@@ -45,14 +45,14 @@ Route::namespace($namespaceAdmin)
 
 
     // Add routes get
-    Route::get('delete-img', 'FileController@deleteImg')->name('delete-img');
-    Route::get('delete-file', 'FileController@delete')->name('delete-file');
-    Route::get('sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
-    Route::get('get-cookie', 'MainController@getCookie')->name('get-cookie');
-    Route::get('get-session', 'MainController@getSession')->name('get-session');
-    Route::get('locale/{locale}', 'MainController@locale')->name('locale');
-    Route::get('/', 'MainController@index')->name('main');
+    Route::get('file/delete-img', 'FileController@deleteImg')->name('delete-img');
+    Route::get('file/delete-file', 'FileController@delete')->name('delete-file');
+    Route::get('main/sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
+    Route::get('main/get-cookie', 'MainController@getCookie')->name('get-cookie');
+    Route::get('main/get-session', 'MainController@getSession')->name('get-session');
+    Route::get('main/locale/{locale}', 'MainController@locale')->name('locale');
+    Route::get('main', 'MainController@index')->name('main');
 
     // Add routes post
-    Route::post('get-slug', 'MainController@getSlug')->name('get-slug');
+    Route::post('main/get-slug', 'MainController@getSlug')->name('get-slug');
 });
