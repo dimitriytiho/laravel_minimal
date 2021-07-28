@@ -28,8 +28,8 @@ class PageController extends AppController
 
     public function show($slug)
     {
-        // Если пользователя есть разрешение к админскому классу, то будут показываться неактивные страницы
-        if (auth()->check() && auth()->user()->hasRole(User::getRoleAdmin())) {
+        // Если пользователя есть разрешение к админ панели и к этому классу, то будут показываться неактивные страницы
+        if (auth()->check() && auth()->user()->hasRole(User::getRolesAdminPanel()) && auth()->user()->can($this->info['snake'])) {
 
             $values = $this->info['model']::whereSlug($slug)
                 ->firstOrFail();

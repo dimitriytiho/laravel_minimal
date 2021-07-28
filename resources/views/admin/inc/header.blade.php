@@ -46,7 +46,7 @@
                 <i class="fas fa-user"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a {{ auth()->user()->hasRole(\App\Models\User::getRoleAdmin()) ? 'href=' . route('admin.user.edit', auth()->user()->id) : null }} class="dropdown-item">
+                <a {{ auth()->user()->can('user') ? 'href=' . route('admin.user.edit', auth()->user()->id) : null }} class="dropdown-item">
                     <div class="media">
                         <img src="{{ asset(auth()->user()->img ?? config('add.imgDefault')) }}" alt="{{ auth()->user()->name }}" class="img-size-50 mr-3 img-circle">
                         <div class="media-body">

@@ -72,21 +72,34 @@ class User extends Authenticatable
     }
 
 
-    // Возвращает имя роли User
+    // ВНИМАНИЕ! Название ролей должны быть: admin, editor, user
+    /**
+     *
+     * @return string
+     * Возвращает имя роли User.
+     */
     public static function getRoleUser()
     {
         return 'user';
     }
 
 
-    // Возвращает имена ролей с доступом в admin панель, перечислить роли в массиве
+    /**
+     *
+     * @return array
+     * Возвращает имена ролей с доступом в admin панель, перечислить роли в массиве.
+     */
     public static function getRolesAdminPanel()
     {
         return ['admin', 'editor'];
     }
 
 
-    // Возвращает имя роли Admin
+    /**
+     *
+     * @return string
+     * Возвращает имя роли Admin.
+     */
     public static function getRoleAdmin()
     {
         return 'admin';

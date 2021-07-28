@@ -192,8 +192,8 @@ jquery-validation --}}
 {{--
 
 
-Все счётчики для сайта поместить в этот файл, не показываем на локальной машине и для админов --}}
-@if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(User::getRoleAdmin())))
+Все счётчики для сайта поместить в этот файл, не показываем на локальной машине и для пользователей с доступом к админ панели --}}
+@if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(User::getRolesAdminPanel())))
     @include('inc.analytics')
 @endif
 </body>

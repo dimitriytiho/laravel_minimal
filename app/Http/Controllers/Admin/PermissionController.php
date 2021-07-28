@@ -17,17 +17,6 @@ class PermissionController extends AppController
         $this->info['model'] = '\Spatie\Permission\Models\Permission';
         $this->info['table'] = 'permissions';
 
-
-        $this->middleware(function ($request, $next) {
-
-            // Если пользователь не Admin или у него нет разрешения на данный Class, то ошибка
-            if (!auth()->user()->hasRole($this->adminRoleName) && auth()->user()->hasAnyPermission([$this->info['class']])) {
-                return redirect()->back()->withErrors(__('s.action_is_not_available'));
-            }
-
-            return $next($request);
-        });
-
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');

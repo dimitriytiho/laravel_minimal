@@ -68,39 +68,17 @@ class AppController extends Controller
         });
 
 
-        // Только внутри этой конструкции работают некоторые методы
+        // Только внутри этой конструкции работают методы авторизированного пользователя
         $this->middleware(function ($request, $next) {
-            if (auth()->check()) {
 
-
-
-                /*
-                 * Разрешения ролей пользователей.
-                 * Запрещение раздела, должена быть строка из сегмента URL, например http://site/page/create - значит page.
-                 * При переходе пользователя с этми запрещением будет 404 ошибка.
-                 */
-                if (App::canUser($request->segment(2))) {
-                    Func::getError(auth()->user()->email . ' forbidden ' . $request->segment(2), __METHOD__, true, 'critical');
-                }
-
-                // Записываем все действия пользователей
-                $this->userLog(auth()->user());
-            }
-
+            // Записываем все действия пользователей
+            $this->userLog(auth()->user());
 
             // Устанавливаем локаль
             Locale::setLocaleFromCookie($request);
 
-
-            // Сохраняем в сессию страницу с которой пользователь перешёл в админку
-            $previousUrl = url()->previous();
-            $containAdmin = Str::is('*' . config('add.admin') . '*', $previousUrl);
-            $containEnter = Str::is('*' . config('add.enter') . '*', $previousUrl);
-            // Если url не содержит админский префикс
-            if (!($containAdmin || $containEnter)) {
-                session()->put('back_link_site', $previousUrl);
-            }
-
+            // Сохраняем в сессию страницу с которой пользователь перешёл в админ панель
+            $this->savePreviousUrl();
 
             return $next($request);
         });
@@ -123,6 +101,7 @@ class AppController extends Controller
 
         view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
     }
+
 
 
 
@@ -150,7 +129,6 @@ class AppController extends Controller
             UserLog::save('admin', $text, $user);
         }
     }
-
 
 
     // Кол-во элементов в таблицах
@@ -193,5 +171,23 @@ class AppController extends Controller
             $countTable['orderNew'] = DB::table('orders')->whereNull('deleted_at')->whereStatus(config('shop.order_statuses')[0] ?? 'new')->count();
         }
         return $countTable ?? [];
+    }
+
+
+    /**
+     *
+     * @return void
+     *
+     * Сохраняем в сессию страницу с которой пользователь перешёл в админ панель.
+     */
+    private function savePreviousUrl()
+    {
+        $previousUrl = url()->previous();
+        $containAdmin = Str::is('*' . config('add.admin') . '*', $previousUrl);
+        $containEnter = Str::is('*' . config('add.enter') . '*', $previousUrl);
+        // Если url не содержит админский префикс
+        if (!($containAdmin || $containEnter)) {
+            session()->put('back_link_site', $previousUrl);
+        }
     }
 }

@@ -2,14 +2,27 @@
 
 use App\Models\User;
 
-$namespaceAdmin = config('add.controllers') . '\\Admin';
+$namespace = config('add.controllers');
+$namespaceAdmin = $namespace . '\\Admin';
+
+
+// Роуты для страницы входа в админ панель
+/*Route::namespace($namespace)->name(env('APP_ENTER'))->group(function () {
+    $keyRoute = env('APP_ENTER') . '/' . Func::site('key_admin');
+
+    Route::get($keyRoute, 'Admin\EnterController@index');
+    Route::post($keyRoute, 'Admin\EnterController@login')->name('_post');
+
+});*/
 
 
 // Роуты для админки
 Route::namespace($namespaceAdmin)
     ->prefix(config('add.admin', 'dashboard'))
     ->name('admin.')
-    ->middleware(['auth', 'role:' . User::getRoleAdmin()])
+
+    // Проверяем: 1. Пользователь авторизирован. 2. У пользователя роль с доступом к админ панели. 3. У пользователя есть разрешение к текущему классу.
+    ->middleware(['auth', 'role:' . implode('|', User::getRolesAdminPanel()), 'can:' . (request()->segment(2) ?: 'main')])
     ->group(function () {
 
 

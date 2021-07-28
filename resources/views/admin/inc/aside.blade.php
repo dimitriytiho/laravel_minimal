@@ -53,7 +53,7 @@
 
                         Не покажем элемент меню, если не админ --}}
                         @continue(
-                            auth()->user()->can(Str::snake($item->class))
+                            !auth()->user()->can(Str::snake($item->class))
                             //!auth()->user()->hasRole($adminRoleName) && auth()->user()->hasAnyPermission([$item->class])
                             //!auth()->user()->hasRole($adminRoleName) && Str::contains($item->class, ['Log'])
                         )
@@ -99,7 +99,7 @@
 
                                         Не покажем элемент меню, если не админ --}}
                                         @continue(
-                                            auth()->user()->can(Str::snake($child->class))
+                                            !auth()->user()->can(Str::snake($child->class))
                                             //!auth()->user()->hasRole($adminRoleName) && auth()->user()->hasAnyPermission([$child->class])
                                             //!auth()->user()->hasRole($adminRoleName) && Str::contains($child->class, ['Log'])
                                         )
