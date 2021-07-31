@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Providers\AuthServiceProvider;
 use App\Support\Admin\App;
 use App\Support\{Func, UserLog};
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -62,7 +63,7 @@ class AppController extends Controller
         $dbSort = $this->dbSort = "{$this->namespaceSupport}\\DbSort";
         $this->pagination = config('admin.pagination_default');
         $this->paginationQty = config('admin.pagination');
-        $adminRoleName = $this->adminRoleName = User::getRoleAdmin();
+        $adminRoleName = $this->adminRoleName = AuthServiceProvider::ROLE_ADMIN;
         $this->adminRoleId = cache()->rememberForever('admin_role_id', function () {
             return DB::table('roles')->whereName($this->adminRoleName)->value('id');
         });

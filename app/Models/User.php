@@ -70,38 +70,4 @@ class User extends Authenticatable
         $this->ip = request()->ip();
         $this->update();
     }
-
-
-    // ВНИМАНИЕ! Название ролей должны быть: admin, editor, user
-    /**
-     *
-     * @return string
-     * Возвращает имя роли User.
-     */
-    public static function getRoleUser()
-    {
-        return 'user';
-    }
-
-
-    /**
-     *
-     * @return array
-     * Возвращает имена ролей с доступом в admin панель, перечислить роли в массиве.
-     */
-    public static function getRolesAdminPanel()
-    {
-        return ['admin', 'editor'];
-    }
-
-
-    /**
-     *
-     * @return string
-     * Возвращает имя роли Admin.
-     */
-    public static function getRoleAdmin()
-    {
-        return 'admin';
-    }
 }

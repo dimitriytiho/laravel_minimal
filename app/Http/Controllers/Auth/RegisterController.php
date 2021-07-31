@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -76,6 +77,6 @@ class RegisterController extends Controller
         ]);
 
         // Назначаем роль пользователя
-        return $user ? $user->assignRole(User::getRoleUser() ?? 'user') : null;
+        return $user ? $user->assignRole(AuthServiceProvider::ROLE_USER) : null;
     }
 }
