@@ -193,7 +193,7 @@ jquery-validation --}}
 
 
 Все счётчики для сайта поместить в этот файл, не показываем на локальной машине и для пользователей с доступом к админ панели --}}
-@if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(\App\Providers\AuthServiceProvider::ROLES_ADMIN_PANEL)))
+@if(!(app()->environment() !== 'production' || auth()->check() && auth()->user()->hasRole(\App\Services\Auth\Role::ADMIN_PANEL_NAMES)))
     @include('inc.analytics')
 @endif
 </body>

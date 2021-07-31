@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\Auth\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -77,6 +78,6 @@ class RegisterController extends Controller
         ]);
 
         // Назначаем роль пользователя
-        return $user ? $user->assignRole(AuthServiceProvider::ROLE_USER) : null;
+        return $user ? $user->assignRole(Role::USER_NAME) : null;
     }
 }

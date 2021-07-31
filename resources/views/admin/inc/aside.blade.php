@@ -5,7 +5,7 @@
 
 
     // Имя роли Admin
-    $adminRoleName = \App\Providers\AuthServiceProvider::ROLE_ADMIN;
+    $adminRoleName = \App\Services\Auth\Role::ADMIN_NAME;
 
     // Левое меню, получаем по belong_id = 2  и кэшируем
     $leftMenu = cache()->rememberForever('admin_left_menu', function () {

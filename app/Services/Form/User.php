@@ -5,7 +5,7 @@ namespace App\Services\Form;
 
 use App\Mail\SendMail;
 use App\Models\LastData;
-use App\Providers\AuthServiceProvider;
+use App\Services\Auth\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User as UserModel;
 use Illuminate\Support\Str;
@@ -36,8 +36,8 @@ class User
         // Если пользователь существует
         if ($issetUser) {
 
-            // Для Admin не обновляем пароль
-            if (request()->password && !$issetUser->hasRole(AuthServiceProvider::ROLES_ADMIN_PANEL)) {
+            // Для пользователей админ панели не обновляем пароль
+            if (request()->password && !$issetUser->hasRole(Role::ADMIN_PANEL_NAMES)) {
                 $data['password'] = Hash::make(request()->password);
             }
 
@@ -68,7 +68,7 @@ class User
             $user->save();
 
             // По умолчанию добавим роль User
-            $user->assignRole(AuthServiceProvider::ROLE_USER);
+            $user->assignRole(Role::USER_NAME);
 
             // Отправить письмо о регистрации пользователя
             $body = html()->element('p')->text('Login: ' . $user->email);

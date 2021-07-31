@@ -1,6 +1,6 @@
 <?php
 
-use App\Providers\AuthServiceProvider;
+use App\Services\Auth\Role;
 
 $namespace = config('add.controllers');
 $namespaceAdmin = $namespace . '\\Admin';
@@ -22,7 +22,7 @@ Route::namespace($namespaceAdmin)
     ->name('admin.')
 
     // Проверяем: 1. Пользователь авторизирован. 2. У пользователя роль с доступом к админ панели. 3. У пользователя есть разрешение к текущему классу.
-    ->middleware(['auth', 'role:' . implode('|', AuthServiceProvider::ROLES_ADMIN_PANEL), 'can:' . request()->segment(2)])
+    ->middleware(['auth', 'role:' . implode('|', Role::ADMIN_PANEL_NAMES), 'can:' . request()->segment(2)])
     ->group(function () {
 
 

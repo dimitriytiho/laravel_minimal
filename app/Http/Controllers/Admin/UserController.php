@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Providers\AuthServiceProvider;
+use App\Services\Auth\Role;
 use App\Support\Admin\Img;
 use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -159,7 +159,7 @@ class UserController extends AppController
         } else {
 
             // Назначим роль User по-умолчанию
-            $values->assignRole(AuthServiceProvider::ROLE_USER);
+            $values->assignRole(Role::USER_NAME);
         }
 
         // Разрешения

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Providers\AuthServiceProvider;
 use Illuminate\Http\Request;
+use App\Services\Auth\Role;
 
 class PageController extends AppController
 {
@@ -30,7 +29,7 @@ class PageController extends AppController
     public function show($slug)
     {
         // Если пользователя есть разрешение к админ панели и к этому классу, то будут показываться неактивные страницы
-        if (auth()->check() && auth()->user()->hasRole(AuthServiceProvider::ROLES_ADMIN_PANEL) && auth()->user()->can($this->info['snake'])) {
+        if (auth()->check() && auth()->user()->hasRole(Role::ADMIN_PANEL_NAMES) && auth()->user()->can($this->info['snake'])) {
 
             $values = $this->info['model']::whereSlug($slug)
                 ->firstOrFail();
