@@ -1,11 +1,10 @@
 <?php
 
 
-namespace App\Services\Form;
+namespace App\Services\Auth;
 
 use App\Mail\SendMail;
 use App\Models\LastData;
-use App\Services\Auth\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User as UserModel;
 use Illuminate\Support\Str;
@@ -15,8 +14,10 @@ class User
     /**
      *
      * @return \App\Models\User object
+     * Возвращает объект пользователя.
      *
-     * Создадим или сохраним данные пользователя, например при заполнении формы.
+     * Создадим или сохраним данные пользователя (если пользователь существует), например при заполнении формы.
+     * Используем объект Request: name, email, tel, address, accept, password.
      */
     public static function saveUser()
     {
@@ -49,11 +50,13 @@ class User
                 $issetUser->restore();
             }
 
+            // Заполняем модель новыми данными
             $issetUser->fill($data);
 
             // Статус повторно
             $issetUser->status = config('add.user_statuses')['1'] ?? 'info';
 
+            // Обновим пользователя
             $issetUser->update();
             return $issetUser;
 
@@ -64,7 +67,11 @@ class User
 
             // Создадим нового пользователя
             $user = app()->make(UserModel::class);
+
+            // Заполняем модель новыми данными
             $user->fill($data);
+
+            // Сохраним пользователя
             $user->save();
 
             // По умолчанию добавим роль User
