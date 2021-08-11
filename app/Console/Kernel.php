@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Support\Seo;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -34,7 +35,7 @@ class Kernel extends ConsoleKernel
          * cd ~/site.ru/public_html && /usr/local/bin/php7.3 artisan schedule:run >> /dev/null 2>&1
          */
 
-        // Если продакшин
+        // Если продакшн
         /*if (app()->environment() === 'production') {
 
             // Запустить Job каждые 5 минут
@@ -48,6 +49,7 @@ class Kernel extends ConsoleKernel
         // Запустить метод (в первый день месяца)
         /*$schedule->call(function () {
             // Указать метод
+            Seo::getUpload();
         })->monthlyOn(1, '04:00');*/
     }
 

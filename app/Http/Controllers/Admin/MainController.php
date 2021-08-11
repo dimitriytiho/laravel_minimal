@@ -43,7 +43,7 @@ class MainController extends AppController
         if (csrf_token() === $request->token && $request->key) {
             return redirect()->back()->withCookie($request->key, $request->val);
         }
-        return redirect()->back();
+        return back();
     }
 
 
@@ -53,7 +53,17 @@ class MainController extends AppController
         if (csrf_token() === $request->token && $request->key) {
             session()->put($request->key, $request->val);
         }
-        return redirect()->back();
+        return back();
+    }
+
+
+    // Добавить в URL get параметр
+    public function getUrl(Request $request)
+    {
+        if (csrf_token() === $request->token && $request->key) {
+            return redirect(strtok(url()->previous(), '?') . '?' . http_build_query([$request->key => $request->val]));
+        }
+        return back();
     }
 
 

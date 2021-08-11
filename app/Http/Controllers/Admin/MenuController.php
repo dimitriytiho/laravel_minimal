@@ -101,8 +101,11 @@ class MenuController extends AppController
         // Если в родительской таблице нет элементов, то ничего нельзя добавить
         if ($currentParent) {
 
+            // Формируем часть запроса перед поиском
+            $values = $this->info['model']::where('belong_id', $currentParent->id);
+
             // Метод для поиска и сортировки запроса БД
-            $values = $this->dbSort::getSearchSort($queryArr, $get, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination, 'belong_id', $currentParent->id);
+            $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $values, $this->info['view'], $this->pagination);
         }
 
         // Название вида

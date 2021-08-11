@@ -18,18 +18,20 @@ class DbSort
      * @param string $queryArr - колонки для поиска.
      * @param array $get - Get параметры из запроса.
      * @param string $table - название таблицы.
-     * @param string $model - название модели.
+     * @param string|object $model - название модели или часть запроса (объектом).
+     * @param string $view - название вида.
      * @param string $view - название вида.
      * @param int|string $perPage - кол-во для пагинации, если в сессии есть кол-во (session('pagination')), то в первую очередь возьмётся оттуда.
      * @param string $whereColumn - дополнительное условие выборки, название колонки, необязательный параметр.
      * @param string $whereValue - дополнительное условие выборки, значение колонки, необязательный параметр.
-     * @param string $withModelMethod - передать название связанного метода из модели, необязательный параметр.
+     * @param string|array $withModelMethod - передать связанный метод из модели, необязательный параметр, возможно несколько массивом.
      */
-    public static function getSearchSort(array $queryArr, $get, $table, $model, $view, $perPage, $whereColumn = null, $whereValue = null, $withModelMethod = null)
+    public static function getSearchSort(array $queryArr, $table, $model, $view, $perPage, $withModelMethod = null)
     {
+        $get = request()->query();
         $col = $get['col'] ?? null;
         $cell = $get['cell'] ?? null;
-        $perPage = session()->has('pagination') ? session('pagination') : $perPage;
+        $perPage = session('pagination') ?: $perPage;
 
         // Если в запросе есть обратная косая черта, то добавляем ещё одну для корректного поиска
         if (Str::contains($cell, '\\')) {
@@ -45,10 +47,9 @@ class DbSort
             session()->put("admin_sort.{$view}.{$columnSort}", $order);
         }
 
-        // Если передаётся через Get сортировка, то проверим есть ли такая колонка в таблице
-        $get = request()->query();
-        if ($get) {
 
+        // Если передаётся через Get сортировка, то проверим есть ли такая колонка в таблице
+        if ($get) {
             $columnSortGet = key($get);
             if (Schema::hasColumn($table, $columnSortGet)) {
 
@@ -67,66 +68,55 @@ class DbSort
         }
 
 
-        // Если нужно дополнительное условие выборки
-        if ($whereColumn && $whereValue) {
 
-            // Если есть строка поиска
-            if ($col && in_array($col, $queryArr)) {
-                $values = $model::where($whereColumn, $whereValue)
-                    ->where($col, 'LIKE', "%{$cell}%")
-                    ->orderBy($columnSort, $order);
+        // ФОРМИРУЕМ ЗАПРОС
+        // Если название модели строкой, то сформируем запрос
+        if (is_string($model)) {
+            $values = $model::query();
+        } else {
+            $values = $model;
+        }
 
-            // Иначе выборка всех элементов из БД
-            } else {
 
-                // Если есть связанная таблица
-                if ($withModelMethod) {
-                    $values = $model::with($withModelMethod)
-                        ->where($whereColumn, $whereValue)
-                        ->orderBy($columnSort, $order);
+        // Если есть строка поиска
+        if ($col && in_array($col, $queryArr) && $cell) {
 
-                } else {
-
-                    $values = $model::where($whereColumn, $whereValue)
-                        ->orderBy($columnSort, $order);
-                }
+            // Если есть связанная таблица
+            if ($withModelMethod) {
+                $values = $values->with($withModelMethod);
             }
+            $values = $values->where($col, 'LIKE', "%{$cell}%");
 
+
+        // Иначе выборка всех элементов из БД
         } else {
 
-            // Если есть строка поиска
-            if ($col && in_array($col, $queryArr) && $cell) {
-
-                // Если есть связанная таблица
-                if ($withModelMethod) {
-                    $values = $model::with($withModelMethod)
-                        ->where($col, 'LIKE', "%{$cell}%")
-                        ->orderBy($columnSort, $order);
-
-                } else {
-                    $values = $model::where($col, 'LIKE', "%{$cell}%")
-                        ->orderBy($columnSort, $order);
-                }
-
-
-            // Иначе выборка всех элементов из БД
-            } else {
-
-                // Если есть связанная таблица
-                if ($withModelMethod) {
-                    $values = $model::with($withModelMethod)
-                        ->orderBy($columnSort, $order);
-
-                } else {
-
-                    $values = $model::orderBy($columnSort, $order);
-                }
+            // Если есть связанная таблица
+            if ($withModelMethod) {
+                $values = $values->with($withModelMethod);
             }
         }
 
-        // Если есть колонка status
-        if (Schema::hasColumn($table, 'status')) {
 
+        // Если есть колонка status в таблице, то можем показать только со статусом removed.
+        $values = self::remoteMode($table, $values);
+
+        // Возвращаем объект с сортировкой и пагинацией
+        return $values->orderBy($columnSort, $order)->paginate($perPage);
+    }
+
+
+    /**
+     *
+     * @return object
+     * Показать элементы со статусом removed, возвращает объект.
+     *
+     * @param string $table - название таблицы.
+     * @param object $values - сырой объект.
+     */
+    private static function remoteMode($table, $values)
+    {
+        if (Schema::hasColumn($table, 'status')) {
 
             // Показывать удалённые элементы
             $remoteMode = Func::site('remote_mode');
@@ -139,8 +129,7 @@ class DbSort
                 $values = $values->where('status', '!=', $statusRemoved);
             }
         }
-
-        return $values->paginate($perPage);
+        return $values;
     }
 
 

@@ -30,7 +30,7 @@ Breadcrumbs --}}
                     </div>
                 @endif
                 @if(!empty($users))
-                    <div class="col-md-3 col-sm-4 mb-2">
+                    <div class="col-md-2 col-sm-3 mb-2">
                         {{ $form::select('users', $users, [
                             'label' => 'false',
                             'lang' => 'false',
@@ -51,17 +51,8 @@ Breadcrumbs --}}
                         ], session('log_tag')) }}
                     </div>
                 @endif
-                @if(config('admin.pagination'))
-                    <div class="col-sm-2 col-xl-1 ml-0 ml-md-auto">
-                        {{ $form::select('tags', config('admin.pagination'), [
-                            'label' => 'false',
-                            'lang' => 'false',
-                            'class' => 'custom-select custom-select-sm select_change',
-                            'data-url' => route('admin.get-session'),
-                            'data-key' => 'pagination'
-                        ], session('pagination') ?: config('admin.pagination_default')) }}
-                    </div>
-                @endif
+
+                @include('admin.inc.search_pagination')
             </div>
 
             @if($values->isNotEmpty())
@@ -72,6 +63,7 @@ Breadcrumbs --}}
                             <th scope="col">@lang('a.tag')</th>
                             <th scope="col">@lang('a.description')</th>
                             <th scope="col">@lang('a.created_at')</th>
+                            <th scope="col">@lang('a.id')</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -80,6 +72,7 @@ Breadcrumbs --}}
                                 <td>{{ $item->log_name }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->created_at->format(config('admin.date_format')) }}</td>
+                                <td>{{ $item->id }}</td>
                             </tr>
                         @endforeach
                         </tbody>

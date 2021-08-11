@@ -50,6 +50,7 @@ Route::namespace($namespaceAdmin)
     Route::get('main/sidebar-mini', 'MainController@sidebarMini')->name('sidebar-mini');
     Route::get('main/get-cookie', 'MainController@getCookie')->name('get-cookie');
     Route::get('main/get-session', 'MainController@getSession')->name('get-session');
+    Route::get('main/get-url', 'MainController@getUrl')->name('get-url');
     Route::get('main/locale/{locale}', 'MainController@locale')->name('locale');
     Route::get('main', 'MainController@index')->name('main');
 

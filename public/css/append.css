@@ -66,6 +66,7 @@ $value - какое свойство анимировать, по-умолчан
 */
 .filter-icons .active {
   color: #343a40;
+  cursor: default;
 }
 .filter-icons i {
   font-size: 10px;

@@ -36,7 +36,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -80,7 +80,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -132,7 +132,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -214,7 +214,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -265,7 +265,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -328,7 +328,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
@@ -373,7 +373,7 @@ class FormAdmin implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
-            // Обновим $attrs удалив из него лишнии элемены
+            // Обновим $attrs удалив из него лишние элементы
             $attrs = self::updateAttr($attrs, ['id']);
 
             // Placeholder
