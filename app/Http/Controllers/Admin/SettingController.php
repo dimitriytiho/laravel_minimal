@@ -105,7 +105,7 @@ class SettingController extends AppController
             $data['value'] = empty($data['value']) ? '0' : '1';
         }
 
-        // Создаём экземкляр модели
+        // Создаём экземпляр модели
         $values = app()->make($this->info['model']);
 
         // Заполняем модель новыми данными

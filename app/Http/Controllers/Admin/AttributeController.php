@@ -119,7 +119,7 @@ class AttributeController extends AppController
         // Checkbox сохраним 1 или 0
         $data['default'] = empty($data['default']) ? '0' : '1';
 
-        // Создаём экземкляр модели
+        // Создаём экземпляр модели
         $values = app()->make($this->info['model']);
 
         // Заполняем модель новыми данными

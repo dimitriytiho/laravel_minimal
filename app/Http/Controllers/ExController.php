@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class ExController extends Controller
 {
-    private $code = 'edwg5waiggixioft'; // Написать код в обих сайтах, который будет передаваться в параметр URL
+    private $code = 'edwg5waiggixioft'; // Написать код в обоих сайтах, который будет передаваться в параметр URL
 
 
     /**
@@ -34,7 +34,7 @@ class ExController extends Controller
      *
      * @return string JSON
      * Получает данные.
-     * Если нужно изменить название моделе, то передать название в гет параметре model.
+     * Если нужно изменить название модели, то передать название в гет параметре model.
      * http://127.0.0.1:8000/ex/get/edwg5waiggixioft/site.ru/pages
      *
      * @param string $code_enter - передать определённый код в $code.
@@ -67,7 +67,7 @@ class ExController extends Controller
 
                         // Если есть модель
                         if (File::exists($modelsPath . "/{$model}.php")) {
-                            // Создаём экземкляр модели
+                            // Создаём экземпляр модели
                             $values = app()->make(config('add.models') . '\\' . $model);
 
                             // Заполняем модель новыми данными

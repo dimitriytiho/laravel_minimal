@@ -182,7 +182,7 @@ class Img
      *
      * Возвращает название картинки Webp, если она есть, если её нет.
      *
-     * @param string $imagePublicPath - путь с название обычной картинки.
+     * @param string $imagePublicPath - путь с названием обычной картинки.
      * Название картинки Webp должно быть одинаково с обычной картинкой.
      */
     public static function getWebp($imagePublicPath)

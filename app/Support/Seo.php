@@ -37,7 +37,7 @@ class Seo
      * Настройки в файле config/add.php:
      * list_of_information_block.tables - список таблиц информационных блоков, у таблиц в структуре БД должны быть статусы как в массиве statuses, этого же файла.
      * list_of_information_block.routes - имена маршрутов из /routes/web.php, маршруты должны быть именованные, очерёдность должна быть как в массиве tables.
-     * list_pages_for_sitemap_no_db.items - список страниц, которые нужно добавить в sitemap, которых нет в БД.
+     * list_pages_for_sitemap_no_db.items - список страниц, которые нужно добавить в sitemap и их нет в БД.
      * list_pages_for_sitemap_no_db.routes - имена маршрутов из /routes/web.php, маршруты должны быть именованные.
      */
     public static function sitemap()

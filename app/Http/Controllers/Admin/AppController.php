@@ -30,7 +30,7 @@ class AppController extends Controller
     protected $belongTable;
     protected $belongRoute;
 
-    // Для указание методов из моделей, для удобной реализации связей
+    // Для указания методов из моделей, для удобной реализации связей
     protected $relatedManyToManyEdit = [];
     protected $relatedManyToManyDelete = [];
 

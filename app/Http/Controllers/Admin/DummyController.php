@@ -93,7 +93,7 @@ class DummyController extends AppController
         $request->validate($rules);
         $data = $request->all();
 
-        // Создаём экземкляр модели
+        // Создаём экземпляр модели
         $values = app()->make($this->info['model']);
 
         // Заполняем модель новыми данными

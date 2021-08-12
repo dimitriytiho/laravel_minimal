@@ -5,13 +5,13 @@ namespace App\Traits;
 
 
 /*
- * Здесь дополнительные методы, что добавить в Eloquent ORM новый команды.
- * Для использования наследовать этот trait в моделе.
+ * Здесь дополнительные методы, чтобы добавить в Eloquent ORM новые команды.
+ * Для использования наследовать этот trait в модели.
  */
 trait ModelScopesTrait
 {
     /**
-     * Scope для элементов с статусом active.
+     * Scope для элементов со статусом active.
      *
      * Использование ->active()
      */
@@ -52,7 +52,7 @@ trait ModelScopesTrait
     /**
      *
      * @return array
-     * Возращает колонки данной модели.
+     * Возвращает колонки данной модели.
      */
     public function getTableColumns()
     {

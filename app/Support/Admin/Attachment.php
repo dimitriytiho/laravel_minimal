@@ -12,7 +12,7 @@ class Attachment
      *
      * @return string
      *
-     * Возращает html preview файла, в зависимости от разрешения файла.
+     * Возвращает html preview файла, в зависимости от разрешения файла.
      *
      * @param object $attachment - объект файла класса File обязательно.
      */
@@ -50,7 +50,7 @@ class Attachment
      *
      * @return string
      *
-     * Возращает html.
+     * Возвращает html.
      * @param object $attachment - объект файла класса File обязательно.
      * @param string $ext - разрешение файла.
      */
@@ -78,7 +78,7 @@ class Attachment
      *
      * @return string
      *
-     * Возращает html иконки Fontawesome.
+     * Возвращает html иконки Fontawesome.
      *
      * @param object $attachment - объект файла класса File обязательно.
      * @param string $ext - разрешение файла.
