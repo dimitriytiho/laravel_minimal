@@ -220,21 +220,23 @@ class UserController extends AppController
 
 
         // Если есть связанные элементы, то получаем их
-        /*$all = [];
+        $all = [];
         if ($this->relatedManyToManyEdit) {
             foreach ($this->relatedManyToManyEdit as $related) {
                 if (!empty($related[0]) && !empty($related[2]) && !empty($related[3])) {
                     if (Schema::hasColumns($related[0], [$related[2], $related[3]])) {
+                        $all[$related[0]] = DB::table($related[0]);
                         if (Schema::hasColumn($related[0], 'deleted_at')) {
-                            $all[$related[0]] = DB::table($related[0])->whereNull('deleted_at');
-                        } else {
-                            $all[$related[0]] = DB::table($related[0]);
+                            $all[$related[0]] = $all[$related[0]]->whereNull('deleted_at');
+                        }
+                        if (Schema::hasColumn($related[0], 'status')) {
+                            $all[$related[0]] = $all[$related[0]]->whereStatus($this->active);
                         }
                         $all[$related[0]] = $all[$related[0]]->pluck($related[3], $related[2]);
                     }
                 }
             }
-        }*/
+        }
 
         return view($view, compact('title', 'values', 'roles', 'permissions'));
     }

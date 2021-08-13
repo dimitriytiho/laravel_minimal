@@ -142,33 +142,38 @@ class AppController extends Controller
             'pages',
             'users',
         ];
+        if ($tablesCountCache) {
+            $countTable = cache()->rememberForever('admin_tables_count', function () use ($tablesCountCache) {
+                $res = [];
+                foreach ($tablesCountCache as $table) {
+                    if (Schema::hasTable($table)) {
+                        $res[$table] = DB::table($table);
+                        if (Schema::hasColumn($table, 'deleted_at')) {
+                            $res[$table] = $res[$table]->whereNull('deleted_at');
+                        }
+                        $res[$table] = $res[$table]->count();
+                    }
+                }
+                return $res;
+            });
+        }
         if ($tablesCount) {
             foreach ($tablesCount as $table) {
                 if (Schema::hasTable($table)) {
+                    $countTable[$table] = DB::table($table);
                     if (Schema::hasColumn($table, 'deleted_at')) {
-                        $countTable[$table] = DB::table($table)->whereNull('deleted_at')->count();
-                    } else {
-                        $countTable[$table] = DB::table($table)->count();
+                        $countTable[$table] = $countTable[$table]->whereNull('deleted_at');
                     }
+                    $countTable[$table] = $countTable[$table]->count();
                 }
             }
         }
-        if ($tablesCountCache) {
-            foreach ($tablesCountCache as $table) {
-                if (Schema::hasTable($table)) {
-                    $countTable[$table] = cache()->rememberForever("admin_{$table}_count", function () use ($table) {
-                        if (Schema::hasColumn($table, 'deleted_at')) {
-                            return DB::table($table)->whereNull('deleted_at')->count();
-                        } else {
-                            return DB::table($table)->count();
-                        }
-                    });
-                }
-            }
-        }
-        if (Schema::hasTable('orders')) {
-            $countTable['orderNew'] = DB::table('orders')->whereNull('deleted_at')->whereStatus(config('shop.order_statuses')[0] ?? 'new')->count();
-        }
+        /*if (Schema::hasTable('orders')) {
+            $countTable['orderNew'] = DB::table('orders')
+                ->whereNull('deleted_at')
+                ->whereStatus(config('shop.order_statuses')[0] ?? 'new')
+                ->count();
+        }*/
         return $countTable ?? [];
     }
 
