@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // При кликена на .pulse эффект пульса
+    // При клике на .pulse эффект пульса
     $('.pulse').click(function (e) {
         var div = document.createElement('div'),
             style = div.style,

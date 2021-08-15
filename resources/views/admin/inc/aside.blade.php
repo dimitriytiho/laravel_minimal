@@ -82,9 +82,9 @@
 
 
                                     Для показа кол-ва для нужного элемента получите его в Admin/AppController --}}
-                                    @if(!empty($countTable[$item->title]))
+                                    @isset($countTable[$item->title])
                                         <span class="badge badge-info right">{{ $countTable[$item->title] }}</span>
-                                    @endif
+                                    @endisset
                                 </p>
                             </a>
                             {{--

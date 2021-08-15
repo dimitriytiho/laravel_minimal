@@ -1,0 +1,20 @@
+@import 'params';
+
+
+@mixin transition($transition: $transition-sm, $value: all) {
+    transition: $value $transition;
+}
+
+@mixin hover($color: $primary, $hover: darken($color, 15%), $style: color) {
+    #{$style}: $color;
+    @include transition();
+    &:hover,
+    &:active {
+        #{$style}: $hover;
+    }
+}
+@mixin for-a($color: $primary, $hover: darken($color, 15%), $link: 'a') {
+    #{$link} {
+        @include hover($color, $hover);
+    }
+}

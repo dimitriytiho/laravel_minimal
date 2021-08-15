@@ -6,9 +6,9 @@ Dropzone.autoDiscover = false
 
 /*
 * Задайте JS переменные в основном шаблоне:
-- imgMaxSizeHD - максимальное HD разшение картинок,
-- imgMaxSize - максимальное среднее разшение картинок,
-- imgMaxSizeSM - максимальное маленькое разшение картинок,
+- imgMaxSizeHD - максимальное HD разрешение картинок,
+- imgMaxSize - максимальное среднее разрешение картинок,
+- imgMaxSizeSM - максимальное маленькое разрешение картинок,
 - maxFilesOne - кол-во для одиночной загрузки,
 - maxFilesMany - кол-во для множественной загрузки,
 - imgURL - URL, на который будет отправлять запрос,
@@ -19,7 +19,7 @@ Dropzone.autoDiscover = false
 - imgUploadID - ID элемента, для которого картинка.
 *
 * В html используйте для одной картинке: <div id="dzOne" class="dropzone"></div>
-* Или для многожественной загрузки: <div id="dzMany" class="dropzone"></div>
+* Или для множественной загрузки: <div id="dzMany" class="dropzone"></div>
 *
 * Задайте id dropzone-images для div, в который загружать теги img, после успешной загрузки картинки.
 *

@@ -122,7 +122,7 @@ Breadcrumbs --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // Удаляем неподходящии правила валидации
+            // Удаляем неподходящие правила валидации
             $('#slug').rules('remove')
 
         }, false)

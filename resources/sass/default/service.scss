@@ -1,5 +1,4 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 // Затемнение всего
@@ -23,7 +22,7 @@
         left: 0;
         background-color: rgba($white, .85);
         z-index: $z-index-normal;
-        @include flex-c();
+        @include center();
         & > div {
             width: 14rem;
             height: 14rem;
@@ -39,7 +38,7 @@
     z-index: $z-index-normal;
     width: 2.2rem;
     height: 2.2rem;
-    @include flex-c();
+    @include center();
     i {
         font-size: 1.1rem;
     }

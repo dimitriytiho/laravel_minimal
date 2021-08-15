@@ -1,5 +1,4 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 .icon_in_input {
@@ -20,14 +19,14 @@
 
 
 
-@media (max-width: $sm) {
+@media (max-width: map-get($grid-breakpoints, 'sm')) {
     .g-recaptcha {
         transform: scale(.8);
         transform-origin: left center;
     }
 }
 
-@media (max-width: $ss) {
+@media (max-width: 379px) {
     .g-recaptcha {
         transform: scale(.7);
     }

@@ -1,18 +1,20 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 .search_js {
     position: relative;
     &__child {
         display: none;
+        height: 80vh;
         position: absolute;
         top: 2.7rem;
         width: 32rem;
         padding: 0 $spacer;
         background-color: $white;
         box-shadow: $box-shadow-lg;
-        z-index: $z-index-min - 9;
+        border-radius: $border-radius;
+        z-index: $z-index-min - 4;
+        overflow: auto;
         &--link {
             padding: .4rem 1.6rem;
             display: block;
@@ -29,10 +31,11 @@
 
 
 
-@media (max-width: $sm) {
+@media (max-width: map-get($grid-breakpoints, 'sm')) {
     .search_js {
         &__child {
-            width: 18rem;
+            height: 64vh;
+            width: 100%;
         }
     }
 }

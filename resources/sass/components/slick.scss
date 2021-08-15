@@ -1,24 +1,23 @@
-@import "../config/params";
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
+
 
 // Высота картинки
 $heightImg: 220px;
 $widthImg: 340px;
 
 
-// Убираем мелькание картинок при загруки слайдера, т.е. после загрузки js показываем слайдер
+// Убираем мелькание картинок при загрузке слайдера, т.е. после загрузки js показываем слайдер
 .slick-slider {
   display: none;
 }
 
-// Убераем синию обводку
+// Убираем синею обводку
 .slick-slide,
 .slick-slide * {
   outline: none !important;
 }
 
-// Когда последний или первый элемент делаем полускрытую стрелку
+// Когда последний или первый элемент делаем стрелку с прозрачностью
 .arrow_hide .slick-arrow[aria-disabled=true]{
     opacity: .3;
     cursor: auto;
@@ -27,10 +26,10 @@ $widthImg: 340px;
     }
 }
 
-.slick_slider_arrow {
+/*.slick_slider_arrow {
   @include slick-slider-arrow();
 }
 
 .slick_slider_dots {
     @include slick-dots();
-}
+}*/

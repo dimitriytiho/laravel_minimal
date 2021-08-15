@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         /*messages: {
             email: {
                 required: 'Please enter a email address',
-                email: 'Please enter a vaild email address'
+                email: 'Please enter a valid email address'
             },
         },*/
 

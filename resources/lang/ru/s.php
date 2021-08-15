@@ -230,7 +230,7 @@ return [
     'current_menu' => 'Текущее меню',
     'current_group' => 'Текущая группа',
 
-    'cyrillic' => 'Кирилица',
+    'cyrillic' => 'Кириллица',
     'latin' => 'Латиница',
     'to_change_key' => 'Изменить ключ',
     'user_id' => 'ID пользователя',

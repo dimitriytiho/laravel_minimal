@@ -1,12 +1,11 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 .contain {
-    @include bg-img(contain);
+    @include bg(contain);
 }
 .cover {
-    @include bg-img();
+    @include bg();
 }
 
 .w-3 {

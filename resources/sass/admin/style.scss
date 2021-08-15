@@ -1,5 +1,5 @@
-@import "../config/mixins";
-@import "params";
+@import 'mixins';
+
 
 body {
     min-width: 320px;
@@ -38,7 +38,7 @@ label {
 
 
 
-@media (max-width: $ss) {
+@media (max-width: 379px) {
     .g-recaptcha {
         transform: scale(.7)
     }

@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // При отправки формы с .confirm-form будет подтвержение отправки
+    // При отправки формы с .confirm-form будет подтверждение отправки
     $(document).on('submit', '.confirm_form', function(e) {
         e.preventDefault()
         var modal = $('#confirm_modal'),
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 
-    // При клике по ссылке .confirm-link будет подтвержение отправки (добавить атрибуты data-toggle="modal" data-target="#confirm_modal")
+    // При клике по ссылке .confirm-link будет подтверждение отправки (добавить атрибуты data-toggle="modal" data-target="#confirm_modal")
     $(document).on('click', '.confirm_link', function(e) {
         e.preventDefault()
         var modal = $('#confirm_modal'),

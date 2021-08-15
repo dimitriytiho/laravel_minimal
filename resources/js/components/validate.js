@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // Добаляем валидатор для номера телефона
+    // Валидатор для номера телефона
     $.validator.methods.checkTel = function(value, element) {
         return this.optional(element) || /^[\+\(\)\- 0-9]+$/.test( value)
     }

@@ -1,9 +1,8 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 html {
-    scroll-behavior: smooth; // Делает плавный скрол к якорю
+    scroll-behavior: smooth; // Делает плавный скролл к якорю
 }
 :target {
     scroll-margin-top: $spacer;

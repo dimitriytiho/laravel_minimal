@@ -8,7 +8,7 @@ export default {
     * Записать куку через Action php, после записи куки будет перезагрузка старницы.
     * name - имя cookie.
     * value - значение cookie.
-    * reloading - после записи куки будет перезагрузка старницы, если это не нужно, то передайте false.
+    * reloading - после записи куки будет перезагрузка страницы, если это не нужно, то передайте false.
     */
     setCookiePhp: function (name, value, reloading = true) {
         if (_token && cookieUrl && name && value) {

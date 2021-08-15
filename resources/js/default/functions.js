@@ -44,7 +44,7 @@ export default {
     },
 
 
-    // Получить значение формы в объект (передать уникальный идефикатор формы)
+    // Получить значение формы в объект (передать уникальный идентификатор формы)
     serialize: function (form) {
         let obj = {}
         form = document.querySelector(form)
@@ -84,7 +84,7 @@ export default {
     snake_case: function (str) {
         return str.replace(/-/g, '_')
     },
-    
+
 
     // Возвращает случайное значение из массива, принимает массив
     array_rand: function (arr) {

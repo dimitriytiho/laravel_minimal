@@ -1,104 +1,84 @@
-@import "init";
-
-// Transition
-$transition-sm: ($transition * .5) + s;
-$transition-md: ($transition * 2) + s;
-$transition-lg: ($transition * 4) + s;
-$transition: $transition + s;
-
 // Colors
-$primary-dark: darken($primary, 10%);
-$footer: darken($primary, 40%);
+//$primary: #007bff;
+//$primary-bootstrap : #007bff;
+//$dark: #000;
+//$secondary: #6c757d;
+//$light: #eceff1;
+//$light-light: #fafafa;
+
 $white: #fff;
 $black: #000;
-
-// Bootstrap color
-//$primary: #007bff;
-//$secondary: #6c757d; // rgba(108, 117, 125, 0)
-$success: #28a745;
-$danger: #dc3545;
-$warning: #ffc107;
-$info: #17a2b8;
+//$primary-dark: darken($primary, 10%);
+//$success: #28a745;
+//$danger: #dc3545;
+//$warning: #ffc107;
+//$info: #17a2b8;
 //$light: #f8f9fa;
 //$dark: #343a40;
 
-$primary-light: lighten($primary, 20%);
-$secondary-light: lighten($secondary, 43%);
-$success-light: lighten($success, 50%);
-$danger-light: lighten($danger, 38%);
-$warning-light: lighten($warning, 15%);
-$info-light: lighten($info, 50%);
-$light-light: #fdfdfe;
-$dark-light: lighten($dark, 15%);
-
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #e83e8c;
-$orange: #fd7e14;
-$teal: #20c997;
-
-$gray-100: #f8f9fa; // light
-$gray-200: #e9ecef;
-$gray-300: #dee2e6;
-$gray-400: #ced4da;
-$gray-500: #adb5bd;
-$gray-600: $secondary; // secondary
-$gray-700: #495057;
-$gray-704: #40464c;
-$gray-800: #343a40;
-$gray-900: #212529; // dark
-
-$colors: (
-    white: $white,
-    primary: $primary,
-    secondary: $secondary,
-    success: $success,
-    info: $info,
-    warning : $warning,
-    danger: $danger,
-    light: $light,
-    dark: $dark,
-    black: $black
-);
-
+/*
 $theme-colors: (
-    primary: $primary,
-    secondary: $secondary,
-    light: $light,
-    dark: $dark
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
 );
+*/
 
 
 // Отступы
-$spacer: 1rem;
+//$spacer: 1rem;
 
 // Font
-//$font-family-base: 'Roboto', 'Arial', sans-serif;
-//$font-family-primary: 'Roboto Condensed', 'Arial', sans-serif;
-$font-size-base: .9rem; // 14.4px
-$font-size-base-sm: $font-size-base * .8;
+//$font-family-base: 'Open Sans', 'Arial', sans-serif;
+//$font-size-base: .9rem; // 14.4px
+//$font-size-base-sm: $font-size-base * .8;
+//$letter-spacing: 5px;
+$enable-responsive-font-sizes: true; // Адаптивный шрифт
+/*$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+$h1-font-size: $font-size-base * 2.6;
+$h2-font-size: $font-size-base * 2.1;
+$h3-font-size: $font-size-base * 1.8;
+$h4-font-size: $font-size-base * 1.6;
+$h5-font-size: $font-size-base * 1.2;
+$headings-font-weight: 400;*/
 
 // Line-height
-$line-height-sm: 1.2;
+/*$line-height-sm: 1.2;
 $line-height: 1.4;
-$line-height-lg: 1.5;
+$line-height-lg: 1.5;*/
 
 // Border-radius
-$border-radius: .15rem;
+/*$border-radius: .15rem;
 $border-radius-lg: .2rem;
-$border-radius-sm: .1rem;
+$border-radius-sm: .1rem;*/
+
+// Ссылки
+$link-decoration: none;
+$link-hover-decoration: none;
+
+// Breadcrumb
+//$breadcrumb-font-size: .8rem;
+$breadcrumb-bg: transparent;
+$breadcrumb-padding-x: 0;
+$breadcrumb-margin-bottom: .5rem;
+//$breadcrumb-divider: quote('-');
 
 // Тень
-$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
+/*$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
+$box-shadow-md: 0 .2rem .5rem rgba($black, .1);
 $box-shadow: 0 .5rem 1rem rgba($black, .15);
 $box-shadow-lg: 0 1rem 3rem rgba($black, .175);
 $box-shadow-mini: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
-$box-shadow-text: 0 0 3px rgba($black, 0.8);
+$box-shadow-text: 0 0 3px rgba($black, 0.8);*/
 
-// Paths
-$path-fonts: '/fonts';
-
-// Затемнее фона
+// Затемнение фона
 $backdrop: rgba(0, 0, 0, .55);
 
 // Z-index
@@ -106,18 +86,21 @@ $z-index-min: 10;
 $z-index-normal: 100;
 $z-index-max: 9999;
 
-// Animate
-$animate-offset-sm: 50px;
-$animate-offset: 70px;
+// Transition
+$transition: .5;
+$transition-sm: ($transition * .5) + s;
+$transition-md: ($transition * 2) + s;
+$transition-lg: ($transition * 4) + s;
+$transition: $transition + s;
 
 // Every
-$letter-spacing: 5px;
+$path-img: '/img';
+/*$table-accent-bg: $light-light;
+$input-btn-focus-color: rgba($gray-600, .25);
+$custom-select-focus-box-shadow: rgba($gray-600, .25);
+$form-group-margin-bottom: $spacer * 1.5;*/
 
-// Точки остановы
-$grid-breakpoints: (
-    xs: $xs,
-    sm: $sm,
-    md: $md,
-    lg: $lg,
-    xl: $xl
-);
+/*$custom-file-text: (
+    en: 'Browse',
+    ru: 'Просмотр'
+);*/

@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Код со скролом
+    // Скролл
     $(window).on('scroll', function () {
-        var scrollTop = $(window).scrollTop() || document.documentElement.scrollTop || window.pageYOffset, // Верхняя позиция скрола
+        var scrollTop = $(window).scrollTop() || document.documentElement.scrollTop || window.pageYOffset, // Верхняя позиция скролла
             heightWindow = window.innerHeight // Высота окна браузера
 
-        // pageYOffset Динамическая позиция скрола у верхней кромки
+        // pageYOffset - Динамическая позиция скролла у верхней кромки
 
 
         if (scrollTop < 200) {

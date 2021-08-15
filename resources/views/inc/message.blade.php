@@ -4,7 +4,7 @@
 Сообщения об ошибках --}}
 @if(isset($errors) && $errors->any())
     <div class="container">
-        <div class="row mt-2">
+        <div class="row mt-4">
             <div class="col">
                 <div class="alert alert-danger alert-dismissible fade show py-3 px-4" role="alert">
                     <ul class="list-unstyled mb-0">
@@ -12,9 +12,7 @@
                             <li class="mt-1">{{ $error }}</li>
                         @endforeach
                     </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('s.Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('s.Close')"></button>
                 </div>
             </div>
         </div>
@@ -25,7 +23,7 @@
 Сообщения об успехе --}}
 @if(session()->has('message') || session()->has('success'))
     <div class="container">
-        <div class="row mt-2">
+        <div class="row mt-4">
             <div class="col">
                 <div class="alert alert-success alert-dismissible fade show py-3 px-4" role="alert">
                     @if(session()->has('message'))
@@ -37,9 +35,7 @@
                     @if(session()->has('success'))
                         <span>{{ session('success') }}</span>
                     @endif
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('s.Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('s.Close')"></button>
                 </div>
             </div>
         </div>
@@ -50,7 +46,7 @@
 Сообщения информационные или статусов --}}
 @if(session()->has('info') || session()->has('status'))
     <div class="container">
-        <div class="row mt-2">
+        <div class="row mt-4">
             <div class="col">
                 <div class="alert alert-info alert-dismissible fade show py-3 px-4" role="alert">
                     @if(session()->has('info'))
@@ -62,9 +58,7 @@
                     @if(session()->has('status'))
                         <span>{{ session('status') }}</span>
                     @endif
-                    <button type="button" class="close" data-dismiss="alert" aria-label="@lang('s.Close')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"aria-label="@lang('s.Close')"></button>
                 </div>
             </div>
         </div>

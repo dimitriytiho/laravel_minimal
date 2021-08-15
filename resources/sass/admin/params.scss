@@ -1,5 +1,21 @@
-
-$primary: #007bff;
-$dark: #343a40;
+$primary: #0d6efd;
+$dark: #212529;
 $dark-hover: lighten($dark, 15%);
+$white: #fff;
+$black: #000;
 $box-shadow-sm: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+
+$font-size-base: 1rem;
+$spacer: 1rem;
+
+// Border-radius
+$border-radius: .15rem;
+$border-radius-lg: .2rem;
+$border-radius-sm: .1rem;
+
+// Transition
+$transition: .5;
+$transition-sm: ($transition * .5) + s;
+$transition-md: ($transition * 2) + s;
+$transition-lg: ($transition * 4) + s;
+$transition: $transition + s;

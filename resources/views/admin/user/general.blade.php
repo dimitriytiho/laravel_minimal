@@ -215,7 +215,7 @@ Breadcrumbs --}}
         <script>
             document.addEventListener('DOMContentLoaded', function() {
 
-                // Удаляем неподходящии правила валидации
+                // Удаляем неподходящие правила валидации
                 $('#password').rules('remove')
                 $('#password_confirmation').rules('remove')
 

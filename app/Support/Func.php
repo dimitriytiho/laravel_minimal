@@ -73,7 +73,7 @@ class Func
      *
      * @param string $message - текст сообщения.
      * @param string $method - передать __METHOD__.
-     * @param bool $abort - выбросывать исключение, по-умолчанию true, необязательный параметр.
+     * @param bool $abort - выбрасывать исключение, по-умолчанию true, необязательный параметр.
      * @param string $error - в каком виде записать ошибку, может быть: emergency, alert, critical, error, warning, notice, info, debug. По-умолчанию error, необязательный параметр.
      */
     public static function getError($message, $method, $abort = true, $error = 'error')

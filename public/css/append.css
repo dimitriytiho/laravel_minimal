@@ -1,9 +1,4 @@
 @charset "UTF-8";
-/*
-Миксин анимации.
-$transition - скорость анимации, по-умолчанию $transition-sm.
-$value - какое свойство анимировать, по-умолчанию all.
-*/
 .bootstrap-switch-label {
   display: block;
   padding-bottom: 0.1rem;
@@ -14,14 +9,9 @@ $value - какое свойство анимировать, по-умолчан
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-  background-color: #007bff;
+  background-color: #0d6efd;
 }
 
-/*
-Миксин анимации.
-$transition - скорость анимации, по-умолчанию $transition-sm.
-$value - какое свойство анимировать, по-умолчанию all.
-*/
 .scale-in {
   transform: scale(1) !important;
   transition: all 0.25s;
@@ -59,24 +49,14 @@ $value - какое свойство анимировать, по-умолчан
     opacity: 0;
   }
 }
-/*
-Миксин анимации.
-$transition - скорость анимации, по-умолчанию $transition-sm.
-$value - какое свойство анимировать, по-умолчанию all.
-*/
 .filter-icons .active {
-  color: #343a40;
+  color: #212529;
   cursor: default;
 }
 .filter-icons i {
   font-size: 10px;
 }
 
-/*
-Миксин анимации.
-$transition - скорость анимации, по-умолчанию $transition-sm.
-$value - какое свойство анимировать, по-умолчанию all.
-*/
 .js-none {
   display: none;
 }
@@ -94,11 +74,11 @@ thead th {
 }
 
 .a-dark a {
-  color: #343a40;
+  color: #212529;
   transition: all 0.25s;
 }
 .a-dark a:hover, .a-dark a:active {
-  color: #626d78;
+  color: #4e5862;
 }
 
 .img_sm {
@@ -143,14 +123,14 @@ thead th {
   cursor: pointer;
 }
 .chop_item.active {
-  border: 1px solid #007bff;
+  border: 1px solid #0d6efd;
 }
 .chop_item_p {
   height: 17px;
   overflow: hidden;
   margin-bottom: 0;
   text-align: center;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {
@@ -158,11 +138,6 @@ thead th {
     width: calc(50% - 10px);
   }
 }
-/*
-Миксин анимации.
-$transition - скорость анимации, по-умолчанию $transition-sm.
-$value - какое свойство анимировать, по-умолчанию all.
-*/
 body {
   min-width: 320px;
 }

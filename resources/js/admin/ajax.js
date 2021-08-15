@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // При клике на .get_slug из вышестоящего input транситирируется текст, в data-src="title" указать input в котором name="title"
+    // При клике на .get_slug из вышестоящего input транслитирирует текст, в data-src="title" указать input в котором name="title"
     $('.get_slug').click(function () {
         var self = $(this),
             url = self.data('url'),

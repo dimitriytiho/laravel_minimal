@@ -1,5 +1,4 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 // Уменьшение и увеличение в 0
@@ -12,7 +11,7 @@
   @include transition();
 }
 
-// Крутящийся спинер
+// Крутящийся спиннер
 .animate-spin {
   animation: spin 2s infinite linear;
   display: inline-block;

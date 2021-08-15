@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('html, body').animate({
       scrollTop: 0
     }, '400');
-  }); // Код со скролом
+  }); // Код со скроллом
 
   $(window).on('scroll', function () {
     var scrollTop = scrollTop = $(window).scrollTop();

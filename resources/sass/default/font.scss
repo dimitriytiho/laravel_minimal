@@ -1,5 +1,4 @@
-@import "../config/mixins";
-@import "../config/blocks";
+@import '../config/mixins';
 
 
 .active_color {
@@ -10,7 +9,7 @@
 }
 
 .text-sm {
-    font-size: $font-size-base-sm !important;
+    font-size: $font-size-base * .8 !important;
 }
 
 .p {

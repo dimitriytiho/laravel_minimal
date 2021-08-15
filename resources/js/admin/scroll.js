@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 
-    // Код со скролом
+    // Скролл
     $(window).on('scroll', function () {
         var scrollTop = scrollTop = $(window).scrollTop()
 
