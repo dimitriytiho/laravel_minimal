@@ -13,8 +13,6 @@ class PermissionController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
         $this->info->model = '\Spatie\Permission\Models\Permission';
         $this->info->table = 'permissions';
 
@@ -24,8 +22,6 @@ class PermissionController extends AppController
             $trail->push(__('a.users'), route("{$this->viewPath}.user.index"));
             $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
-
-        view()->share(['info' => $this->info]);
     }
 
 

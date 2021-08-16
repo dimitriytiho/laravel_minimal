@@ -17,9 +17,6 @@ class HomeController extends AppController
         parent::__construct();
 
         $this->middleware('auth');
-
-        $this->info = app()->make(InfoController::class);
-        view()->share(['info' => $this->info]);
     }
 
     /**

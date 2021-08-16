@@ -44,10 +44,6 @@ class RegisterController extends Controller
         parent::__construct();
 
         $this->middleware('guest');
-
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-        view()->share(['info' => $this->info]);
     }
 
     /**

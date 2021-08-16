@@ -20,11 +20,6 @@ class MenuGroupController extends AppController
         // Связанный маршрут
         $this->belongRoute = 'menu';
 
-
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
-
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
         $this->relatedManyToManyDelete = [
             [$this->belongTable, $this->belongRoute],
@@ -37,7 +32,6 @@ class MenuGroupController extends AppController
         });
 
         view()->share([
-            'info' => $this->info,
             'belongTable' => $this->belongTable,
             'belongRoute' => $this->belongRoute,
             'relatedManyToManyDelete' => $this->relatedManyToManyDelete,

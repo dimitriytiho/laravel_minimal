@@ -13,10 +13,6 @@ class MainController extends AppController
     public function __construct(Request $request)
     {
         parent::__construct($request);
-
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-        view()->share(['info' => $this->info]);
     }
 
 

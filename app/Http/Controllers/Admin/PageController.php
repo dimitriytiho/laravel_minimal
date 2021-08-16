@@ -15,9 +15,6 @@ class PageController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
 
         // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
         $this->relatedManyToManyEdit = [
@@ -38,7 +35,6 @@ class PageController extends AppController
         });
 
         view()->share([
-            'info' => $this->info,
             'relatedManyToManyEdit' => $this->relatedManyToManyEdit,
             'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
         ]);

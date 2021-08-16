@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Info\InfoController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -21,6 +22,13 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->active = config('add.statuses')[1] ?? 'active';
-        view()->share(['active' => $this->active]);
+
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
+
+        view()->share([
+            'active' => $this->active,
+            'info' => $this->info,
+        ]);
     }
 }

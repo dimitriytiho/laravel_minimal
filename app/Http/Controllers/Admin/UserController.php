@@ -18,9 +18,6 @@ class UserController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
@@ -32,8 +29,6 @@ class UserController extends AppController
         /*$this->relatedManyToManyEdit = [
             ['roles', null, 'id', 'name'],
         ];*/
-
-        view()->share(['info' => $this->info]);
     }
 
 

@@ -17,16 +17,11 @@ class FileController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
-
-        view()->share(['info' => $this->info]);
     }
 
 

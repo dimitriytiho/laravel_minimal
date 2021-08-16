@@ -14,10 +14,6 @@ class PropertyController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
-
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
@@ -38,7 +34,6 @@ class PropertyController extends AppController
 
 
         view()->share([
-            'info' => $this->info,
             'relatedManyToManyEdit' => $this->relatedManyToManyEdit,
             'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
         ]);

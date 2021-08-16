@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Auth\Role;
-use App\Services\Info\InfoController;
 
 class PageController extends AppController
 {
     public function __construct()
     {
         parent::__construct();
-
-        $this->info = app()->make(InfoController::class);
-        view()->share(['info' => $this->info]);
     }
 
 

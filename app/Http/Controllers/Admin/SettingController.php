@@ -17,9 +17,6 @@ class SettingController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе
-        $this->info = app()->make(InfoController::class);
-
         // Массив названий настроек, название которые нельзя изменять
         $this->keyNoEdit = config('admin.setting_key_no_edit') ?: [];
 
@@ -28,8 +25,6 @@ class SettingController extends AppController
             $trail->parent('home');
             $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
-
-        view()->share(['info' => $this->info]);
     }
 
 

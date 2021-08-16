@@ -192,7 +192,7 @@ class Img
             // Получаем данные картинки
             $info = self::imgInfo($imagePublicPath);
 
-            // Путь к картинки Webp
+            // Путь к картинке Webp
             $webp = "{$info['folder_public_path']}/{$info['filename']}.webp";
 
             // Если есть Webp, то возвращаем её
