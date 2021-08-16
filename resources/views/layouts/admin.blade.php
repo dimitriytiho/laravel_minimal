@@ -119,8 +119,8 @@ Js files --}}
         spinner = $('#spinner'),
         spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>',
 
-        table = '{{ $info['table'] ?? null }}',
-        currentClass = '{{ $info['class'] ?? null }}',
+        table = '{{ $info->table ?? null }}',
+        currentClass = '{{ $info->class ?? null }}',
         curID = '{{ auth()->user()->id ?? "" }}'
 
     {!! \App\Support\Locale::translationsJson() !!}

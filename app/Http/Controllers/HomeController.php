@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Info\InfoController;
 use Illuminate\Http\Request;
 
 class HomeController extends AppController
@@ -16,7 +17,9 @@ class HomeController extends AppController
         parent::__construct();
 
         $this->middleware('auth');
-        $this->info = $this->info();
+
+        $this->info = app()->make(InfoController::class);
+        view()->share(['info' => $this->info]);
     }
 
     /**
@@ -27,7 +30,7 @@ class HomeController extends AppController
     public function index()
     {
         // Название вида
-        $view = $this->info['snake'] . '.' . $this->info['view'];
+        $view = $this->info->snake . '.' . $this->info->view;
 
         $title = __('s.account');
         return view($view, compact('title'));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,26 +15,33 @@ class MenuGroupController extends AppController
 
 
         // Связанная таблица
-        $belongTable = $this->belongTable = 'menus';
+        $this->belongTable = 'menus';
 
         // Связанный маршрут
-        $belongRoute = $this->belongRoute = 'menu';
+        $this->belongRoute = 'menu';
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
+
 
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
-        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
-            [$this->belongTable, $belongRoute],
+        $this->relatedManyToManyDelete = [
+            [$this->belongTable, $this->belongRoute],
         ];
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
 
-        view()->share(compact('belongTable', 'belongRoute', 'relatedManyToManyDelete'));
+        view()->share([
+            'info' => $this->info,
+            'belongTable' => $this->belongTable,
+            'belongRoute' => $this->belongRoute,
+            'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
+        ]);
     }
 
 
@@ -57,13 +65,13 @@ class MenuGroupController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
+        $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $this->info->model, $this->info->view, $this->pagination);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
 
@@ -76,9 +84,9 @@ class MenuGroupController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -105,7 +113,7 @@ class MenuGroupController extends AppController
         $data = $request->all();
 
         // Создаём экземпляр модели
-        $values = app()->make($this->info['model']);
+        $values = app()->make($this->info->model);
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -118,7 +126,7 @@ class MenuGroupController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -144,12 +152,12 @@ class MenuGroupController extends AppController
     public function edit($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -171,7 +179,7 @@ class MenuGroupController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Валидация
         $rules = [
@@ -191,7 +199,7 @@ class MenuGroupController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -205,7 +213,7 @@ class MenuGroupController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
 
         // Если есть связанные элементы не удалять
@@ -213,7 +221,7 @@ class MenuGroupController extends AppController
             foreach ($this->relatedManyToManyDelete as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
                     return redirect()
-                        ->route("admin.{$this->info['kebab']}.edit", $id)
+                        ->route("admin.{$this->info->kebab}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
                 }
             }
@@ -231,10 +239,10 @@ class MenuGroupController extends AppController
         // Если удаляется id, который записан в куку, то удалим куку
         $cookie = request()->cookie("{$this->belongTable}_id");
         if ($cookie == $id) {
-            return redirect()->route("admin.{$this->info['kebab']}.index")
+            return redirect()->route("admin.{$this->info->kebab}.index")
                 ->withCookie(cookie()->forget("{$this->belongTable}_id"));
         }
 
-        return redirect()->route("admin.{$this->info['kebab']}.index");
+        return redirect()->route("admin.{$this->info->kebab}.index");
     }
 }

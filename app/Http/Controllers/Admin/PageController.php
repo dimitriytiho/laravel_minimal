@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use App\Models\{Property, LastData};
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
@@ -14,29 +15,33 @@ class PageController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
 
         // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
-        $relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+        $this->relatedManyToManyEdit = [
             //['properties', 'property', 'id', 'title'],
         ];
 
 
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
-        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
-            [$this->info['table'], $this->info['kebab']],
+        $this->relatedManyToManyDelete = [
+            [$this->info->table, $this->info->kebab],
         ];
 
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
 
-        view()->share(compact('relatedManyToManyDelete', 'relatedManyToManyEdit'));
+        view()->share([
+            'info' => $this->info,
+            'relatedManyToManyEdit' => $this->relatedManyToManyEdit,
+            'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
+        ]);
     }
 
     /**
@@ -62,13 +67,13 @@ class PageController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
+        $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $this->info->model, $this->info->view, $this->pagination);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
 
@@ -80,9 +85,9 @@ class PageController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -103,13 +108,13 @@ class PageController extends AppController
     {
         $rules = [
             'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']}|max:255",
+            'slug' => "required|string|unique:{$this->info->table}|max:255",
         ];
         $request->validate($rules);
         $data = $request->all();
 
         // Создаём экземпляр модели
-        $values = app()->make($this->info['model']);
+        $values = app()->make($this->info->model);
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -122,7 +127,7 @@ class PageController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -146,19 +151,19 @@ class PageController extends AppController
     public function edit($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Дерево элементов
-        $tree = $this->info['model']::get()->toTree();
+        $tree = $this->info->model::get()->toTree();
 
 
         // Свойства (получаем только для этого класса)
-        $properties = Property::whereType($this->info['model'])->pluck('title', 'id');
+        $properties = Property::whereType($this->info->model)->pluck('title', 'id');
 
 
         // Хлебные крошки
@@ -201,19 +206,19 @@ class PageController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Валидация
         $rules = [
             'title' => 'required|string|max:255',
-            'slug' => "required|string|unique:{$this->info['table']},slug,{$id}|max:255",
+            'slug' => "required|string|unique:{$this->info->table},slug,{$id}|max:255",
         ];
         $request->validate($rules);
         $data = $request->all();
 
 
         // Сохраним прошлые данные
-        LastData::saveData($id, $this->info['table']);
+        LastData::saveData($id, $this->info->table);
 
 
         // Если есть связанные элементы, то синхронизируем их
@@ -248,7 +253,7 @@ class PageController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -261,7 +266,7 @@ class PageController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
 
         // Если есть связанные элементы не удалять
@@ -269,7 +274,7 @@ class PageController extends AppController
             foreach ($this->relatedManyToManyDelete as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
                     return redirect()
-                        ->route("admin.{$this->info['kebab']}.edit", $id)
+                        ->route("admin.{$this->info->kebab}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
                 }
             }
@@ -306,7 +311,7 @@ class PageController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

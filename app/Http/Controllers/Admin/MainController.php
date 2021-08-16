@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use App\Support\Admin\App;
 use App\Support\Func;
 use Illuminate\Http\Request;
@@ -13,14 +14,16 @@ class MainController extends AppController
     {
         parent::__construct($request);
 
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
+        view()->share(['info' => $this->info]);
     }
 
 
     public function index()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
         $title = __('a.dashboard');
         return view($view, compact('title'));

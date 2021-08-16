@@ -1,4 +1,4 @@
-@if(!empty($info['table']) && isset($values->id) && method_exists($values, 'getAttributes'))
+@if(!empty($info->table) && isset($values->id) && method_exists($values, 'getAttributes'))
     @php
 
 
@@ -21,7 +21,7 @@
 
 
         // Получаем данные для данного элемента
-        $lastData = $lastDataModel::whereTable($info['table'])->whereElementId($values->id)->get();
+        $lastData = $lastDataModel::whereTable($info->table)->whereElementId($values->id)->get();
 
 
     @endphp

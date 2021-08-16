@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,13 +21,13 @@ class MenuController extends AppController
         $this->belongRoute = 'menu-group';
 
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
 
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
-        $relatedManyToManyDelete = $this->relatedManyToManyDelete = [
-            [$this->info['table'], $this->info['kebab']],
+        $this->relatedManyToManyDelete = [
+            [$this->info->table, $this->info->kebab],
         ];
 
 
@@ -34,10 +35,13 @@ class MenuController extends AppController
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.menu_groups'), route("{$this->viewPath}.menu-group.index"));
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
 
-        view()->share(compact('relatedManyToManyDelete'));
+        view()->share([
+            'info' => $this->info,
+            'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
+        ]);
     }
 
     /**
@@ -48,7 +52,7 @@ class MenuController extends AppController
     public function index(Request $request)
     {
         // Получаем элемент родителя из куки
-        $currentParentId = request()->cookie("{$this->info['table']}_id");
+        $currentParentId = request()->cookie("{$this->info->table}_id");
         if ($currentParentId) {
             $currentParent = DB::table($this->belongTable)->find($currentParentId);
         }
@@ -57,7 +61,7 @@ class MenuController extends AppController
         if (empty($currentParent)) {
 
             // Получаем первый элемент родителя
-            $currentParent = DB::table($this->info['table'])->first();
+            $currentParent = DB::table($this->info->table)->first();
 
             // Если нет родительских элементов, то предлагаем создать их
             if (!$currentParent) {
@@ -68,8 +72,8 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['kebab']}.index")
-                ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
+                ->route("admin.{$this->info->kebab}.index")
+                ->withCookie(cookie()->forever("{$this->info->table}_id", $currentParent->id)
                 );
         }
 
@@ -78,7 +82,7 @@ class MenuController extends AppController
             ->pluck('title', 'id');
 
         // Добавляем 0 ключ в объект - название связанной таблицы
-        $parentValues->prepend($this->info['table'], 0);
+        $parentValues->prepend($this->info->table, 0);
 
 
         $values = null;
@@ -102,16 +106,16 @@ class MenuController extends AppController
         if ($currentParent) {
 
             // Формируем часть запроса перед поиском
-            $values = $this->info['model']::where('belong_id', $currentParent->id);
+            $values = $this->info->model::where('belong_id', $currentParent->id);
 
             // Метод для поиска и сортировки запроса БД
-            $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $values, $this->info['view'], $this->pagination);
+            $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $values, $this->info->view, $this->pagination);
         }
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell', 'currentParent', 'parentValues'));
     }
 
@@ -123,7 +127,7 @@ class MenuController extends AppController
     public function create(Request $request)
     {
         // Получаем элемент родителя из куки
-        $currentParentId = request()->cookie("{$this->info['table']}_id");
+        $currentParentId = request()->cookie("{$this->info->table}_id");
         if ($currentParentId) {
             $currentParent = DB::table($this->belongTable)->find($currentParentId);
         }
@@ -132,7 +136,7 @@ class MenuController extends AppController
         if (empty($currentParent)) {
 
             // Получаем первый элемент родителя
-            $currentParent = DB::table($this->info['table'])->first();
+            $currentParent = DB::table($this->info->table)->first();
 
             // Если нет родительских элементов, то предлагаем создать их
             if (!$currentParent) {
@@ -143,8 +147,8 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['kebab']}.index")
-                ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
+                ->route("admin.{$this->info->kebab}.index")
+                ->withCookie(cookie()->forever("{$this->info->table}_id", $currentParent->id)
                 );
         }
 
@@ -153,13 +157,13 @@ class MenuController extends AppController
             ->pluck('title', 'id');
 
         // Добавляем 0 ключ в объект - название связанной таблицы
-        $parentValues->prepend($this->info['table'], 0);
+        $parentValues->prepend($this->info->table, 0);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -186,7 +190,7 @@ class MenuController extends AppController
         $data = $request->all();
 
         // Создаём экземпляр модели
-        $values = app()->make($this->info['model']);
+        $values = app()->make($this->info->model);
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -199,7 +203,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -223,7 +227,7 @@ class MenuController extends AppController
     public function edit($id)
     {
         // Получаем элемент родителя из куки
-        $currentParentId = request()->cookie("{$this->info['table']}_id");
+        $currentParentId = request()->cookie("{$this->info->table}_id");
         if ($currentParentId) {
             $currentParent = DB::table($this->belongTable)->find($currentParentId);
         }
@@ -232,7 +236,7 @@ class MenuController extends AppController
         if (empty($currentParent)) {
 
             // Получаем первый элемент родителя
-            $currentParent = DB::table($this->info['table'])->first();
+            $currentParent = DB::table($this->info->table)->first();
 
             // Если нет родительских элементов, то предлагаем создать их
             if (!$currentParent) {
@@ -243,22 +247,22 @@ class MenuController extends AppController
 
             // Записать куку навсегда (5 лет)
             return redirect()
-                ->route("admin.{$this->info['kebab']}.index")
-                ->withCookie(cookie()->forever("{$this->info['table']}_id", $currentParent->id)
+                ->route("admin.{$this->info->kebab}.index")
+                ->withCookie(cookie()->forever("{$this->info->table}_id", $currentParent->id)
                 );
         }
 
 
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Дерево элементов
-        $tree = $this->info['model']::where('belong_id', $currentParent->id)
+        $tree = $this->info->model::where('belong_id', $currentParent->id)
             ->order()
             ->get()
             ->toTree();
@@ -282,7 +286,7 @@ class MenuController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         $rules = [
             'belong_id' => "required|integer|exists:{$this->belongTable},id",
@@ -305,7 +309,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -318,7 +322,7 @@ class MenuController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
 
         // Если есть связанные элементы не удалять
@@ -326,7 +330,7 @@ class MenuController extends AppController
             foreach ($this->relatedManyToManyDelete as $related) {
                 if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
                     return redirect()
-                        ->route("admin.{$this->info['kebab']}.edit", $id)
+                        ->route("admin.{$this->info->kebab}.edit", $id)
                         ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
                 }
             }
@@ -340,7 +344,7 @@ class MenuController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

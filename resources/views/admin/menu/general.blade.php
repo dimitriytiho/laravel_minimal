@@ -16,7 +16,7 @@ Breadcrumbs --}}
         @include('admin.inc.belong_check')
 
         <div class="card-body">
-            <form action="{{ isset($values->id) ? route("admin.{$info['kebab']}.update", $values->id) : route("admin.{$info['kebab']}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
+            <form action="{{ isset($values->id) ? route("admin.{$info->kebab}.update", $values->id) : route("admin.{$info->kebab}.store") }}" method="post" class="validate" enctype="multipart/form-data" novalidate>
                 @isset($values->id)
                     @method('put')
                 @endisset
@@ -105,7 +105,7 @@ Breadcrumbs --}}
 
             Кнопка удалить --}}
             @if(isset($values->id) && empty($deleteNo))
-                <form action="{{ route("admin.{$info['kebab']}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
+                <form action="{{ route("admin.{$info->kebab}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                     @method('delete')
                     @csrf
                     <button type="submit" class="btn btn-danger mt-3 pulse">@lang('s.remove')</button>

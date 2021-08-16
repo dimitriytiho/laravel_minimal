@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use App\Support\Admin\Commands;
 use App\Support\Seo;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -14,14 +15,16 @@ class AdditionallyController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['snake']), route("{$this->viewPath}.{$this->info['kebab']}"));
+            $trail->push(__('a.' . $this->info->snake), route("{$this->viewPath}.{$this->info->kebab}"));
         });
+
+        view()->share(['info' => $this->info]);
     }
 
 
@@ -39,22 +42,22 @@ class AdditionallyController extends AppController
                 case 'db':
                     cache()->flush();
                     session()->flash('success', __('a.cache_deleted'));
-                    return redirect()->route("admin.{$this->info['kebab']}");
+                    return redirect()->route("admin.{$this->info->kebab}");
 
                 case 'views':
                     $res = Commands::getCommand('php artisan view:clear');
                     $res ? session()->flash('success', $res) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['kebab']}");
+                    return redirect()->route("admin.{$this->info->kebab}");
 
                 case 'routes':
                     $res1 = Commands::getCommand('php artisan route:clear');
                     $res1 ? session()->flash('success', $res1) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['kebab']}");
+                    return redirect()->route("admin.{$this->info->kebab}");
 
                 case 'config':
                     $res1 = Commands::getCommand('php artisan config:clear');
                     $res1 ? session()->flash('success', $res1) : session()->flash('errors', __('s.something_went_wrong'));
-                    return redirect()->route("admin.{$this->info['kebab']}");
+                    return redirect()->route("admin.{$this->info->kebab}");
             }
         }
 
@@ -65,15 +68,15 @@ class AdditionallyController extends AppController
             Seo::getUpload();
 
             return redirect()
-                ->route("admin.{$this->info['kebab']}")
+                ->route("admin.{$this->info->kebab}")
                 ->with('success', __('a.completed_successfully'));
         }
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['snake']);
+        $title = __('a.' . $this->info->snake);
         return view($view, compact('title'));
     }
 }

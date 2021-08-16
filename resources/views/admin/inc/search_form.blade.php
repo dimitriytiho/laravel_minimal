@@ -21,7 +21,7 @@
 
 @isset($cell)
     <div class="col-1 mt-2 mb-2">
-        <a href="{{ route("admin.{$info['kebab']}.index") }}" class="btn btn-link btn-sm px-0 pulse">
+        <a href="{{ route("admin.{$info->kebab}.index") }}" class="btn btn-link btn-sm px-0 pulse">
             <i class="fas fa-times" title="@lang('s.reset')"></i>
         </a>
     </div>

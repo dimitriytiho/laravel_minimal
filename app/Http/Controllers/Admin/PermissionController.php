@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,17 +13,19 @@ class PermissionController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
-        $this->info['model'] = '\Spatie\Permission\Models\Permission';
-        $this->info['table'] = 'permissions';
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
+        $this->info->model = '\Spatie\Permission\Models\Permission';
+        $this->info->table = 'permissions';
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
             $trail->push(__('a.users'), route("{$this->viewPath}.user.index"));
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
+
+        view()->share(['info' => $this->info]);
     }
 
 
@@ -45,13 +48,13 @@ class PermissionController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
+        $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $this->info->model, $this->info->view, $this->pagination);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
 
@@ -64,9 +67,9 @@ class PermissionController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -87,13 +90,13 @@ class PermissionController extends AppController
     public function store(Request $request)
     {
         $rules = [
-            'name' => "required|string|unique:{$this->info['table']}|max:255",
+            'name' => "required|string|unique:{$this->info->table}|max:255",
         ];
         $request->validate($rules);
         $data = $request->all();
 
         // Создаём элемент
-        $values = $this->info['model']::create([
+        $values = $this->info->model::create([
             'name' => $data['name'],
         ]);
 
@@ -102,7 +105,7 @@ class PermissionController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -128,12 +131,12 @@ class PermissionController extends AppController
     public function edit($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -155,11 +158,11 @@ class PermissionController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Валидация
         $rules = [
-            'name' => "required|string|unique:{$this->info['table']},name,{$id}|max:255",
+            'name' => "required|string|unique:{$this->info->table},name,{$id}|max:255",
         ];
         $request->validate($rules);
         $data = $request->all();
@@ -175,7 +178,7 @@ class PermissionController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -189,7 +192,7 @@ class PermissionController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Удаляем элемент
         $values->delete();
@@ -199,7 +202,7 @@ class PermissionController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }

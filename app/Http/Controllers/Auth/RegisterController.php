@@ -7,6 +7,7 @@ use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\Auth\Role;
+use App\Services\Info\InfoController;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -42,10 +43,11 @@ class RegisterController extends Controller
     {
         parent::__construct();
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
-
         $this->middleware('guest');
+
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
+        view()->share(['info' => $this->info]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Info\InfoController;
 use App\Support\Admin\Img;
 use App\Support\Func;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -16,14 +17,16 @@ class FileController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
+
+        view()->share(['info' => $this->info]);
     }
 
 
@@ -49,13 +52,13 @@ class FileController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
+        $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $this->info->model, $this->info->view, $this->pagination);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
 
@@ -68,9 +71,9 @@ class FileController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
 
         // Готовим массив для select
@@ -198,18 +201,18 @@ class FileController extends AppController
                 $data['mime_type'] = $mime;
                 $data['size'] = File::size($dirFull . '/' . $name);
                 $data['old_name'] = $nameOld;
-                $this->info['model']::create($data);
+                $this->info->model::create($data);
             }
 
             // Сообщение об успехе
             return redirect()
-                ->route("admin.{$this->info['kebab']}.index")
+                ->route("admin.{$this->info->kebab}.index")
                 ->with('success', __('a.upload_success'));
         }
 
         // Сообщение что-то пошло не так
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->withErrors(__('s.whoops'));
     }
 
@@ -235,12 +238,12 @@ class FileController extends AppController
     public function edit($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -262,7 +265,7 @@ class FileController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Валидация
         $rules = [
@@ -282,7 +285,7 @@ class FileController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -296,7 +299,7 @@ class FileController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Транзакция на 2 попытки
         DB::transaction(function () use ($id, $values) {
@@ -323,7 +326,7 @@ class FileController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 
@@ -341,7 +344,7 @@ class FileController extends AppController
         if ($request->token && $request->token === csrf_token() && $id) {
 
             // Получаем элемент по id, если нет - будет ошибка
-            $values = $this->info['model']::findOrFail($id);
+            $values = $this->info->model::findOrFail($id);
 
             // Транзакция на 2 попытки
             DB::transaction(function () use ($id, $values) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Auth\Role;
+use App\Services\Info\InfoController;
 
 class PageController extends AppController
 {
@@ -11,14 +12,15 @@ class PageController extends AppController
     {
         parent::__construct();
 
-        $this->info = $this->info();
+        $this->info = app()->make(InfoController::class);
+        view()->share(['info' => $this->info]);
     }
 
 
     public function index()
     {
         // Название вида
-        $view = $this->info['snake'] . '.' . $this->info['view'];
+        $view = $this->info->snake . '.' . $this->info->view;
 
         $title = __('s.home');
         $description = __('s.You_are_on_home');
@@ -29,14 +31,14 @@ class PageController extends AppController
     public function show($slug)
     {
         // Если пользователя есть разрешение к админ панели и к этому классу, то будут показываться неактивные страницы
-        if (auth()->check() && auth()->user()->hasRole(Role::ADMIN_PANEL_NAMES) && auth()->user()->can($this->info['snake'])) {
+        if (auth()->check() && auth()->user()->hasRole(Role::ADMIN_PANEL_NAMES) && auth()->user()->can($this->info->snake)) {
 
-            $values = $this->info['model']::whereSlug($slug)
+            $values = $this->info->model::whereSlug($slug)
                 ->firstOrFail();
 
         } else {
 
-            $values = $this->info['model']::whereSlug($slug)
+            $values = $this->info->model::whereSlug($slug)
                 ->active()
                 ->firstOrFail();
         }
@@ -50,7 +52,7 @@ class PageController extends AppController
 
 
         // Название вида
-        $view = $this->info['snake'] . '.' . $this->info['view'];
+        $view = $this->info->snake . '.' . $this->info->view;
 
         $title = $values->title ?? null;
         $description = $values->description ?? null;

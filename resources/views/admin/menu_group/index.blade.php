@@ -24,15 +24,15 @@ Breadcrumbs --}}
                             <th scope="col">@lang('a.action')</th>
                             <th scope="col">
                                 <span>@lang('a.title')</span>
-                                {!! $dbSort::viewIcons('title', $info['view'], $info['kebab']) !!}
+                                {!! $dbSort::viewIcons('title', $info->view, $info->kebab) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.sort')</span>
-                                {!! $dbSort::viewIcons('sort', $info['view'], $info['kebab']) !!}
+                                {!! $dbSort::viewIcons('sort', $info->view, $info->kebab) !!}
                             </th>
                             <th scope="col">
                                 <span>@lang('a.id')</span>
-                                {!! $dbSort::viewIcons('id', $info['view'], $info['kebab']) !!}
+                                {!! $dbSort::viewIcons('id', $info->view, $info->kebab) !!}
                             </th>
                         </tr>
                         </thead>
@@ -40,7 +40,7 @@ Breadcrumbs --}}
                         @foreach($values as $item)
                             <tr>
                                 <th scope="row" class="d-flex">
-                                    <a href="{{ route("admin.{$info['kebab']}.edit", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
+                                    <a href="{{ route("admin.{$info->kebab}.edit", $item->id) }}" class="btn btn-info btn-sm mr-1 pulse" title="@lang('a.edit')">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </th>

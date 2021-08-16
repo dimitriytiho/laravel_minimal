@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Services\Info\InfoController;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
@@ -14,14 +15,16 @@ class ActivityLogController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['snake']), route("{$this->viewPath}.{$this->info['kebab']}"));
+            $trail->push(__('a.' . $this->info->snake), route("{$this->viewPath}.{$this->info->kebab}"));
         });
+
+        view()->share(['info' => $this->info]);
     }
 
 
@@ -81,9 +84,9 @@ class ActivityLogController extends AppController
         }
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['snake']);
+        $title = __('a.' . $this->info->snake);
         return view($view, compact('title', 'roles', 'users', 'tags', 'values'));
     }
 }

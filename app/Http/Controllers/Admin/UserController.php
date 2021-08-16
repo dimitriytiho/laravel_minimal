@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\Auth\Role;
+use App\Services\Info\InfoController;
 use App\Support\Admin\Img;
 use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -17,22 +18,22 @@ class UserController extends AppController
     {
         parent::__construct($request);
 
-        // Получаем данные о текущем классе в массив $info
-        $this->info = $this->info();
+        // Получаем данные о текущем классе
+        $this->info = app()->make(InfoController::class);
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.' . $this->info['table']), route("{$this->viewPath}.{$this->info['kebab']}.index"));
+            $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
 
 
         // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
-        /*$relatedManyToManyEdit = $this->relatedManyToManyEdit = [
+        /*$this->relatedManyToManyEdit = [
             ['roles', null, 'id', 'name'],
         ];*/
 
-        //view()->share(compact('relatedManyToManyEdit'));
+        view()->share(['info' => $this->info]);
     }
 
 
@@ -57,13 +58,13 @@ class UserController extends AppController
         $cell = $get['cell'] ?? null;
 
         // Метод для поиска и сортировки запроса БД
-        $values = $this->dbSort::getSearchSort($queryArr, $this->info['table'], $this->info['model'], $this->info['view'], $this->pagination);
+        $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $this->info->model, $this->info->view, $this->pagination);
 
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->info['view']}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->info->view}";
 
-        $title = __('a.' . $this->info['table']);
+        $title = __('a.' . $this->info->table);
         return view($view, compact('title', 'values', 'queryArr', 'col', 'cell'));
     }
 
@@ -76,7 +77,7 @@ class UserController extends AppController
     public function create()
     {
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
         // Роли
         $roles = DB::table('roles');
@@ -90,12 +91,12 @@ class UserController extends AppController
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
         // Картинка (получаем только картинки и для этого класса)
-        //$images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
+        //$images = File::onlyImg()->whereType($this->info->model)->pluck('path', 'id');
         // Добавить в начало коллекции
         //$images->prepend(ltrim(config('add.imgDefault'), '/'), 0);
 
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -122,7 +123,7 @@ class UserController extends AppController
 
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => "required|string|email|unique:{$this->info['table']},email|max:255",
+            'email' => "required|string|email|unique:{$this->info->table},email|max:255",
             'tel' => 'nullable|tel|max:255',
             'password' => 'required|string|min:6|same:password_confirmation',
             'accept' => 'accepted',
@@ -140,7 +141,7 @@ class UserController extends AppController
         if ($request->hasFile('img')) {
 
             // Обработка картинки
-            $data['img'] = Img::upload($request, $this->info['snake']);
+            $data['img'] = Img::upload($request, $this->info->snake);
 
         } else {
 
@@ -150,7 +151,7 @@ class UserController extends AppController
 
 
         // Создаём экземпляр модели
-        $values = app()->make($this->info['model']);
+        $values = app()->make($this->info->model);
 
         // Заполняем модель новыми данными
         $values->fill($data);
@@ -184,7 +185,7 @@ class UserController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.created_successfully', ['id' => $values->id]));
     }
 
@@ -198,10 +199,10 @@ class UserController extends AppController
     public function edit($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Название вида
-        $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
+        $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
 
 
         // Роли
@@ -216,11 +217,11 @@ class UserController extends AppController
         $permissions = DB::table('permissions')->pluck('name', 'id');
 
         // Картинка (получаем только картинки и для этого класса)
-        //$images = File::onlyImg()->whereType($this->info['model'])->pluck('path', 'id');
+        //$images = File::onlyImg()->whereType($this->info->model)->pluck('path', 'id');
         // Добавить в начало коллекции
         //$images->prepend(config('add.imgDefault'), 0);
 
-        $title = __('a.' . $this->info['action']) . ' ' . Str::lower(__('a.' . $this->info['table']));
+        $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Хлебные крошки
         Breadcrumbs::for('action', function ($trail) use ($title) {
@@ -262,7 +263,7 @@ class UserController extends AppController
     public function update(Request $request, $id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
 
         // Роль Admin может редактировать Admin
@@ -277,7 +278,7 @@ class UserController extends AppController
 
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => "required|string|email|unique:{$this->info['table']},email,{$id}|max:255",
+            'email' => "required|string|email|unique:{$this->info->table},email,{$id}|max:255",
             'tel' => 'nullable|tel|max:255',
             'password' => 'nullable|string|min:6|same:password_confirmation',
         ];
@@ -287,13 +288,13 @@ class UserController extends AppController
 
 
         // Сохраним прошлые данные
-        LastData::saveData($id, $this->info['table']);
+        LastData::saveData($id, $this->info->table);
 
 
         if ($request->hasFile('img')) {
 
             // Обработка картинки
-            $data['img'] = Img::upload($request, $this->info['snake'], $values->img);
+            $data['img'] = Img::upload($request, $this->info->snake, $values->img);
 
         } else {
 
@@ -352,7 +353,7 @@ class UserController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.edit", $values->id)
+            ->route("admin.{$this->info->kebab}.edit", $values->id)
             ->with('success', __('s.saved_successfully', ['id' => $values->id]));
     }
 
@@ -366,7 +367,7 @@ class UserController extends AppController
     public function destroy($id)
     {
         // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info['model']::findOrFail($id);
+        $values = $this->info->model::findOrFail($id);
 
         // Удалить пользователя с ролью Admin может только Admin
         if ($values->hasRole($this->adminRoleName) && !auth()->user()->hasRole($this->adminRoleName)) {
@@ -422,7 +423,7 @@ class UserController extends AppController
 
         // Сообщение об успехе
         return redirect()
-            ->route("admin.{$this->info['kebab']}.index")
+            ->route("admin.{$this->info->kebab}.index")
             ->with('success', __('s.removed_successfully', ['id' => $values->id]));
     }
 }
