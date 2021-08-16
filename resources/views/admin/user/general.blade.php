@@ -83,8 +83,8 @@ Breadcrumbs --}}
                             @endif
                             {{--
 
-                            Разрешения. Если авторизированный пользователь не админ и редактируемый пользователь админ, то не показываем --}}
-                            @if(!empty($permissions) && !(!auth()->user()->hasRole($adminRoleName) && isset($values->id) && $values->hasRole($adminRoleName)))
+                            Разрешения. Если у пользователя доступ к разрешениям --}}
+                            @if(!empty($permissions) && auth()->user()->can('permission'))
                                 <div class="col-md-6">
                                     {{ $form::select('permissions[]', $permissions, ['lang' => 'false', 'id' => 'permissions', 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], isset($values->id) ? $values->permissions->pluck('id') : null, false, 'permissions', null, null, true) }}
                                 </div>

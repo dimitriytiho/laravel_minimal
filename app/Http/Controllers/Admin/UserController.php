@@ -78,8 +78,13 @@ class UserController extends AppController
         // Название вида
         $view = "{$this->viewPath}.{$this->info['snake']}.{$this->template}";
 
-        // Роли пользователей
-        $roles = DB::table('roles')->pluck('name', 'id');
+        // Роли
+        $roles = DB::table('roles');
+        // Если не админ, то не показываем роль админ
+        if (!auth()->user()->hasRole($this->adminRoleName)) {
+            $roles = $roles->where('name', '!=', $this->adminRoleName);
+        }
+        $roles = $roles->pluck('name', 'id');
 
         // Разрешения
         $permissions = DB::table('permissions')->pluck('name', 'id');
@@ -200,7 +205,12 @@ class UserController extends AppController
 
 
         // Роли
-        $roles = DB::table('roles')->pluck('name', 'id');
+        $roles = DB::table('roles');
+        // Если не админ, то не показываем роль админ
+        if (!auth()->user()->hasRole($this->adminRoleName)) {
+            $roles = $roles->where('name', '!=', $this->adminRoleName);
+        }
+        $roles = $roles->pluck('name', 'id');
 
         // Разрешения
         $permissions = DB::table('permissions')->pluck('name', 'id');
