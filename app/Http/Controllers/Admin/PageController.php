@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\Info\InfoController;
 use App\Models\{Property, LastData};
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;

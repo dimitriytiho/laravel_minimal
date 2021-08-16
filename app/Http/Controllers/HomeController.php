@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Info\InfoController;
 use Illuminate\Http\Request;
 
 class HomeController extends AppController

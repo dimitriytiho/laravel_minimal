@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\Info\InfoController;
 use App\Support\Admin\App;
 use App\Support\Func;
 use Illuminate\Http\Request;

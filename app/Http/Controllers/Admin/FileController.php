@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\Info\InfoController;
 use App\Support\Admin\Img;
 use App\Support\Func;
 use Diglactic\Breadcrumbs\Breadcrumbs;

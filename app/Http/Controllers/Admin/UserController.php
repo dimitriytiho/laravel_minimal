@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\Auth\Role;
-use App\Services\Info\InfoController;
 use App\Support\Admin\Img;
 use App\Support\UserLog;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
-use App\Models\{File, LastData};
+use App\Models\LastData;
 use Illuminate\Support\Facades\{DB, Hash, Schema};
 use Illuminate\Support\Str;
 
