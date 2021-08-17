@@ -49,19 +49,46 @@ class Func
      * @return string
      *
      * Возвращает настройку сайта из таблицы settings.
-     * Func::site('name') - достать настройку.
-     * @param string $default - значение по-умолчание, необязательный параметр.
-     *
-     * @param string $settingName - название настройки.
+     * Func::site('name') - достать значение настройки из value.
+     * @param string $settingKey - название настройки.
+     * @param string $default - значение по-умолчанию, необязательный параметр.
      */
-    public static function site($settingName, $default = null)
+    public static function site($settingKey, $default = null)
     {
         // Получаем все настройки и кэшируем запрос
-        $settings = cache()->rememberForever('settings_all', function () {
+        $settings = cache()->rememberForever('settings_key_value', function () {
             return Setting::all()->pluck('value', 'key')->toArray();
         });
+        return $settings[$settingKey] ?? $default;
+    }
 
-        return $settings[$settingName] ?? $default;
+
+    /**
+     *
+     * @return object
+     *
+     * Возвращает настройки сайта из таблицы settings.
+     * Func::param('name')->value - достать данные.
+     *
+     * @param string $settingKey - название настройки.
+     */
+    public static function param($settingKey)
+    {
+        // Получаем все настройки и кэшируем запрос
+        $settings = cache()->rememberForever('settings_all_key', function () {
+            $res = Setting::all()->keyBy('key');
+
+            // Создаём пустой объект, на случай если нет настройки
+            $res[0] = app()->make(Setting::class);
+            return $res;
+        });
+
+        // Формируем нужную настройку
+        $param = $settings[$settingKey] ?? $settings[0];
+
+        // Json в array
+        $param->data = json_decode($param->data, true);
+        return $param;
     }
 
 

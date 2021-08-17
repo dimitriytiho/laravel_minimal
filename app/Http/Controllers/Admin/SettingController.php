@@ -91,7 +91,7 @@ class SettingController extends AppController
     public function store(Request $request)
     {
         $rules = [
-            'key' => 'required|string|max:255',
+            'key' => "required|string|unique:{$this->info->table}|max:255",
         ];
         $request->validate($rules);
         $data = $request->all();
