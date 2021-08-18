@@ -10,6 +10,7 @@ return [
 
     'something_went_wrong' => 'Something went wrong, try again later...',
     'cart' => 'Cart',
+    'upload_success' => 'Upload success',
 
 
     // Dropzone

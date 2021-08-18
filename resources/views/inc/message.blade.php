@@ -1,4 +1,4 @@
-<div id="get_alert_js"></div>
+<div id="get_alert"></div>
 {{--
 
 Сообщения об ошибках --}}
