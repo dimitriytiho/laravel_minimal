@@ -170,6 +170,11 @@ class DummyController extends AppController
         // Заполняем модель новыми данными
         $values->fill($data);
 
+
+        // Сохраним прошлые данные
+        //LastData::saveData($id, $this->info->table);
+
+
         // Обновляем элемент
         $values->update();
 
