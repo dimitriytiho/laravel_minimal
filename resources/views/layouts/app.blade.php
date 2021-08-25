@@ -171,7 +171,7 @@ jquery-validation --}}
         img_file = '{{ $file }}',
         main_color = '{{ config('add.primary') ?? '#ccc' }}',
         spinner = $('#spinner'),
-        spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>'
+        spinnerBtn = '<span class="spinner-grow spinner-grow-sm me-2"></span>'
 </script>
 {{--
 

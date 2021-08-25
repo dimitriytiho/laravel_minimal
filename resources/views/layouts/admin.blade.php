@@ -117,7 +117,7 @@ Js files --}}
         siteName = '{{ Func::site('name') ?: ' ' }}',
         requestPath = '{{ route('admin.main') }}',
         spinner = $('#spinner'),
-        spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>',
+        spinnerBtn = '<span class="spinner-grow spinner-grow-sm me-2"></span>',
 
         table = '{{ $info->table ?? null }}',
         currentClass = '{{ $info->class ?? null }}',

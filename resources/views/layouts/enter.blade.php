@@ -63,7 +63,7 @@ Admin LTE --}}
     var _token = '{{ csrf_token() }}',
         spinner = $('#spinner'),
         requestPath = '',
-        spinnerBtn = '<span class="spinner-grow spinner-grow-sm mr-2"></span>'
+        spinnerBtn = '<span class="spinner-grow spinner-grow-sm me-2"></span>'
 
     {!! \App\Support\Locale::translationsJson() !!}
 </script>
