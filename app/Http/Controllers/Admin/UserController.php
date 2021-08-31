@@ -28,6 +28,15 @@ class UserController extends AppController
         /*$this->relatedManyToManyEdit = [
             ['roles', null, 'id', 'name'],
         ];*/
+
+        // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
+        $this->relatedManyToManyDelete = [
+            ['forms', 'form'],
+        ];
+
+        view()->share([
+            'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
+        ]);
     }
 
 
@@ -366,6 +375,18 @@ class UserController extends AppController
         // Удалить пользователя с ролью Admin может только Admin
         if ($values->hasRole($this->adminRoleName) && !auth()->user()->hasRole($this->adminRoleName)) {
             return redirect()->back()->withErrors(__('s.admin_choose_admin'));
+        }
+
+
+        // Если есть связанные элементы не удалять
+        if ($this->relatedManyToManyDelete) {
+            foreach ($this->relatedManyToManyDelete as $related) {
+                if (!empty($related[0]) && $values->{$related[0]} && $values->{$related[0]}->count()) {
+                    return redirect()
+                        ->route("admin.{$this->info->kebab}.edit", $id)
+                        ->withErrors(__('s.remove_not_possible') . ', ' . __('s.there_are_nested') . __('a.id'));
+                }
+            }
         }
 
 

@@ -26,7 +26,7 @@ Breadcrumbs --}}
 
                 {{ $form::input('title', [], $values->title ?? null) }}
 
-                {{ $form::inputGroup('slug', [], $values->slug ?? null, false, true, null, $form::inputGroupAppend('fas fa-sync text-primary', 'cur get_slug', 'bg-white', ['data-url' => route('admin.get-slug'), 'data-src' => 'title', 'title' => __('a.generate_link')])) }}
+                {{ $form::inputGroup('slug', [], $values->slug ?? null, true, true, null, $form::inputGroupAppend('fas fa-sync text-primary', 'cur get_slug', 'bg-white', ['data-url' => route('admin.get-slug'), 'data-src' => 'title', 'title' => __('a.generate_link')])) }}
 
                 <div class="row">
                     <div class="col-md-6">

@@ -187,8 +187,37 @@ Breadcrumbs --}}
 
 
 
+                    Если есть связанные элементы не удалять --}}
+                    @if(isset($values) && !empty($relatedManyToManyDelete))
+                        @foreach($relatedManyToManyDelete as $related)
+                            @if(!empty($related[0]) && !empty($related[1]) && isset($values->{$related[0]}) && $values->{$related[0]}->count())
+                                @php
+
+                                    $deleteNo = true;
+                                    if (Route::has("admin.{$related[1]}.edit")) {
+                                        $deleteRoute = 'edit';
+                                    } elseif (Route::has("admin.{$related[1]}.show")) {
+                                        $deleteRoute = 'show';
+                                    }
+
+                                @endphp
+                                <div class="text-right">
+                                    <div class="small text-secondary">@lang('s.remove_not_possible'),<br>@lang('s.there_are_nested') {{ Func::__($related[0], 'a') }}</div>
+                                    @isset($deleteRoute)
+                                        @foreach($values->{$related[0]} as $item)
+                                            <a href="{{ route("admin.{$related[1]}.{$deleteRoute}", $item->id) }}">{{ $item->id }}</a>
+                                        @endforeach
+                                    @endisset
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+                    {{--
+
+
+
                     Кнопка удалить, удалить может только Admin --}}
-                    @if(isset($values->id) && auth()->user()->hasRole($adminRoleName))
+                    @if(isset($values->id)  && empty($deleteNo) && auth()->user()->hasRole($adminRoleName))
                         <form action="{{ route("admin.{$info->kebab}.destroy", $values->id) }}" method="post" class="text-right confirm_form">
                             @method('delete')
                             @csrf
