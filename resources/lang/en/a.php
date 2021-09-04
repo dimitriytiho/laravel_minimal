@@ -237,6 +237,7 @@ return [
     'path' => 'Path',
     'old_name' => 'Old name',
     'max_size' => 'Max size',
+    'max_size_files_continue' => 'Files were skipped with a size larger than :size kb.',
     'webp' => 'Image Webp',
     'no_save' => 'No save',
     'not_cut' => 'Not cut',

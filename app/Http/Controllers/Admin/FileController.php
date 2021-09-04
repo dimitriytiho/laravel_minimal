@@ -108,7 +108,10 @@ class FileController extends AppController
         //$webp = $request->webp ? true : false;
 
         // Валидация данных
-        $request->validate(['files' => 'required']);
+        $rules = [
+            'files' => 'required',
+        ];
+        $request->validate($rules);
 
         $dateDir = date('Y_m');
         $dir = config('add.file') . '/' . $dateDir;
@@ -117,97 +120,98 @@ class FileController extends AppController
         // Создадим папку если нет
         File::ensureDirectoryExists($dirFull);
 
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $key => $file) {
-                $mime = $file->getMimeType();
-                $size = $file->getSize();
-                $ext = $file->getClientOriginalExtension();
-                $nameOld = $file->getClientOriginalName();
-                $name = Str::lower(Str::random()) . '.' . $ext;
-                $path = $dir . '/' . $name;
+        foreach ($request->file('files') as $key => $file) {
+            $size = $file->getSize();
+
+            // Сообщение о большом размере файла
+            if (!$size || $size >= 2097152) {
+                return back()->withErrors(__('a.max_size_files_continue', ['size' => 2000]));
+            }
+
+            $mime = $file->getMimeType();
+            $ext = $file->getClientOriginalExtension();
+            $nameOld = $file->getClientOriginalName();
+            $name = Str::lower(Str::random()) . '.' . $ext;
+            $path = $dir . '/' . $name;
 
 
-                // Если картинка
-                $img = $ext === 'jpeg' || $ext === 'jpg' || $ext === 'png';
+            // Если картинка
+            $img = $ext === 'jpeg' || $ext === 'jpg' || $ext === 'png';
 
-                if (empty($exts[0]) && $img) {
-                    $width = empty($exts[1]) ? null : (int)$exts[1];
-                    $height = empty($exts[2]) ? null : (int)$exts[2];
-                    $crop = !empty($exts[3]) && $exts[3] === 'square';
+            if (empty($exts[0]) && $img) {
+                $width = empty($exts[1]) ? null : (int)$exts[1];
+                $height = empty($exts[2]) ? null : (int)$exts[2];
+                $crop = !empty($exts[3]) && $exts[3] === 'square';
 
-                    // Ресайз картинки
-                    $imgResize = Image::make($file->getRealPath());
-
-
-                    // Ресайз в квадрат
-                    if ($crop && $imgResize->width() > $width || $crop && $imgResize->height() > $height) {
-                        /*$width = $imgResize->width() > $width ? $width : $imgResize->width();
-                        $height = $imgResize->height() > $height ? $height : $imgResize->height();
-
-                        if ($imgResize->width() < $imgResize->height()) {
-                            $width = $height;
-                            $height = $width;
-                        }
-
-                        // Ресайз картинку к нужному размеру
-                        $imgResize->resize($width, $height, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });*/
-
-                        $imgResize->fit($width, $height, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
+                // Ресайз картинки
+                $imgResize = Image::make($file->getRealPath());
 
 
-                    // Ресайз с одной стороны
-                    } else {
+                // Ресайз в квадрат
+                if ($crop && $imgResize->width() > $width || $crop && $imgResize->height() > $height) {
+                    /*$width = $imgResize->width() > $width ? $width : $imgResize->width();
+                    $height = $imgResize->height() > $height ? $height : $imgResize->height();
 
-                        $width = $imgResize->width() > $width ? $width : $imgResize->width();
-                        $height = $imgResize->height() > $height ? $height : $imgResize->height();
-
-                        $imgResize->resize($width, $height, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
+                    if ($imgResize->width() < $imgResize->height()) {
+                        $width = $height;
+                        $height = $width;
                     }
 
-                    // Сохраняем картинку
-                    $imgResize->save(public_path($path));
+                    // Ресайз картинку к нужному размеру
+                    $imgResize->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });*/
 
-                    // Скопировать картинку Webp
-                    if ($webp) {
-                        Img::copyWebp($path);
-                    }
+                    $imgResize->fit($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
 
 
-                // Если файл
+                // Ресайз с одной стороны
                 } else {
 
-                    // Сохранить файл
-                    $file->move($dirFull, $name);
+                    $width = $imgResize->width() > $width ? $width : $imgResize->width();
+                    $height = $imgResize->height() > $height ? $height : $imgResize->height();
+
+                    $imgResize->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                }
+
+                // Сохраняем картинку
+                $imgResize->save(public_path($path));
+
+                // Скопировать картинку Webp
+                if ($webp) {
+                    Img::copyWebp($path);
                 }
 
 
-                // Сохранить в БД
-                $data = $request->all();
-                $data['name'] = $name;
-                $data['path'] = $path;
-                $data['ext'] = $ext;
-                $data['mime_type'] = $mime;
-                $data['size'] = File::size($dirFull . '/' . $name);
-                $data['old_name'] = $nameOld;
-                $this->info->model::create($data);
+            // Если файл
+            } else {
+
+                // Сохранить файл
+                $file->move($dirFull, $name);
             }
 
-            // Сообщение об успехе
-            return redirect()
-                ->route("admin.{$this->info->kebab}.index")
-                ->with('success', __('a.upload_success'));
+
+            // Сохранить в БД
+            $data = [
+                'type' => $request->type ? config('add.models') . '\\' . $request->type : null,
+                'name' => $name,
+                'path' => $path,
+                'ext' => $ext,
+                'mime_type' => $mime,
+                'size' => File::size($dirFull . '/' . $name),
+                'old_name' => $nameOld,
+            ];
+            $this->info->model::create($data);
         }
 
-        // Сообщение что-то пошло не так
+        // Сообщение об успехе
         return redirect()
             ->route("admin.{$this->info->kebab}.index")
-            ->withErrors(__('s.whoops'));
+            ->with('success', __('a.upload_success'));
     }
 
 

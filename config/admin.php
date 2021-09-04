@@ -19,6 +19,13 @@ return [
     'date_format' => 'd.m.Y H:i', // d.m.Y H:i dd.MM.y HH:mm
 
 
+    // Модели для сохранения файлов в модели File
+    'file_models' => [
+        ' ',
+        'Service',
+    ],
+
+
     // Типы настроек
     'setting_type' => [
         'string', // Первое значение по-умолчанию

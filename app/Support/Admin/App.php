@@ -30,16 +30,18 @@ class App
      * Возвращает namespace всех моделей в массиве.
      *
      * @param bool $firstEmpty - передать true, чтобы первый элемент массив был пустой.
+     * @param bool $namespace - по-умолчанию namespace дополняем, если нужны только названия моделей, то передать false.
      */
-    public static function getModels($firstEmpty = false)
+    public static function getModels($firstEmpty = false, $namespace = true)
     {
         $all = File::allFiles(config('add.models_path'));
+        $namespace = $namespace ? config('add.models') . '\\' : null;
         if ($all) {
             if ($firstEmpty) {
                 $models[] = ' ';
             }
             foreach ($all as $file) {
-                $models[] = config('add.models') . '\\' . pathinfo($file)['filename'];
+                $models[] = $namespace . pathinfo($file)['filename'];
             }
         }
         return $models ?? null;
