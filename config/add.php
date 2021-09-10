@@ -98,8 +98,8 @@ return [
 
     'development' => [
         'Developer' => 'Dmitriy Konovalov',
-        'Email' => 'dimitriyyuliya@gmail.com',
-        'Facebook' => 'https://www.facebook.com/dimitriyyuliya',
+        'Email' => 'dimitriytiho@gmail.com',
+        'Facebook' => 'https://www.facebook.com/dimitriytiho',
         'From' => 'Moscow, Russia',
         'Language' => 'Russian',
         'Doctype' => 'HTML5',

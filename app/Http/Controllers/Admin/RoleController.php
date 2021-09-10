@@ -14,7 +14,6 @@ class RoleController extends AppController
         parent::__construct($request);
 
         $this->info->model = '\Spatie\Permission\Models\Role';
-        $this->info->table = 'roles';
 
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
