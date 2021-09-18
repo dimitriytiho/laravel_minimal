@@ -31,7 +31,7 @@ class UserController extends AppController
 
         // Указать методы из моделей, если есть связанные элементы не удалять (первый параметр: метод из модели, второй: название маршрута)
         $this->relatedManyToManyDelete = [
-            ['forms', 'form'],
+            //['forms', 'form'],
         ];
 
         view()->share([
@@ -130,6 +130,7 @@ class UserController extends AppController
             'tel' => 'nullable|tel|max:255',
             'password' => 'required|string|min:6|same:password_confirmation',
             'accept' => 'accepted',
+            'score' => 'nullable|numeric|min:0',
         ];
         $request->validate($rules);
 
@@ -284,6 +285,7 @@ class UserController extends AppController
             'email' => "required|string|email|unique:{$this->info->table},email,{$id}|max:255",
             'tel' => 'nullable|tel|max:255',
             'password' => 'nullable|string|min:6|same:password_confirmation',
+            'score' => 'nullable|numeric|min:0',
         ];
         $request->validate($rules);
         $data = $request->all();

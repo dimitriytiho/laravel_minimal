@@ -179,6 +179,7 @@ class MenuController extends AppController
         $rules = [
             'belong_id' => "required|integer|exists:{$this->belongTable},id",
             'title' => 'required|string|max:255',
+            'parent_id' => 'nullable|integer|min:0',
         ];
         $request->validate($rules);
         $data = $request->all();
@@ -284,7 +285,9 @@ class MenuController extends AppController
 
         $rules = [
             'belong_id' => "required|integer|exists:{$this->belongTable},id",
-            'title' => 'required|string|max:100',
+            'title' => 'required|string|max:255',
+            'parent_id' => 'nullable|integer|min:0',
+            'sort' => 'required|integer|min:1|max:65535',
         ];
         $request->validate($rules);
         $data = $request->all();

@@ -177,6 +177,7 @@ class MenuGroupController extends AppController
         // Валидация
         $rules = [
             'title' => 'required|string|max:255',
+            'sort' => 'required|integer|min:1|max:65535',
         ];
         $request->validate($rules);
         $data = $request->all();

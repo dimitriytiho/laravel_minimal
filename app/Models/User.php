@@ -45,10 +45,10 @@ class User extends Authenticatable
 
 
     // Связь один ко многим
-    public function forms()
+    /*public function forms()
     {
         return $this->hasMany(Form::class);
-    }
+    }*/
 
     // Связь многие ко многим для любых моделей
     /*public function file()

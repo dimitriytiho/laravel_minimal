@@ -19,8 +19,8 @@ class CreateAttributesTable extends Migration
             $table->foreign('property_id')->references('id')->on('properties');
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
-            $table->float('number')->nullable();
-            $table->float('old')->nullable();
+            $table->float('number')->nullable()->unsigned();
+            $table->float('old')->nullable()->unsigned();
             $table->text('description')->nullable();
             $table->text('body')->nullable();
             $table->json('data')->nullable();

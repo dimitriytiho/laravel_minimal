@@ -103,6 +103,8 @@ class PropertyController extends AppController
     public function store(Request $request)
     {
         $rules = [
+            'number' => 'nullable|numeric|min:0',
+            'old' => 'nullable|numeric|min:0',
             //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
@@ -202,6 +204,9 @@ class PropertyController extends AppController
 
         // Валидация
         $rules = [
+            'number' => 'nullable|numeric|min:0',
+            'old' => 'nullable|numeric|min:0',
+            'sort' => 'required|integer|min:1|max:65535',
             //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);

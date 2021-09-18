@@ -107,6 +107,8 @@ class AttributeController extends AppController
     {
         $rules = [
             'property_id' => "required|integer|exists:{$this->belongTable},id",
+            'number' => 'nullable|numeric|min:0',
+            'old' => 'nullable|numeric|min:0',
             //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);
@@ -193,6 +195,9 @@ class AttributeController extends AppController
         // Валидация
         $rules = [
             'property_id' => "required|integer|exists:{$this->belongTable},id",
+            'number' => 'nullable|numeric|min:0',
+            'old' => 'nullable|numeric|min:0',
+            'sort' => 'required|integer|min:1|max:65535',
             //'title' => 'required|string|max:255',
         ];
         $request->validate($rules);

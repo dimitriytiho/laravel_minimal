@@ -19,8 +19,8 @@ class CreatePropertiesTable extends Migration
             $table->index('title');
             $table->string('slug')->nullable();
             $table->index('slug');
-            $table->float('number')->nullable();
-            $table->float('old')->nullable();
+            $table->float('number')->nullable()->unsigned();
+            $table->float('old')->nullable()->unsigned();
             $table->string('type')->nullable();
             $table->text('description')->nullable();
             $table->text('body')->nullable();

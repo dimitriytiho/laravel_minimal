@@ -24,7 +24,7 @@ Breadcrumbs --}}
                 @isset($values->id)
                     <div class="row">
                         <div class="col-12">
-                            {{ $form::input('sort', [], $values->sort ?? null, false) }}
+                            {{ $form::input('sort', ['type' => 'number', 'min' => '1', 'step' => '1', 'max' => '65535'], $values->sort ?? null) }}
                         </div>
                         <div class="col-md-4">
                             {{ $form::input('id', ['disabled'], $values->id ?? null, false) }}

@@ -14,6 +14,14 @@
         </div>
     </div>
 @endif
+@if(session()->has('error'))
+    <div class="mt-1">
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span>{{ session('error') }}</span>
+        </div>
+    </div>
+@endif
 {{--
 
 Сообщения об успехе --}}

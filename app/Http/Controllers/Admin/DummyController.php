@@ -163,6 +163,7 @@ class DummyController extends AppController
         $rules = [
             'title' => 'required|string|max:255',
             'slug' => "required|string|unique:{$this->info->table},slug,{$id}|max:255",
+            'sort' => 'required|integer|min:1|max:65535',
         ];
         $request->validate($rules);
         $data = $request->all();

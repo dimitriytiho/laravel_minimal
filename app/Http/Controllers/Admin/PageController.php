@@ -104,6 +104,7 @@ class PageController extends AppController
         $rules = [
             'title' => 'required|string|max:255',
             'slug' => "required|string|unique:{$this->info->table}|max:255",
+            'parent_id' => 'nullable|integer|min:0',
         ];
         $request->validate($rules);
         $data = $request->all();
@@ -207,6 +208,8 @@ class PageController extends AppController
         $rules = [
             'title' => 'required|string|max:255',
             'slug' => "required|string|unique:{$this->info->table},slug,{$id}|max:255",
+            'parent_id' => 'nullable|integer|min:0',
+            'sort' => 'required|integer|min:1|max:65535',
         ];
         $request->validate($rules);
         $data = $request->all();
