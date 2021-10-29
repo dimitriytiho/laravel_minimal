@@ -68,7 +68,8 @@ class Func
      * @return object
      *
      * Возвращает настройки сайта из таблицы settings.
-     * Func::param('name')->value - достать данные.
+     * Func::param('name')->value - достать значение, тоже самое Func::site('name').
+     * Func::param('name')->data - достать массив.
      *
      * @param string $settingKey - название настройки.
      */

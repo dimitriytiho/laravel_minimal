@@ -8,7 +8,7 @@
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  // При клике на .get_slug из вышестоящего input транситирируется текст, в data-src="title" указать input в котором name="title"
+  // При клике на .get_slug из вышестоящего input транслитирирует текст, в data-src="title" указать input в котором name="title"
   $('.get_slug').click(function () {
     var self = $(this),
         url = self.data('url'),
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  // При отправки формы с .confirm-form будет подтвержение отправки
+  // При отправки формы с .confirm-form будет подтверждение отправки
   $(document).on('submit', '.confirm_form', function (e) {
     e.preventDefault();
     var modal = $('#confirm_modal'),
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       e.target.submit();
     }.bind(e));
-  }); // При клике по ссылке .confirm-link будет подтвержение отправки (добавить атрибуты data-toggle="modal" data-target="#confirm_modal")
+  }); // При клике по ссылке .confirm-link будет подтверждение отправки (добавить атрибуты data-toggle="modal" data-target="#confirm_modal")
 
   $(document).on('click', '.confirm_link', function (e) {
     e.preventDefault();
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  // При кликена на .pulse эффект пульса
+  // При клике на .pulse эффект пульса
   $('.pulse').click(function (e) {
     var div = document.createElement('div'),
         style = div.style,
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('html, body').animate({
       scrollTop: 0
     }, '400');
-  }); // Код со скроллом
+  }); // Скролл
 
   $(window).on('scroll', function () {
     var scrollTop = scrollTop = $(window).scrollTop();
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /*messages: {
         email: {
             required: 'Please enter a email address',
-            email: 'Please enter a vaild email address'
+            email: 'Please enter a valid email address'
         },
     },*/
     // При удаление фокуса с input
