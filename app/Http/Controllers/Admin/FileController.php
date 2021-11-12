@@ -206,36 +206,11 @@ class FileController extends AppController
      */
     public function destroy($id)
     {
-        // Получаем элемент по id, если нет - будет ошибка
-        $values = $this->info->model::findOrFail($id);
-
-        // Транзакция на 2 попытки
-        DB::transaction(function () use ($id, $values) {
-
-            // Удаляем связи
-            DB::table('fileables')
-                ->where('file_id', $id)
-                ->delete();
-
-            // Удаляем элемент
-            $values->delete();
-        }, 2);
-
-        // Удалить файл
-        if (File::exists(public_path($values->path))) {
-            File::delete(public_path($values->path));
-
-            // Удалить Webp картинку
-            $webp = str_replace($values->ext, 'webp', $values->path);
-            if (File::exists(public_path($webp))) {
-                File::delete(public_path($webp));
-            }
+        $res = Attachment::delete($id, false);
+        if (key_exists('success', $res)) {
+            return back()->with('success', __('s.removed_successfully', ['id' => $id]));
         }
-
-        // Сообщение об успехе
-        return redirect()
-            ->route("admin.{$this->info->kebab}.index")
-            ->with('success', __('s.removed_successfully', ['id' => $values->id]));
+        return back()->withErrors(__('s.whoops'));
     }
 
 
@@ -248,45 +223,11 @@ class FileController extends AppController
      */
     public function delete(Request $request)
     {
-        $id = (int)$request->id;
-        if ($request->token && $request->token === csrf_token() && $id) {
-
-            // Получаем элемент по id, если нет - будет ошибка
-            $values = $this->info->model::findOrFail($id);
-
-            // Транзакция на 2 попытки
-            DB::transaction(function () use ($id, $values) {
-
-                // Удаляем связи
-                DB::table('fileables')
-                    ->where('file_id', $id)
-                    ->delete();
-
-                // Удаляем элемент
-                $values->delete();
-            }, 2);
-
-            // Удалить файл
-            if (File::exists(public_path($values->path))) {
-                File::delete(public_path($values->path));
-
-                // Удалить Webp картинку
-                $webp = str_replace($values->ext, 'webp', $values->path);
-                if (File::exists(public_path($webp))) {
-                    File::delete(public_path($webp));
-                }
-            }
-
-            // Сообщение об успехе
-            return redirect()
-                ->back()
-                ->with('success', __('s.success_destroy'));
+        $res = Attachment::delete($request->id, $request->token);
+        if (key_exists('success', $res)) {
+            return back()->with('success', $res['success']);
         }
-
-        // Сообщение что-то пошло не так
-        return redirect()
-            ->back()
-            ->withErrors(__('s.whoops'));
+        return back()->withErrors(__('s.whoops'));
     }
 
 

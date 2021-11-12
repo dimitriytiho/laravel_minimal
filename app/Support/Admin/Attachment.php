@@ -4,6 +4,7 @@
 namespace App\Support\Admin;
 
 use App\Models\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File as FileSupport;
@@ -129,6 +130,51 @@ class Attachment
             File::create($data);
         }
         return ['success' => __('a.upload_success')];
+    }
+
+
+    /**
+     * @return array
+     * Удаляет file и webp картинку, если она есть.
+     *
+     * @param int|string $id
+     * @param string $token - передать false, если не нужно проверять.
+     */
+    public static function delete($id, $token = false)
+    {
+        $token = $token === false ? true : $token === csrf_token();
+        if ($id && $token) {
+
+            // Получаем элемент по id
+            $values = File::find($id);
+            if ($values) {
+
+                // Транзакция на 2 попытки
+                DB::transaction(function () use ($id, $values) {
+
+                    // Удаляем связи
+                    DB::table('fileables')
+                        ->where('file_id', $id)
+                        ->delete();
+
+                    // Удаляем элемент из БД
+                    $values->delete();
+                }, 2);
+
+                // Удалить файл
+                if (FileSupport::exists(public_path($values->path))) {
+                    FileSupport::delete(public_path($values->path));
+
+                    // Удалить Webp картинку
+                    $webp = str_replace($values->ext, 'webp', $values->path);
+                    if (FileSupport::exists(public_path($webp))) {
+                        FileSupport::delete(public_path($webp));
+                    }
+                }
+                return ['success' => __('s.success_destroy')];
+            }
+        }
+        return ['error' => __('s.whoops')];
     }
 
 
