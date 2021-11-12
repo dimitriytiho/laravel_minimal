@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Support\Admin\Attachment;
 use App\Support\Admin\Img;
 use App\Support\Func;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, File, Schema};
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class FileController extends AppController
 {
@@ -101,117 +101,19 @@ class FileController extends AppController
      */
     public function store(Request $request)
     {
-        // Сохраняем данные в переменную
-        $exts = $request->ext ?: 0;
-        $exts = config('admin.images_ext')[$exts] ?? null;
-        $webp = true;
-        //$webp = $request->webp ? true : false;
+        $res = Attachment::upload();
 
-        // Валидация данных
-        $rules = [
-            'files' => 'required',
-        ];
-        $request->validate($rules);
+        if (key_exists('success', $res)) {
+            return redirect()
+                ->route("admin.{$this->info->kebab}.index")
+                ->with('success', $res['success']);
 
-        $dateDir = date('Y_m');
-        $dir = config('add.file') . '/' . $dateDir;
-        $dirFull = public_path($dir);
+        } elseif (key_exists('error', $res)) {
+            return back()->withErrors($res['error']);
 
-        // Создадим папку если нет
-        File::ensureDirectoryExists($dirFull);
-
-        foreach ($request->file('files') as $key => $file) {
-            $size = $file->getSize();
-
-            // Сообщение о большом размере файла
-            if (!$size || $size >= 2097152) {
-                return back()->withErrors(__('a.max_size_files_continue', ['size' => 2000]));
-            }
-
-            $mime = $file->getMimeType();
-            $ext = $file->getClientOriginalExtension();
-            $nameOld = $file->getClientOriginalName();
-            $name = Str::lower(Str::random()) . '.' . $ext;
-            $path = $dir . '/' . $name;
-
-
-            // Если картинка
-            $img = $ext === 'jpeg' || $ext === 'jpg' || $ext === 'png';
-
-            if (empty($exts[0]) && $img) {
-                $width = empty($exts[1]) ? null : (int)$exts[1];
-                $height = empty($exts[2]) ? null : (int)$exts[2];
-                $crop = !empty($exts[3]) && $exts[3] === 'square';
-
-                // Ресайз картинки
-                $imgResize = Image::make($file->getRealPath());
-
-
-                // Ресайз в квадрат
-                if ($crop && $imgResize->width() > $width || $crop && $imgResize->height() > $height) {
-                    /*$width = $imgResize->width() > $width ? $width : $imgResize->width();
-                    $height = $imgResize->height() > $height ? $height : $imgResize->height();
-
-                    if ($imgResize->width() < $imgResize->height()) {
-                        $width = $height;
-                        $height = $width;
-                    }
-
-                    // Ресайз картинку к нужному размеру
-                    $imgResize->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });*/
-
-                    $imgResize->fit($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-
-
-                // Ресайз с одной стороны
-                } else {
-
-                    $width = $imgResize->width() > $width ? $width : $imgResize->width();
-                    $height = $imgResize->height() > $height ? $height : $imgResize->height();
-
-                    $imgResize->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                }
-
-                // Сохраняем картинку
-                $imgResize->save(public_path($path));
-
-                // Скопировать картинку Webp
-                if ($webp) {
-                    Img::copyWebp($path);
-                }
-
-
-            // Если файл
-            } else {
-
-                // Сохранить файл
-                $file->move($dirFull, $name);
-            }
-
-
-            // Сохранить в БД
-            $data = [
-                'type' => $request->type ? config('add.models') . '\\' . $request->type : null,
-                'name' => $name,
-                'path' => $path,
-                'ext' => $ext,
-                'mime_type' => $mime,
-                'size' => File::size($dirFull . '/' . $name),
-                'old_name' => $nameOld,
-            ];
-            $this->info->model::create($data);
+        } else {
+            return back()->withErrors(__('s.whoops'));
         }
-
-        // Сообщение об успехе
-        return redirect()
-            ->route("admin.{$this->info->kebab}.index")
-            ->with('success', __('a.upload_success'));
     }
 
 
@@ -237,6 +139,10 @@ class FileController extends AppController
     {
         // Получаем элемент по id, если нет - будет ошибка
         $values = $this->info->model::findOrFail($id);
+
+        if ($values->type) {
+            $values->type = str_replace(config('add.models') . '\\', '', $values->type);
+        }
 
         // Название вида
         $view = "{$this->viewPath}.{$this->info->snake}.{$this->template}";
@@ -271,6 +177,10 @@ class FileController extends AppController
         ];
         $request->validate($rules);
         $data = $request->all();
+
+        if (!empty($data['type'])) {
+            $data['type'] = config('add.models') . '\\' . request()->type;
+        }
 
         // Заполняем модель новыми данными
         $values->fill($data);

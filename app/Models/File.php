@@ -14,6 +14,12 @@ class File extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
 
+    // Обратная связь один ко многим
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+
     /*
      * Возвращает все элементы у которых разрешения картинок (из настроек add.imgExt).
      *

@@ -72,15 +72,20 @@ Breadcrumbs --}}
                             {{ $form::input('old_name', [], $values->old_name ?? null, false) }}
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {{ $form::input('path', ['disabled'], $values->path ?? null, false) }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {{ $form::input('size', ['disabled'], intval($values->size / 1000), false, __('a.size') . ' kb') }}
                         </div>
-                        <div class="col-md-4">
-                            {{ $form::select('type', App\Support\Admin\App::getModels(true), [], $values->type ?? null) }}
+                        <div class="col-md-6">
+                            {{ $form::select('type', config('admin.file_models')/*App\Support\Admin\App::getModels(true)*/, [], $values->type ?? null) }}
                         </div>
+                        @isset($values->user_id)
+                            <div class="col-md-6">
+                                {{ $form::input('user', ['disabled'], $values->user->id . ' - ' . $values->user->name, false) }}
+                            </div>
+                        @endisset
                     </div>
 
                     <div class="row">
