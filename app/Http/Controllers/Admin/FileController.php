@@ -111,9 +111,8 @@ class FileController extends AppController
         } elseif (key_exists('error', $res)) {
             return back()->withErrors($res['error']);
 
-        } else {
-            return back()->withErrors(__('s.whoops'));
         }
+        return back()->withErrors(__('s.whoops'));
     }
 
 
@@ -208,7 +207,9 @@ class FileController extends AppController
     {
         $res = Attachment::delete($id, false);
         if (key_exists('success', $res)) {
-            return back()->with('success', __('s.removed_successfully', ['id' => $id]));
+            return redirect()
+                ->route("admin.{$this->info->kebab}.index")
+                ->with('success', __('s.removed_successfully', ['id' => $id]));
         }
         return back()->withErrors(__('s.whoops'));
     }

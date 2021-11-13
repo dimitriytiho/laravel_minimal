@@ -13,24 +13,27 @@ class Attachment
 {
     /**
      * @return array
+     * Возвращает массив с ключами: success, error, ids(в массиве id сохранённых файлов).
      *
-     * Возвращает в массиве ключи: error или success.
      * Сохраняет файлы на сервер в папку /public/file/год_месяц.
      * Максимальный размер файла 4мб.
-     * Картинка ресайз до размеров config.admin.images_ext.
+     * Картинка ресайз до размеров в config.admin.images_ext.
      *
      * @param bool $webp - если нужно копировать картинки в формате webp, по-умолчанию копируем.
+     * @param bool $nameInput - имя input, по-умолчанию files.
      */
-    public static function upload($webp = true)
+    public static function upload($webp = true, $nameInput = 'files')
     {
         // Сохраняем данные в переменную
+        $userId = auth()->check() ? auth()->user()->id : null;
+        $type = request()->type ? config('add.models') . '\\' . request()->type : null;
         $exts = request()->ext ?: 0;
         $exts = config('admin.images_ext')[$exts] ?? null;
         //$webp = $request->webp ? true : false;
 
         // Валидация данных
         $rules = [
-            'files' => 'required',
+            $nameInput => 'required',
         ];
         request()->validate($rules);
 
@@ -41,7 +44,7 @@ class Attachment
         // Создадим папку если нет
         FileSupport::ensureDirectoryExists($dirFull);
 
-        foreach (request()->file('files') as $key => $file) {
+        foreach (request()->file($nameInput) as $key => $file) {
             $size = $file->getSize();
 
             // Сообщение о большом размере файла 2097152
@@ -88,7 +91,7 @@ class Attachment
                     });
 
 
-                // Ресайз с одной стороны
+                    // Ресайз с одной стороны
                 } else {
 
                     $width = $imgResize->width() > $width ? $width : $imgResize->width();
@@ -108,7 +111,7 @@ class Attachment
                 }
 
 
-            // Если файл
+                // Если файл
             } else {
 
                 // Сохранить файл
@@ -118,8 +121,8 @@ class Attachment
 
             // Сохранить в БД
             $data = [
-                'user_id' => auth()->check() ? auth()->user()->id : null,
-                'type' => request()->type ? config('add.models') . '\\' . request()->type : null,
+                'user_id' => $userId,
+                'type' => $type,
                 'name' => $name,
                 'path' => $path,
                 'ext' => $ext,
@@ -127,9 +130,13 @@ class Attachment
                 'size' => FileSupport::size($dirFull . '/' . $name),
                 'old_name' => $nameOld,
             ];
-            File::create($data);
+            $res = File::create($data);
+            $ids[] = $res->id;
         }
-        return ['success' => __('a.upload_success')];
+        return [
+            'ids' => $ids,
+            'success' => __('a.upload_success'),
+        ];
     }
 
 
