@@ -35,7 +35,7 @@ class DbSort
 
         // Если в запросе есть обратная косая черта, то добавляем ещё одну для корректного поиска
         if (Str::contains($cell, '\\')) {
-            $cell = addCslashes('App\Models\User', '\\');
+            $cell = addCslashes($cell, '\\');
         }
 
         // Значения по-умолчанию для сортировки
