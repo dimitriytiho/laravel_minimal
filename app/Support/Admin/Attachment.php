@@ -203,6 +203,7 @@ class Attachment
                 'jpeg',
                 'png',
                 'svg',
+                'gif',
             ];
 
             $ext = pathinfo($attachment->name)['extension'] ?? null;
