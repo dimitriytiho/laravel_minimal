@@ -28,6 +28,7 @@ class AppController extends Controller
 
     // Связанный родитель
     protected $belongTable;
+    protected $belongItem;
     protected $belongRoute;
 
     // Для указания методов из моделей, для удобной реализации связей
