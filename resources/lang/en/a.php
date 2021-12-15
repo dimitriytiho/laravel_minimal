@@ -255,5 +255,6 @@ return [
     'app_log' => 'Application log',
     'activity_log' => 'Activity log',
     'tag' => 'Tag',
+    'belong_id' => 'Belong id',
 
 ];

@@ -16,6 +16,9 @@ class MenuController extends AppController
         // Связанная таблица
         $this->belongTable = 'menu_groups';
 
+        // Связанная колонка в таблице
+        $this->belongItem = 'belong_id';
+
         // Связанный маршрут
         $this->belongRoute = 'menu-group';
 
@@ -29,11 +32,15 @@ class MenuController extends AppController
         // Хлебные крошки
         Breadcrumbs::for('class', function ($trail) {
             $trail->parent('home');
-            $trail->push(__('a.menu_groups'), route("{$this->viewPath}.menu-group.index"));
+            $trail->push(__('a.' . $this->belongTable), route("{$this->viewPath}.{$this->belongRoute}.index"));
+
             $trail->push(__('a.' . $this->info->table), route("{$this->viewPath}.{$this->info->kebab}.index"));
         });
 
         view()->share([
+            'belongTable' => $this->belongTable,
+            'belongItem' => $this->belongItem,
+            'belongRoute' => $this->belongRoute,
             'relatedManyToManyDelete' => $this->relatedManyToManyDelete,
         ]);
     }
@@ -100,7 +107,7 @@ class MenuController extends AppController
         if ($currentParent) {
 
             // Формируем часть запроса перед поиском
-            $values = $this->info->model::where('belong_id', $currentParent->id);
+            $values = $this->info->model::where($this->belongItem, $currentParent->id);
 
             // Метод для поиска и сортировки запроса БД
             $values = $this->dbSort::getSearchSort($queryArr, $this->info->table, $values, $this->info->view, $this->pagination);
@@ -177,7 +184,7 @@ class MenuController extends AppController
     public function store(Request $request)
     {
         $rules = [
-            'belong_id' => "required|integer|exists:{$this->belongTable},id",
+            $this->belongItem => "required|integer|exists:{$this->belongTable},id",
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|integer|min:0',
         ];
@@ -257,7 +264,7 @@ class MenuController extends AppController
         $title = __('a.' . $this->info->action) . ' ' . Str::lower(__('a.' . $this->info->table));
 
         // Дерево элементов
-        $tree = $this->info->model::where('belong_id', $currentParent->id)
+        $tree = $this->info->model::where($this->belongItem, $currentParent->id)
             ->order()
             ->get()
             ->toTree();
@@ -284,7 +291,7 @@ class MenuController extends AppController
         $values = $this->info->model::findOrFail($id);
 
         $rules = [
-            'belong_id' => "required|integer|exists:{$this->belongTable},id",
+            $this->belongItem => "required|integer|exists:{$this->belongTable},id",
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|integer|min:0',
             'sort' => 'required|integer|min:1|max:65535',

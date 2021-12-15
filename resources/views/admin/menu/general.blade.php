@@ -22,7 +22,7 @@ Breadcrumbs --}}
                 @endisset
                 @csrf
 
-                {{ html()->hidden('belong_id', $values->belong_id ?? $currentParent->id ?? null) }}
+                {{ html()->hidden($belongItem, $values->{$belongItem} ?? $currentParent->id ?? null) }}
 
                 {{ $form::input('title', [], $values->title ?? null) }}
 
@@ -51,7 +51,7 @@ Breadcrumbs --}}
                             {{ $form::select('status', config('add.statuses'), [], $values->status ?? null) }}
                         </div>
                         <div class="col-md-4">
-                            @include('admin.tree.select_parent_id', compact('tree', 'values'))
+                            @include('admin.tree.select_parent_id', compact('tree', 'values', 'belongItem'))
                         </div>
                         <div class="col-md-4">
                             {{ $form::input('sort', ['type' => 'number', 'min' => '1', 'step' => '1', 'max' => '65535'], $values->sort ?? null) }}
