@@ -6,6 +6,7 @@ use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Support\Func;
 
 class MenuController extends AppController
 {
@@ -83,7 +84,7 @@ class MenuController extends AppController
             ->pluck('title', 'id');
 
         // Добавляем 0 ключ в объект - название связанной таблицы
-        $parentValues->prepend($this->info->table, 0);
+        $parentValues->prepend(Func::__($this->info->table, 'a'), 0);
 
 
         $values = null;
@@ -158,7 +159,7 @@ class MenuController extends AppController
             ->pluck('title', 'id');
 
         // Добавляем 0 ключ в объект - название связанной таблицы
-        $parentValues->prepend($this->info->table, 0);
+        $parentValues->prepend(Func::__($this->info->table, 'a'), 0);
 
 
         // Название вида

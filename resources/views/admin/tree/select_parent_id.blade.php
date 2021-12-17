@@ -16,9 +16,9 @@
                 $traverse = function ($tree, $tab = '-') use (&$traverse, $values, $belongItem) {
                     foreach ($tree as $item) {
 
-                        $selected = !empty($values) && $values->$belongItem == $item->id ? 'selected' : null;
+                        $selected = !empty($values) && $values->{$belongItem} == $item->id ? 'selected' : null;
                         $disabled = $item->id == request()->segment(3) ? 'disabled' : null;
-                        echo "<option value='{$item->id}' $selected {$disabled}>{$tab} {$item['title']} {$item->id}</option>";
+                        echo "<option value='{$item->id}' $selected {$disabled}>{$tab} {$item->title} {$item->id}</option>";
 
                         $traverse($item->children, $tab . $tab);
                     }
