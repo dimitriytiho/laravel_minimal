@@ -19,6 +19,11 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
+        // Сохраним в сессию url входа
+        if (url()->previous() !== request()->url()) {
+            session()->put('enter_url', url()->previous());
+        }
+
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {

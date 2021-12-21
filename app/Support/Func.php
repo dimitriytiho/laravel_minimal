@@ -10,6 +10,22 @@ class Func
 {
     /**
      *
+     * @return void
+     *
+     * Распечатывает массив или объект.
+     *
+     * @param array|string|int $arr - массив для распечатки.
+     * @param string $die - передать true, если надо остановить скрипт.
+     */
+    public static function debug($arr, $die = false)
+    {
+        echo '<pre>' . PHP_EOL . print_r($arr, true) . PHP_EOL . '</pre>';
+        if ($die) die;
+    }
+
+
+    /**
+     *
      * @return string
      *
      * Возвращается переводную фразу, если её нет, то входную строку.

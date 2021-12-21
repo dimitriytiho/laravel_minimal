@@ -59,5 +59,10 @@ class LoginController extends Controller
             // Логируем авторизацию
             UserLog::save('auth', 'Authorization Admin Panel');
         }
+
+        // Если в сессии есть входной url, то отправим на него
+        if (session()->has('enter_url')) {
+            $this->redirectTo = session()->pull('enter_url');
+        }
     }
 }
