@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .bootstrap-switch-label {
   display: block;
   padding-bottom: 0.1rem;
@@ -156,8 +155,9 @@ label {
 }
 
 .custom-file-label:after {
-  font-family: "FontAwesome";
-  content: "";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f019";
 }
 
 #btn_up {
