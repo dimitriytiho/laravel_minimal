@@ -23,7 +23,7 @@ class Form implements FormInterface
      * Name, id, placeholder, если нужно изменить, то передайте в массив $attrs.
      *
      * @param string $name - название.
-     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
+     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test', 'id' => 'test', 'inputClass' => 'test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию true, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
@@ -36,8 +36,11 @@ class Form implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
+            // Класс для input
+            $inputClass = self::getElementFromAttrs('inputClass', $attrs);
+
             // Обновим $attrs удалив из него лишние элементы
-            $attrs = self::updateAttr($attrs, ['id']);
+            $attrs = self::updateAttr($attrs, ['id', 'inputClass']);
 
             // Placeholder
             $placeholder = self::getPlaceholder($name, $label);
@@ -46,7 +49,7 @@ class Form implements FormInterface
             $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
 
             // input
-            $input = html()->text($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
+            $input = html()->text($name, $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
 
             // Required
             $input = self::getRequired($input, $required);
@@ -67,7 +70,7 @@ class Form implements FormInterface
      * Name, id, placeholder, если нужно изменить, то передайте в массив $attrs.
      *
      * @param string $name - название.
-     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
+     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test', 'id' => 'test', 'inputClass' => 'test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
@@ -80,8 +83,11 @@ class Form implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
+            // Класс для input
+            $inputClass = self::getElementFromAttrs('inputClass', $attrs);
+
             // Обновим $attrs удалив из него лишние элементы
-            $attrs = self::updateAttr($attrs, ['id']);
+            $attrs = self::updateAttr($attrs, ['id', 'inputClass']);
 
             // Placeholder
             $placeholder = self::getPlaceholder($name, $label);
@@ -90,7 +96,7 @@ class Form implements FormInterface
             $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
 
             // Textarea
-            $input = html()->textarea($name, $value)->id($id)->class('form-control')->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
+            $input = html()->textarea($name, $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
 
             // Required
             $input = self::getRequired($input, $required);
@@ -112,7 +118,7 @@ class Form implements FormInterface
      *
      * @param string $name - название.
      * @param string|array|object $options - передать options: строкой, массивом или объектом (если $value будет равно одному из значений $options, то этот option будет selected).
-     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
+     * @param array $attrs - Параметры передать в массиве, например ['data-url' => '/test', 'id' => 'test', 'inputClass' => 'test'], по-умолчанию пустой массив, необязательный параметр.
      * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
      * Дополнительно:
      * 'label' => 'true' - чтобы показывать лэйбл,
@@ -132,8 +138,11 @@ class Form implements FormInterface
             // Id
             $id = self::getElementFromAttrs('id', $attrs) ?: $name;
 
+            // Класс для input
+            $inputClass = self::getElementFromAttrs('inputClass', $attrs);
+
             // Обновим $attrs удалив из него лишние элементы
-            $attrs = self::updateAttr($attrs, ['id']);
+            $attrs = self::updateAttr($attrs, ['id', 'inputClass']);
 
             // Placeholder
             $placeholder = self::getPlaceholder($name, $label);
@@ -179,7 +188,7 @@ class Form implements FormInterface
             }
 
             // Select
-            $input = html()->select($name, [], $value)->id($id)->class('form-control')->attributes($attrs)->html($html);
+            $input = html()->select($name, [], $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->html($html);
 
             // Required
             $input = self::getRequired($input, $required);

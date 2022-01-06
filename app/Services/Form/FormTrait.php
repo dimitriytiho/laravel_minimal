@@ -108,7 +108,7 @@ trait FormTrait
     private static function getLabel($id, $required, $placeholder, $class)
     {
         if ($id && $placeholder) {
-            return html()->label($placeholder . ($required ? html()->element('sup')->text('*') : null), $id)->class($class);
+            return html()->label($placeholder . ($required ? html()->element('sup')->text('*') : null), $id)->class('form-label ' . $class);
         }
         return null;
     }
