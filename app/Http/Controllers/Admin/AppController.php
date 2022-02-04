@@ -43,8 +43,8 @@ class AppController extends Controller
 
 
         // Определить мобильную версию
-        $detect = app()->make('Detection\MobileDetect');
-        $isMobile = $detect->isMobile();
+        /*$detect = app()->make('Detection\MobileDetect');
+        $isMobile = $detect->isMobile();*/
 
 
         // Пагинация Bootstrap
@@ -99,7 +99,7 @@ class AppController extends Controller
         $countTable = $this->tablesCount();
 
 
-        view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'isMobile', 'adminRoleName'));
+        view()->share(compact('namespaceSupport', 'viewPath', 'html', 'form', 'dbSort', 'countTable', 'adminRoleName'));
     }
 
 

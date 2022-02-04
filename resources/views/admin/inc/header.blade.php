@@ -3,17 +3,14 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a
-                href="#"
-                class="nav-link link_click"
-                role="button"
-                @if($isMobile ?? null)
-                    data-widget="pushmenu"
-                @else
-                    data-url="{{ route('admin.sidebar-mini') }}"
-                    data-val="@if(request()->cookie('sidebar_mini') === 'full') mini @else full @endif"
-                @endif
+            <a class="nav-link d-none d-lg-block cur link_click"
+               role="button"
+                data-url="{{ route('admin.sidebar-mini') }}"
+                data-val="@if(request()->cookie('sidebar_mini') === 'full') mini @else full @endif"
             >
+                <i class="fas fa-bars"></i>
+            </a>
+            <a class="nav-link d-lg-none" role="button" data-widget="pushmenu">
                 <i class="fas fa-bars"></i>
             </a>
         </li>
