@@ -58,7 +58,7 @@
                     @if(session()->has('status'))
                         <span>{{ session('status') }}</span>
                     @endif
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"aria-label="@lang('s.Close')"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@lang('s.Close')"></button>
                 </div>
             </div>
         </div>
