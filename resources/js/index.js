@@ -22,9 +22,15 @@ new simpleParallax(simpleParallax6, {
     transition: 'cubic-bezier(0,0,0,1)'
 })*/
 
-import './default'
+
+// Скрипты для компонентов
 import './components'
-import './theme'
+
+// Скрипты по-умолчанию
+import './main'
+
+// Название шаблона
+import './default' // Заменить на нужный шаблон
 
 
 

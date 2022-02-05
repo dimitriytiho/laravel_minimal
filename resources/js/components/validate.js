@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },*/
 
 
-        // При удаление фокуса с input
+        // При удалении фокуса с input
         onfocusout: function(element) {
             this.element(element);
         },

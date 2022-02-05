@@ -44,6 +44,18 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        return view("{$this->view}.auth.register");
+    }
+
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -58,6 +70,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.

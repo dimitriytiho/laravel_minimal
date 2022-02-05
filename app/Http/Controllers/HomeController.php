@@ -26,7 +26,7 @@ class HomeController extends AppController
     public function index()
     {
         // Название вида
-        $view = $this->info->snake . '.' . $this->info->view;
+        $view = $this->view . '.' . $this->info->snake . '.' . $this->info->view;
 
         $title = __('s.account');
         return view($view, compact('title'));

@@ -1,7 +1,1 @@
-//import '../admin/pulse'
-//import './search'
-//import './forms'
-//import './scroll'
-//import './template'
-//import '../components/validate'
-//import './scripts'
+//import './menu_mobile'

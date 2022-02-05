@@ -1,4 +1,4 @@
-import alert from '../default/alert';
+import alert from '../main/alert';
 
 window.Dropzone = require('dropzone')
 Dropzone.autoDiscover = false
@@ -103,7 +103,7 @@ function dropzone(dropzoneElement, maxFiles, resizeMax) {
         },
         success: function(file, res) {
             // const res = JSON.parse(response)
-            const img = file.dataURL, // Картинка времменая из JS
+            const img = file.dataURL, // Картинка временная из JS
                 imgHidden = document.querySelector('input[name=img]')
 
             //console.log(res.test); return

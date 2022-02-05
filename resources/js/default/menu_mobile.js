@@ -44,7 +44,7 @@ $('#' + menuMobileId + ' .nav-link').click(function() {
 })
 
 
-// Закрыть меню при проведение пальцем по экрану телефона
+// Закрыть меню при проведении пальцем по экрану телефона
 var touchStart,
     touchEnd
 
@@ -54,7 +54,7 @@ document.body.addEventListener('touchstart', function(e) {
 document.body.addEventListener('touchend', function(e) {
     touchEnd = e.changedTouches[0].clientX
 
-    // Если провели пальцем больше 20px слево направо, (touchStart - touchEnd справо налево)
+    // Если провели пальцем больше 20px слева направо, (touchStart - touchEnd справа налево)
     if (touchStart - touchEnd > 20) {
 
         // Запускаем функцию

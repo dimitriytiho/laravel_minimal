@@ -8,7 +8,7 @@
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  // При клике на .get_slug из вышестоящего input транслитирирует текст, в data-src="title" указать input в котором name="title"
+  // При клике на .get_slug из вышестоящего input транслитерирует текст, в data-src="title" указать input в котором name="title"
   $('.get_slug').click(function () {
     var self = $(this),
         url = self.data('url'),
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  // При отправки формы с .confirm-form будет подтверждение отправки
+  // При отправке формы с confirm-form будет подтверждение отправки
   $(document).on('submit', '.confirm_form', function (e) {
     e.preventDefault();
     var modal = $('#confirm_modal'),
@@ -155,32 +155,30 @@ document.addEventListener('DOMContentLoaded', function () {
   \*************************************/
 /***/ (() => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  // При клике на .pulse эффект пульса
-  $('.pulse').click(function (e) {
-    var div = document.createElement('div'),
-        style = div.style,
-        max = Math.max(e.target.offsetWidth, e.target.offsetHeight),
-        rect = e.target.getBoundingClientRect(),
-        px = 'px',
-        color = window.getComputedStyle(e.target).backgroundColor,
-        timeDeleteDiv = 300,
-        self = $(this); // Сформируем нужный div
+// При клике на класс pulse эффект пульса
+$('.pulse').click(function (e) {
+  var div = document.createElement('div'),
+      style = div.style,
+      max = Math.max(e.target.offsetWidth, e.target.offsetHeight),
+      rect = e.target.getBoundingClientRect(),
+      px = 'px',
+      color = window.getComputedStyle(e.target).backgroundColor,
+      timeDeleteDiv = 300,
+      self = $(this); // Сформируем нужный div
 
-    div.classList.add('pulse_js');
-    style.width = style.height = max + px;
-    style.left = e.clientX - rect.left - max / 2 + px;
-    style.top = e.clientY - rect.top - max / 2 + px;
-    style.backgroundColor = color;
-    style.opacity = .4; // Вставим div
+  div.classList.add('pulse_js');
+  style.width = style.height = max + px;
+  style.left = e.clientX - rect.left - max / 2 + px;
+  style.top = e.clientY - rect.top - max / 2 + px;
+  style.backgroundColor = color;
+  style.opacity = .4; // Вставим div
 
-    self.append(div); // Удалим div
+  self.append(div); // Удалим div
 
-    setTimeout(function () {
-      self.children('.pulse_js').remove();
-    }, timeDeleteDiv);
-  });
-}, false);
+  setTimeout(function () {
+    self.children('.pulse_js').remove();
+  }, timeDeleteDiv);
+});
 
 /***/ }),
 
@@ -190,42 +188,40 @@ document.addEventListener('DOMContentLoaded', function () {
   \***************************************/
 /***/ (() => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  /*
-   * При выборе файла, подставим его имя в input file.
-   * В класс .img_replace заменить картинку на загруженную (если он есть в теге img).
-   */
-  $('input[type=file]').change(function (e) {
-    var name = e.target.files[0] ? e.target.files[0].name : null;
+/*
+ * При выборе файла, подставим его имя в input file.
+ * В класс img_replace заменить картинку на загруженную (если он есть в теге img).
+ */
+$('input[type=file]').change(function (e) {
+  var name = e.target.files[0] ? e.target.files[0].name : null;
 
-    if (name) {
-      $(this).siblings('label').text(name);
-      var path = URL.createObjectURL(e.target.files[0]);
+  if (name) {
+    $(this).siblings('label').text(name);
+    var path = URL.createObjectURL(e.target.files[0]);
 
-      if (path && $('img').hasClass('img_replace')) {
-        $('.img_replace').attr('src', path); //$(this).closest('.row').find('.this_img_replace').attr('src', path)
-      }
+    if (path && $('img').hasClass('img_replace')) {
+      $('.img_replace').attr('src', path); //$(this).closest('.row').find('.this_img_replace').attr('src', path)
     }
-  }); // При выборе файлов, подставим их имена в input file
+  }
+}); // При выборе файлов, подставим их имена в input file
 
-  $('#files').change(function (e) {
-    var files = e.target.files,
-        text = ''; // В цикле соберём названия файлов
+$('#files').change(function (e) {
+  var files = e.target.files,
+      text = ''; // В цикле соберём названия файлов
 
-    for (var key in files) {
-      if (files.hasOwnProperty(key)) {
-        text += files[key].name + ', ';
-      }
+  for (var key in files) {
+    if (files.hasOwnProperty(key)) {
+      text += files[key].name + ', ';
     }
+  }
 
-    if (text.length) {
-      // Возьмём строку без последних 2 символов
-      text = text.substring(0, text.length - 2); // Вставим имена в label
+  if (text.length) {
+    // Возьмём строку без последних 2 символов
+    text = text.substring(0, text.length - 2); // Вставим имена в label
 
-      $(this).siblings('label').text(text);
-    }
-  });
-}, false);
+    $(this).siblings('label').text(text);
+  }
+});
 
 /***/ }),
 
@@ -235,27 +231,25 @@ document.addEventListener('DOMContentLoaded', function () {
   \**************************************/
 /***/ (() => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  var btn_up = $('#btn_up'); // При клике поднимаем к верху страницы
+var btnUp = $('#btn_up'); // При клике поднимаем к верху страницы
 
-  btn_up.click(function () {
-    $('html, body').animate({
-      scrollTop: 0
-    }, '400');
-  }); // Скролл
+btnUp.click(function () {
+  $('html, body').animate({
+    scrollTop: 0
+  }, '400');
+}); // Скролл
 
-  $(window).on('scroll', function () {
-    var scrollTop = scrollTop = $(window).scrollTop();
+$(window).on('scroll', function () {
+  var scrollTop = $(window).scrollTop();
 
-    if (scrollTop < 200) {
-      // Кнопка вверх
-      btn_up.removeClass('scale-in').addClass('scale-out');
-    } else {
-      // Кнопка вверх
-      btn_up.addClass('scale-in').removeClass('scale-out');
-    }
-  });
-}, false);
+  if (scrollTop < 200) {
+    // Кнопка вверх
+    btnUp.removeClass('scale-in').addClass('scale-out');
+  } else {
+    // Кнопка вверх
+    btnUp.addClass('scale-in').removeClass('scale-out');
+  }
+});
 
 /***/ }),
 
@@ -265,80 +259,78 @@ document.addEventListener('DOMContentLoaded', function () {
   \***************************************/
 /***/ (() => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  /*
-   * При изменении select с классом select_change делается Get запрос.
-   * Записать в data-url="" url на который отправлять запрос.
-   * Записать в data-key="" ключ для url запроса.
-   * Отправится значение из select.
-   */
-  $('.select_change').change(function () {
-    var self = $(this),
-        url = self.data('url') || '',
-        key = self.data('key') || '',
-        val = self.val() || '';
+/*
+ * При изменении select с классом select_change делается Get запрос.
+ * Записать в data-url="" url на который отправлять запрос.
+ * Записать в data-key="" ключ для url запроса.
+ * Отправится значение из select.
+ */
+$('.select_change').change(function () {
+  var self = $(this),
+      url = self.data('url') || '',
+      key = self.data('key') || '',
+      val = self.val() || '';
 
-    if (url && key) {
-      window.location = url + '?token=' + _token + '&key=' + key + '&val=' + val;
-    }
-  }); // При клике на класс link_click делается Get запрос
+  if (url && key) {
+    window.location = url + '?token=' + _token + '&key=' + key + '&val=' + val;
+  }
+}); // При клике на класс link_click делается Get запрос
 
-  $('.link_click').click(function (e) {
-    e.preventDefault();
-    var self = $(this),
-        url = self.data('url') || '',
-        val = self.data('val') || '',
-        id = self.data('id') || '';
+$('.link_click').click(function (e) {
+  e.preventDefault();
+  var self = $(this),
+      url = self.data('url') || '',
+      val = self.data('val') || '',
+      id = self.data('id') || '';
 
-    if (id) {
-      id = '&id=' + id;
-    }
+  if (id) {
+    id = '&id=' + id;
+  }
 
-    if (url && val) {
-      window.location = url + '?token=' + _token + '&val=' + val + id;
-    }
-  }); // При клике на класс get_disabled добавиться атрибут disabled
+  if (url && val) {
+    window.location = url + '?token=' + _token + '&val=' + val + id;
+  }
+}); // При клике на класс get_disabled добавиться атрибут disabled
 
-  $('.get_disabled').click(function () {
-    setTimeout(function () {
-      $(this).attr('disabled', true).addClass('disabled');
-    }.bind(this), 10);
-  }); // При клике на класс get_disabled_spinner добавиться атрибут disabled и включится spinner
+$('.get_disabled').click(function () {
+  setTimeout(function () {
+    $(this).attr('disabled', true).addClass('disabled');
+  }.bind(this), 10);
+}); // При клике на класс get_disabled_spinner добавиться атрибут disabled и включится spinner
 
-  $('.get_disabled_spinner').click(function () {
-    setTimeout(function () {
-      $(this).attr('disabled', true).addClass('disabled').prepend(spinnerBtn);
-    }.bind(this), 10);
-  });
-  /*
-   * Открыть модальное окно по клику на класс modal_show, при этом нужно указать здесь же атрибут data-modal-id="" и в него вписать id модального окна.
-   * Можно задать data-modal-title="" и в него вписать заголовок модального окна.
-   */
+$('.get_disabled_spinner').click(function () {
+  setTimeout(function () {
+    $(this).attr('disabled', true).addClass('disabled').prepend(spinnerBtn);
+  }.bind(this), 10);
+});
+/*
+ * Открыть модальное окно по клику на класс modal_show, при этом нужно указать здесь же атрибут data-modal-id="" и в него вписать id модального окна.
+ * Можно задать data-modal-title="" и в него вписать заголовок модального окна.
+ */
 
-  document.addEventListener('click', function (e) {
-    var modalShowClass = 'modal_show',
-        block = e.target.classList.contains(modalShowClass) || e.target.closest('.' + modalShowClass) && e.target.closest('.' + modalShowClass).classList.contains(modalShowClass);
+document.addEventListener('click', function (e) {
+  var modalShowClass = 'modal_show',
+      block = e.target.classList.contains(modalShowClass) || e.target.closest('.' + modalShowClass) && e.target.closest('.' + modalShowClass).classList.contains(modalShowClass);
 
-    if (block) {
-      var modalId = e.target.dataset.modalId || e.target.closest('.' + modalShowClass).dataset.modalId,
-          modalTitle = e.target.dataset.modalTitle || e.target.closest('.' + modalShowClass).dataset.modalTitle;
+  if (block) {
+    var modalId = e.target.dataset.modalId || e.target.closest('.' + modalShowClass).dataset.modalId,
+        modalTitle = e.target.dataset.modalTitle || e.target.closest('.' + modalShowClass).dataset.modalTitle;
 
-      if (modalId) {
-        e.preventDefault();
+    if (modalId) {
+      e.preventDefault();
 
-        if (modalTitle) {
-          $('#' + modalId + ' .modal-title').text(modalTitle);
-        }
-
-        $('#' + modalId).modal('show');
+      if (modalTitle) {
+        $('#' + modalId + ' .modal-title').text(modalTitle);
       }
-    }
-  }); // При клике на класс click_submit отправляем форму-родителя
 
-  $('.click_submit').click(function () {
-    $(this).closest('form').submit();
-  });
-}, false);
+      $('#' + modalId).modal('show');
+    }
+  }
+}); // При клике на класс click_submit отправляем форму-родителя
+
+$('.click_submit').click(function () {
+  $(this).closest('form').submit();
+});
 
 /***/ }),
 
@@ -424,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
       $(form).find('[type=submit]').attr('disabled', true).prepend(spinnerBtn);
       return true;
     }
-  }); // Добаляем валидатор для номера телефона
+  }); // Добавляем валидатор для номера телефона
 
   $.validator.methods.checkTel = function (value, element) {
     return this.optional(element) || /^[\+\(\)\- 0-9]+$/.test(value);

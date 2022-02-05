@@ -1,0 +1,123 @@
+@import '../config/mixins';
+
+
+// Стили bootstrap, которые переопределяются
+
+html {
+    scroll-behavior: smooth; // Делает плавный скролл к якорю
+}
+:target {
+    scroll-margin-top: $spacer;
+}
+html, body {
+    height: 100%;
+}
+body {
+    width: 100%;
+    min-width: 320px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    overflow-x: hidden !important;
+}
+
+// Футер прижатый книзу
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+// Основной раздел будет занимать все свободное место на странице
+.content-block {
+    flex: 1 0 auto;
+}
+// Футер будет занимать столько места по вертикали, сколько и должен
+.footer-block {
+    flex: 0 0 auto;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+.no-wrap {
+    @include no-wrap();
+}
+
+input,
+textarea,
+.custom-control-label:after {
+  cursor: pointer;
+}
+
+.form-control {
+  &:focus {
+
+    // Меняется цвет обводки при фокусе
+    border-color: lighten($gray-600, 20%);
+
+    // Убирается placeholder при фокусе
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}
+
+/*label {
+    color: $secondary;
+    font-weight: lighter;
+}*/
+
+/*.btn {
+    // Убирается тень при фокусе
+    &:focus {
+        box-shadow: none;
+    }
+}*/
+
+/*.breadcrumb {
+    i {
+        font-size: 1.2rem;
+        color: $primary;
+    }
+}*/
+
+.pagination li.active span {
+    cursor: text !important;
+}
+
+/*.navbar-toggler {
+  width: 3rem;
+  height: 2.4rem;
+  position: relative;
+  .hamburger {
+    position: absolute;
+    left: 12.5%;
+    width: 75%;
+    height: .12rem;
+    background-color: $dark;
+    transition-duration: $transition;
+    &:nth-child(1) {
+      top: 25%;
+    }
+    &:nth-child(2) {
+      top: 48%;
+    }
+    &:nth-child(3) {
+      bottom: 25%;
+    }
+  }
+  &.active .hamburger:nth-child(1) {
+    top: 48%;
+    transform: rotate(45deg);
+  }
+  &.active .hamburger:nth-child(2) {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  &.active .hamburger:nth-child(3) {
+    bottom: 48%;
+    transform: rotate(-45deg);
+  }
+}*/

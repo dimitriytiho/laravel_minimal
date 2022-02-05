@@ -11363,76 +11363,6 @@ $form-group-margin-bottom: $spacer * 1.5;*/
     en: 'Browse',
     ru: 'Просмотр'
 );*/
-.panel-dashboard {
-  padding: 7px 15px;
-  background-color: #000;
-}
-.panel-dashboard__icons {
-  display: inline-block;
-  margin-right: 5px;
-  padding: 0 10px 5px 10px;
-  transition: all 0.25s;
-}
-.panel-dashboard__icons:last-child {
-  margin-right: 0;
-}
-.panel-dashboard__icons:hover i {
-  color: #e6e6e6;
-}
-.panel-dashboard__icons i {
-  font-size: 12px;
-  color: #fff;
-}
-.panel-dashboard__icons:hover svg {
-  fill: #e6e6e6;
-}
-.panel-dashboard__icons svg {
-  max-width: 24px;
-  height: 11px;
-  fill: #fff;
-}
-
-/*
-$theme-colors: (
-    "primary":    $primary,
-    "secondary":  $secondary,
-    "success":    $success,
-    "info":       $info,
-    "warning":    $warning,
-    "danger":     $danger,
-    "light":      $light,
-    "dark":       $dark
-);
-*/
-/*$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-bold: 700;
-$h1-font-size: $font-size-base * 2.6;
-$h2-font-size: $font-size-base * 2.1;
-$h3-font-size: $font-size-base * 1.8;
-$h4-font-size: $font-size-base * 1.6;
-$h5-font-size: $font-size-base * 1.2;
-$headings-font-weight: 400;*/
-/*$line-height-sm: 1.2;
-$line-height: 1.4;
-$line-height-lg: 1.5;*/
-/*$border-radius: .15rem;
-$border-radius-lg: .2rem;
-$border-radius-sm: .1rem;*/
-/*$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
-$box-shadow-md: 0 .2rem .5rem rgba($black, .1);
-$box-shadow: 0 .5rem 1rem rgba($black, .15);
-$box-shadow-lg: 0 1rem 3rem rgba($black, .175);
-$box-shadow-mini: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
-$box-shadow-text: 0 0 3px rgba($black, 0.8);*/
-/*$table-accent-bg: $light-light;
-$input-btn-focus-color: rgba($gray-600, .25);
-$custom-select-focus-box-shadow: rgba($gray-600, .25);
-$form-group-margin-bottom: $spacer * 1.5;*/
-/*$custom-file-text: (
-    en: 'Browse',
-    ru: 'Просмотр'
-);*/
 html {
   scroll-behavior: smooth;
 }
@@ -11482,4 +11412,146 @@ h5, .h5,
   -webkit-hyphens: manual;
       -ms-hyphens: manual;
           hyphens: manual;
+}
+
+input,
+textarea,
+.custom-control-label:after {
+  cursor: pointer;
+}
+
+.form-control:focus {
+  border-color: #a1a8ae;
+}
+.form-control:focus::-moz-placeholder {
+  color: transparent;
+}
+.form-control:focus:-ms-input-placeholder {
+  color: transparent;
+}
+.form-control:focus::placeholder {
+  color: transparent;
+}
+
+/*label {
+    color: $secondary;
+    font-weight: lighter;
+}*/
+/*.btn {
+    // Убирается тень при фокусе
+    &:focus {
+        box-shadow: none;
+    }
+}*/
+/*.breadcrumb {
+    i {
+        font-size: 1.2rem;
+        color: $primary;
+    }
+}*/
+.pagination li.active span {
+  cursor: text !important;
+}
+
+/*.navbar-toggler {
+  width: 3rem;
+  height: 2.4rem;
+  position: relative;
+  .hamburger {
+    position: absolute;
+    left: 12.5%;
+    width: 75%;
+    height: .12rem;
+    background-color: $dark;
+    transition-duration: $transition;
+    &:nth-child(1) {
+      top: 25%;
+    }
+    &:nth-child(2) {
+      top: 48%;
+    }
+    &:nth-child(3) {
+      bottom: 25%;
+    }
+  }
+  &.active .hamburger:nth-child(1) {
+    top: 48%;
+    transform: rotate(45deg);
+  }
+  &.active .hamburger:nth-child(2) {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  &.active .hamburger:nth-child(3) {
+    bottom: 48%;
+    transform: rotate(-45deg);
+  }
+}*/
+/*
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+);
+*/
+/*$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+$h1-font-size: $font-size-base * 2.6;
+$h2-font-size: $font-size-base * 2.1;
+$h3-font-size: $font-size-base * 1.8;
+$h4-font-size: $font-size-base * 1.6;
+$h5-font-size: $font-size-base * 1.2;
+$headings-font-weight: 400;*/
+/*$line-height-sm: 1.2;
+$line-height: 1.4;
+$line-height-lg: 1.5;*/
+/*$border-radius: .15rem;
+$border-radius-lg: .2rem;
+$border-radius-sm: .1rem;*/
+/*$box-shadow-sm: 0 .125rem .25rem rgba($black, .075);
+$box-shadow-md: 0 .2rem .5rem rgba($black, .1);
+$box-shadow: 0 .5rem 1rem rgba($black, .15);
+$box-shadow-lg: 0 1rem 3rem rgba($black, .175);
+$box-shadow-mini: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+$box-shadow-text: 0 0 3px rgba($black, 0.8);*/
+/*$table-accent-bg: $light-light;
+$input-btn-focus-color: rgba($gray-600, .25);
+$custom-select-focus-box-shadow: rgba($gray-600, .25);
+$form-group-margin-bottom: $spacer * 1.5;*/
+/*$custom-file-text: (
+    en: 'Browse',
+    ru: 'Просмотр'
+);*/
+.panel-dashboard {
+  padding: 7px 15px;
+  background-color: #000;
+}
+.panel-dashboard__icons {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0 10px 5px 10px;
+  transition: all 0.25s;
+}
+.panel-dashboard__icons:last-child {
+  margin-right: 0;
+}
+.panel-dashboard__icons:hover i {
+  color: #e6e6e6;
+}
+.panel-dashboard__icons i {
+  font-size: 12px;
+  color: #fff;
+}
+.panel-dashboard__icons:hover svg {
+  fill: #e6e6e6;
+}
+.panel-dashboard__icons svg {
+  max-width: 24px;
+  height: 11px;
+  fill: #fff;
 }

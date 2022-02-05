@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // При отправки формы с .confirm-form будет подтверждение отправки
+    // При отправке формы с confirm-form будет подтверждение отправки
     $(document).on('submit', '.confirm_form', function(e) {
         e.preventDefault()
         var modal = $('#confirm_modal'),

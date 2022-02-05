@@ -21,6 +21,10 @@ return [
     'imgExt' => ['png', 'jpg', 'jpeg', 'gif', 'svg'],
 
 
+    // Название шаблона для видов, js, sass
+    'template' => 'default', // в resources/js/index.js и resources/sass/index.scss написать название шаблона
+
+
     // Протокол и домен
     'protocol' => Str::before(env('APP_URL'), '://'),
     'domain' => Str::after(env('APP_URL'), '://'),
@@ -87,7 +91,7 @@ return [
     'support' => 'App\\Support',
     'services' => 'App\\Services',
 
-    // Настройки из файла /.env, т.к. после кэширования они будут возращать null
+    // Настройки из файла /.env, т.к. после кэширования они будут возвращать null
     'dev' => env('APP_DEV', 'OmegaKontur'),
     'enter' => env('APP_ENTER', 'login'),
     'admin' => env('APP_ADMIN', 'dashboard'),

@@ -1,5 +1,5 @@
 
-// Если работает JS в браузере, то удаляем класс .no-js
+// Если работает JS в браузере, то удаляем класс no-js
 document.documentElement.classList.remove('no-js')
 
 // Скрипт подменяем картинки с data-webp на backgroundImage

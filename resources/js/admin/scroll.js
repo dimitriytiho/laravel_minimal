@@ -1,31 +1,27 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-
-    var btn_up = $('#btn_up')
+var btnUp = $('#btn_up')
 
 
-    // При клике поднимаем к верху страницы
-    btn_up.click(function () {
-        $('html, body').animate({scrollTop: 0}, '400')
-    })
+// При клике поднимаем к верху страницы
+btnUp.click(function () {
+    $('html, body').animate({scrollTop: 0}, '400')
+})
 
 
-    // Скролл
-    $(window).on('scroll', function () {
-        var scrollTop = scrollTop = $(window).scrollTop()
+// Скролл
+$(window).on('scroll', function () {
+    var scrollTop = $(window).scrollTop()
 
 
-        if (scrollTop < 200) {
+    if (scrollTop < 200) {
 
-            // Кнопка вверх
-            btn_up.removeClass('scale-in').addClass('scale-out')
+        // Кнопка вверх
+        btnUp.removeClass('scale-in').addClass('scale-out')
 
-        } else {
+    } else {
 
-            // Кнопка вверх
-            btn_up.addClass('scale-in').removeClass('scale-out')
+        // Кнопка вверх
+        btnUp.addClass('scale-in').removeClass('scale-out')
 
-        }
-    })
-
-}, false)
+    }
+})

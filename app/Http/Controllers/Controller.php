@@ -14,6 +14,7 @@ class Controller extends BaseController
 
 
     protected $info;
+    protected $view;
     protected $active;
     protected $pagination;
 
@@ -26,9 +27,13 @@ class Controller extends BaseController
         // Получаем данные о текущем классе
         $this->info = app()->make(InfoController::class);
 
+        // Путь к видам, через указанный в настройках шаблон
+        $this->view = config('add.template');
+
         view()->share([
             'active' => $this->active,
             'info' => $this->info,
+            'view' => $this->view,
         ]);
     }
 }

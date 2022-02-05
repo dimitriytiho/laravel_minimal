@@ -7,6 +7,7 @@
   \******************************************/
 /***/ (() => {
 
+//import 'validate'
 //import './all'
 //import './simplebar'
 //import './simple_parallax'
@@ -19,23 +20,22 @@
   \***************************************/
 /***/ (() => {
 
+//import './menu_mobile'
+
+/***/ }),
+
+/***/ "./resources/js/main/index.js":
+/*!************************************!*\
+  !*** ./resources/js/main/index.js ***!
+  \************************************/
+/***/ (() => {
+
 //import '../admin/pulse'
 //import './search'
 //import './forms'
 //import './scroll'
 //import './template'
-//import '../components/validate'
 //import './scripts'
-
-/***/ }),
-
-/***/ "./resources/js/theme/index.js":
-/*!*************************************!*\
-  !*** ./resources/js/theme/index.js ***!
-  \*************************************/
-/***/ (() => {
-
-
 
 /***/ })
 
@@ -115,12 +115,12 @@ var __webpack_exports__ = {};
   !*** ./resources/js/index.js ***!
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _default__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./default */ "./resources/js/default/index.js");
-/* harmony import */ var _default__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_default__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components */ "./resources/js/components/index.js");
-/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./theme */ "./resources/js/theme/index.js");
-/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_theme__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components */ "./resources/js/components/index.js");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main */ "./resources/js/main/index.js");
+/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_main__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./default */ "./resources/js/default/index.js");
+/* harmony import */ var _default__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_default__WEBPACK_IMPORTED_MODULE_2__);
 // require('./bootstrap');
 // window.Vue = require('vue');
 // Замена Bootstrap JS
@@ -143,9 +143,13 @@ new simpleParallax(simpleParallax6, {
     delay: .6,
     transition: 'cubic-bezier(0,0,0,1)'
 })*/
+// Скрипты для компонентов
+ // Скрипты по-умолчанию
 
+ // Название шаблона
 
- // import Vue from 'vue'
+ // Заменить на нужный шаблон
+// import Vue from 'vue'
 
 /**
  * The following block of code may be used to automatically register your

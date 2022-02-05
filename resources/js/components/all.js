@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
 
-    // При клики на эскиз показываем галерею, начинаю с той картинки, на какую кликнули
+    // При клике на эскиз показываем галерею, начинаю с той картинки, на какую кликнули
     $('.fancybox_click').click(function (e) {
         var el,
             id = $(this).data('gallery')

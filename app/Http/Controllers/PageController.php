@@ -16,7 +16,7 @@ class PageController extends AppController
     public function index()
     {
         // Название вида
-        $view = $this->info->snake . '.' . $this->info->view;
+        $view = $this->view . '.' . $this->info->snake . '.' . $this->info->view;
 
         $title = __('s.home');
         $description = __('s.You_are_on_home');
@@ -48,7 +48,7 @@ class PageController extends AppController
 
 
         // Название вида
-        $view = $this->info->snake . '.' . $this->info->view;
+        $view = $this->view . '.' . $this->info->snake . '.' . $this->info->view;
 
         $title = $values->title ?? null;
         $description = $values->description ?? null;
