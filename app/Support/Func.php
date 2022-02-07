@@ -20,7 +20,9 @@ class Func
     public static function debug($arr, $die = false)
     {
         echo '<pre>' . PHP_EOL . print_r($arr, true) . PHP_EOL . '</pre>';
-        if ($die) die;
+        if ($die) {
+            die;
+        }
     }
 
 
@@ -162,7 +164,7 @@ class Func
      *
      * @return string
      *
-     * Подключает файл из resources/views/replace с название написаном в контенте ##!!!file_name (название файла file_name.blade.php).
+     * Подключает файл из resources/views/default/replace (default название используемого шаблона из config.add.template) с название написанном в контенте ##!!!file_name (название файла file_name.blade.php).
      *
      * @param string $content - если передаётся контент, то в нём будет искаться ##!!!file_name и заменяется на файл из папки resources/views/replace.
      * @param string $values - Можно передать данные в подключаемый файл.
@@ -171,7 +173,7 @@ class Func
     {
         if ($content) {
 
-            $path = 'replace';
+            $path = config('add.template') . '.replace.';
             $search = '##!!!';
             $pattern = '/(?<=' . $search . ')\w+/';
             preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
@@ -179,7 +181,7 @@ class Func
             if ($matches) {
                 foreach ($matches as $v) {
                     if (!empty($v[0])) {
-                        $view = $path . '.' . $v[0];
+                        $view = $path . $v[0];
                         $patternInner = '/' . $search . $v[0] . '/';
 
                         if (view()->exists($view)) {
