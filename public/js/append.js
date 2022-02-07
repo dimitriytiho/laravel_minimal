@@ -7,48 +7,49 @@
   \************************************/
 /***/ (() => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  // При клике на .get_slug из вышестоящего input транслитерирует текст, в data-src="title" указать input в котором name="title"
-  $('.get_slug').click(function () {
+// При клике на .get_slug из вышестоящего input транслитерирует текст, в data-src="title" указать input в котором name="title"
+$('.get_slug').click(function () {
+  var self = $(this),
+      url = self.data('url'),
+      src = self.data('src'),
+      slug = self.closest('form').find('input[name=' + src + ']').val();
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: {
+      _token: _token,
+      slug: slug
+    },
+    success: function success(response) {
+      self.closest('.input-group').find('input').val(response);
+    }
+  });
+}); // При клике на #key_to_enter создаётся новый ключ, отправляют письма все админам
+
+/*$('#key_to_enter').click(function () {
     var self = $(this),
         url = self.data('url'),
-        src = self.data('src'),
-        slug = self.closest('form').find('input[name=' + src + ']').val();
-    $.ajax({
-      type: 'POST',
-      url: url,
-      data: {
-        _token: _token,
-        slug: slug
-      },
-      success: function success(response) {
-        self.closest('.input-group').find('input').val(response);
-      }
-    });
-  }); // При клике на #key_to_enter создаётся новый ключ, отправляют письма все админам
+        key = self.closest('.input-group').find('input').val()
 
-  /*$('#key_to_enter').click(function () {
-      var self = $(this),
-          url = self.data('url'),
-          key = self.closest('.input-group').find('input').val()
-       $.ajax({
-          type: 'POST',
-          url: url,
-          data: {_token: _token, key: key},
-          success: function(response) {
-               // Перезагрузим страницу
-              document.location.href = requestPath
-               // Покажем тост
-              $(document).Toasts('create', {
-                  class: 'bg-success',
-                  //title: 'Toast Title',
-                  //subtitle: 'Subtitle',
-                  body: response
-              })
-          }
-      })
-  })*/
-}, false);
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {_token: _token, key: key},
+        success: function(response) {
+
+            // Перезагрузим страницу
+            document.location.href = requestPath
+
+            // Покажем тост
+            $(document).Toasts('create', {
+                class: 'bg-success',
+                //title: 'Toast Title',
+                //subtitle: 'Subtitle',
+                body: response
+            })
+        }
+    })
+})*/
 
 /***/ }),
 
@@ -273,6 +274,24 @@ $('.select_change').change(function () {
 
   if (url && key) {
     window.location = url + '?token=' + _token + '&key=' + key + '&val=' + val;
+  }
+});
+/*
+ * При изменении select с классом .select_change_get делается Get запрос.
+ * Записать в data-url="" url на который отправлять запрос или будет отправлен на текущий.
+ * Записать в data-key="" ключ для url запроса.
+ * Отправится значение из select.
+ */
+
+$('.select_change_get').change(function (e) {
+  e.preventDefault();
+  var self = $(this),
+      url = self.data('url') || location.pathname,
+      key = self.data('key') || '',
+      val = self.val() || '';
+
+  if (key) {
+    window.location = url + '?' + key + '=' + val;
   }
 }); // При клике на класс link_click делается Get запрос
 
