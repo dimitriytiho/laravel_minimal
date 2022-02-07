@@ -17,6 +17,25 @@ $('.select_change').change(function () {
 })
 
 
+/*
+ * При изменении select с классом .select_change_get делается Get запрос.
+ * Записать в data-url="" url на который отправлять запрос или будет отправлен на текущий.
+ * Записать в data-key="" ключ для url запроса.
+ * Отправится значение из select.
+ */
+$('.select_change_get').change(function (e) {
+    e.preventDefault()
+    var self = $(this),
+        url = self.data('url') || location.pathname,
+        key = self.data('key') || '',
+        val = self.val() || ''
+
+    if (key) {
+        window.location = url + '?' + key + '=' + val
+    }
+})
+
+
 // При клике на класс link_click делается Get запрос
 $('.link_click').click(function (e) {
     e.preventDefault()

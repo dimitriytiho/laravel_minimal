@@ -21,8 +21,12 @@ return [
     'imgExt' => ['png', 'jpg', 'jpeg', 'gif', 'svg'],
 
 
-    // Название шаблона для видов, js, sass
-    'template' => 'default', // в resources/js/index.js и resources/sass/index.scss написать название шаблона
+    /*
+     * Название шаблона для видов, js, sass
+     * в resources/js/index.js и resources/sass/index.scss написать название шаблона
+     * Создать файл params_название_шаблона.scss, например: resources/sass/config/params_default.scss
+     */
+    'template' => 'default',
 
 
     // Протокол и домен
