@@ -23,8 +23,9 @@ return [
 
     /*
      * Название шаблона для видов, js, sass
-     * в resources/js/index.js и resources/sass/index.scss написать название шаблона
-     * Создать файл params_название_шаблона.scss, например: resources/sass/config/params_default.scss
+     * в resources/js/index.js и resources/sass/index.scss (в двух местах) написать название шаблона
+     * Создать файл params_название_шаблона.scss, например: resources/sass/config/params_new.scss
+     * В resources/sass/config/mixins.scss изменить @import 'params_new';
      */
     'template' => 'default',
 
