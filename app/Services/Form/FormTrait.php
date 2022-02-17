@@ -42,7 +42,7 @@ trait FormTrait
     /**
      *
      * @return string
-     * Возвращает элемент, взависимости педедан ли он в массиве атрибутов.
+     * Возвращает элемент, в зависимости передан ли он в массиве атрибутов.
      *
      * @param string|int|null $element
      * @param array $attrs

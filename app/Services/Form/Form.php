@@ -46,7 +46,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-visually-hidden' : 'form-label');
 
             // input
             $input = html()->text($name, $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
@@ -93,7 +93,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-visually-hidden' : 'form-label');
 
             // Textarea
             $input = html()->textarea($name, $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->placeholder($placeholder . ($required ? '*' : null));
@@ -148,7 +148,7 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // Label
-            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-only' : null);
+            $label = self::getLabel($id, $required, $placeholder, empty($attrs['label']) ? 'sr-visually-hidden' : 'form-label');
 
             // Options
             $html = '';
