@@ -55,7 +55,7 @@ class Form implements FormInterface
             $input = self::getRequired($input, $required);
 
             // Wrap div
-            return self::getWrap($label . $input, 'form-group ' . $class);
+            return self::getWrap($label . $input, 'form-group mb-3 ' . $class);
         }
         return null;
     }
@@ -102,7 +102,7 @@ class Form implements FormInterface
             $input = self::getRequired($input, $required);
 
             // Wrap div
-            return self::getWrap($label . $input, 'form-group ' . $class);
+            return self::getWrap($label . $input, 'form-group mb-3 ' . $class);
         }
         return null;
     }
@@ -188,13 +188,13 @@ class Form implements FormInterface
             }
 
             // Select
-            $input = html()->select($name, [], $value)->id($id)->class('form-control ' . $inputClass)->attributes($attrs)->html($html);
+            $input = html()->select($name, [], $value)->id($id)->class('form-select ' . $inputClass)->attributes($attrs)->html($html);
 
             // Required
             $input = self::getRequired($input, $required);
 
             // Wrap div
-            return self::getWrap($label . $input, 'form-group ' . $class);
+            return self::getWrap($label . $input, 'form-group mb-3 ' . $class);
         }
         return null;
     }
@@ -216,7 +216,7 @@ class Form implements FormInterface
      * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
      * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
      */
-    public static function checkbox($name, array $attrs = [], $checked = false, $value = null, $required = true, $label = null, $class = null)
+    public static function checkbox($name, array $attrs = [], $checked = false, $value = null, $required = true, $label = null, $class = null, $classInput = null)
     {
         if ($name) {
 
@@ -230,61 +230,16 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // input
-            $input = html()->checkbox($name, $checked, $value)->id($id)->class('custom-control-input')->attributes($attrs);
+            $input = html()->checkbox($name, $checked, $value)->id($id)->class('form-check-input')->attributes($attrs);
 
             // Required
             $input = self::getRequired($input, $required);
 
             // Label
-            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
+            $label = self::getLabel($id, $required, $placeholder, 'form-check-label');
 
             // Wrap div
-            return self::getWrap($input . $label, 'mb-3 custom-control custom-checkbox ' . $class);
-        }
-        return null;
-    }
-
-
-    /**
-     *
-     * Разметка для toggle
-     * @return string
-     *
-     * Переводы из языкового файла s.php.
-     * Name, id, placeholder, если нужно изменить, то передайте в массив $attrs.
-     *
-     * @param string $name - название.
-     * @param array $attrs - параметры передать в массиве, например ['data-url' => '/test'], по-умолчанию пустой массив, необязательный параметр.
-     * @param bool $checked - если checkbox должен быть нажат, то передайте true, необязательный параметр.
-     * @param string|null $value - значение для input, по-умолчанию null, необязательный параметр.
-     * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию true, необязательный параметр.
-     * @param bool|null $label - передать true если он нужен или передать фразу для перевода, или же передать null, тогда label не будет показан, по-умолчанию null, необязательный параметр.
-     * @param string|null $class - класс для группы, если нужен класс для input, то передайте в массив $attrs, по-умолчанию null, необязательный параметр.
-     */
-    public static function toggle($name, array $attrs = [], $checked = false, $value = null, $required = true, $label = null, $class = null)
-    {
-        if ($name) {
-
-            // Id
-            $id = self::getElementFromAttrs('id', $attrs) ?: $name;
-
-            // Обновим $attrs удалив из него лишние элементы
-            $attrs = self::updateAttr($attrs, ['id']);
-
-            // Placeholder
-            $placeholder = self::getPlaceholder($name, $label);
-
-            // input
-            $input = html()->checkbox($name, $checked, $value)->id($id)->class('custom-control-input')->attributes($attrs);
-
-            // Required
-            $input = self::getRequired($input, $required);
-
-            // Label
-            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
-
-            // Wrap div
-            return self::getWrap($input . $label, 'mb-3 custom-control custom-switch ' . $class);
+            return self::getWrap($input . $label, 'mb-3 form-check ' . $class);
         }
         return null;
     }
@@ -320,16 +275,16 @@ class Form implements FormInterface
             $placeholder = self::getPlaceholder($name, $label);
 
             // input
-            $input = html()->radio($name, $checked, $value)->id($id)->class('custom-control-input')->attributes($attrs);
+            $input = html()->radio($name, $checked, $value)->id($id)->class('form-check-input')->attributes($attrs);
 
             // Required
             $input = self::getRequired($input, $required);
 
             // Label
-            $label = self::getLabel($id, $required, $placeholder, 'custom-control-label');
+            $label = self::getLabel($id, $required, $placeholder, 'form-check-label');
 
             // Wrap div
-            return self::getWrap($input . $label, 'mb-2 custom-control custom-radio ' . $class);
+            return self::getWrap($input . $label, 'mb-2 form-check ' . $class);
         }
         return null;
     }
