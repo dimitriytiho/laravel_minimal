@@ -42,6 +42,9 @@ class Kernel extends ConsoleKernel
             $schedule->job(app()->make('\App\Jobs\TestJob'))->everyFiveMinutes();
         }*/
 
+        // Выполнение очередей, каждые 2 минуты
+        //$schedule->command('queue:work --stop-when-empty')->everyTwoMinutes();
+
         // Резервное копирование веб-сайта (в первый день месяца)
         /*$schedule->command('backup:clean')->monthlyOn(1, '02:00');
         $schedule->command('backup:run')->monthlyOn(1, '03:00');*/

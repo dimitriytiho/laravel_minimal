@@ -13,14 +13,16 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $params;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($params)
     {
-        //
+        $this->params = $params;
     }
 
     /**
@@ -30,6 +32,6 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        //logger()->info('Handle');
+        //logger()->info($this->params);
     }
 }
