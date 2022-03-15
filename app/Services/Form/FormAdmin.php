@@ -117,6 +117,7 @@ class FormAdmin implements FormInterface
      * Дополнительно:
      * 'label' => 'false' - чтобы не показывать лэйбл,
      * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected,
+     * 'value_null' => 'path' - передаём название ключа в объекте значений, чтобы установить удалить значение.
      * 'lang' => 'false' - чтобы не переводить options.
      *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
@@ -148,6 +149,9 @@ class FormAdmin implements FormInterface
                     foreach ($options as $key => $option) {
                         // Value
                         $val = $optionValueFromId ? $key : $option;
+                        if (isset($attrs['value_null']) && $val == $attrs['value_null']) {
+                            $val = '';
+                        }
                         // Start option
                         $html .= "<option value='{$val}'";
                         // Selected

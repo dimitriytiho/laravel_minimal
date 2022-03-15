@@ -124,6 +124,7 @@ class Form implements FormInterface
      * 'label' => 'true' - чтобы показывать лэйбл,
      * 'lang' => 'false' - чтобы не переводить options,
      * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected.
+     * 'value_null' => 'path' - передаём название ключа в объекте значений, чтобы установить удалить значение.
      *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
@@ -157,6 +158,9 @@ class Form implements FormInterface
                     foreach ($options as $key => $option) {
                         // Value
                         $val = $optionValueFromId ? $key : $option;
+                        if (isset($attrs['value_null']) && $val == $attrs['value_null']) {
+                            $val = '';
+                        }
                         // Start option
                         $html .= "<option value='{$val}'";
                         // Selected

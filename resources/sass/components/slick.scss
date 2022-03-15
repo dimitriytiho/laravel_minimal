@@ -11,6 +11,10 @@ $widthImg: 340px;
   display: none;
 }
 
+.slick-list {
+    z-index: -1;
+}
+
 // Убираем синею обводку
 .slick-slide,
 .slick-slide * {
