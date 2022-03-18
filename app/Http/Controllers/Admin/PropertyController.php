@@ -20,9 +20,18 @@ class PropertyController extends AppController
         });
 
 
-        // Указать методы из моделей, если есть связанные элементы многие ко многим (первый параметр: метод из модели, второй: название маршрута, третий: название колонки (id), четвёртый: название колонки (title)), пятый: название метода сохранения (по-умолчанию sync)
+        /*
+         * Указать методы из моделей, если есть связанные элементы многие ко многим:
+         *
+         * 0 - метод из модели.
+         * 1 - название маршрута.
+         * 2 - название колонки (id).
+         * 3 - название колонки (title).
+         * 4 - название метода сохранения, по-умолчанию sync.
+         * 5 - название таблицы, если не совпадает с метод из модели.
+         */
         $this->relatedManyToManyEdit = [
-            ['attributes', $this->info->kebab, 'id', 'title', 'saveMany'],
+            ['attributes', 'attribute', 'id', 'title', 'saveMany'],
         ];
 
 
@@ -172,15 +181,16 @@ class PropertyController extends AppController
         if ($this->relatedManyToManyEdit) {
             foreach ($this->relatedManyToManyEdit as $related) {
                 if (!empty($related[0]) && !empty($related[2]) && !empty($related[3])) {
-                    if (Schema::hasColumns($related[0], [$related[2], $related[3]])) {
-                        $all[$related[0]] = DB::table($related[0]);
-                        if (Schema::hasColumn($related[0], 'deleted_at')) {
-                            $all[$related[0]] = $all[$related[0]]->whereNull('deleted_at');
+                    $relatedTable = $related[5] ?? $related[0];
+                    if (Schema::hasColumns($relatedTable, [$related[2], $related[3]])) {
+                        $all[$relatedTable] = DB::table($relatedTable);
+                        if (Schema::hasColumn($relatedTable, 'deleted_at')) {
+                            $all[$relatedTable] = $all[$relatedTable]->whereNull('deleted_at');
                         }
-                        if (Schema::hasColumn($related[0], 'status')) {
-                            $all[$related[0]] = $all[$related[0]]->whereStatus($this->active);
+                        if (Schema::hasColumn($relatedTable, 'status')) {
+                            $all[$relatedTable] = $all[$relatedTable]->whereStatus($this->active);
                         }
-                        $all[$related[0]] = $all[$related[0]]->pluck($related[3], $related[2]);
+                        $all[$relatedTable] = $all[$relatedTable]->pluck($related[3], $related[2]);
                     }
                 }
             }

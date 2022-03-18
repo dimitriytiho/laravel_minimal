@@ -55,9 +55,14 @@ Breadcrumbs --}}
                         Если есть связанные элементы, то выводим их в множественный select --}}
                         @if(!empty($relatedManyToManyEdit))
                             @foreach($relatedManyToManyEdit as $related)
-                                @if(!empty($related[0]) && !empty($all[$related[0]]))
-                                    <div class="col-md-4">
-                                        {{ $form::select($related[0] . '[]', $all[$related[0]], ['id' => $related[0], 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple'], $values->{$related[0]} ?? null, false, $related[0], null, null, true) }}
+                                @php
+
+                                    $relatedTable = $related[5] ?? $related[0] ?? null;
+
+                                @endphp
+                                @if(!empty($related[0]) && !empty($all[$relatedTable]))
+                                    <div class="col-md-6">
+                                        {{ $form::select($related[0] . '[]', $all[$relatedTable], ['id' => $related[0], 'data-placeholder' => __('s.choose'), 'class' => 'w-100 select2', 'multiple' => 'multiple', 'values' => $related[2] ?? null], $values->{$related[0]}, false, $relatedTable, null, null, true) }}
                                     </div>
                                 @endif
                             @endforeach
