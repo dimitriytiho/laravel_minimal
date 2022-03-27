@@ -185,12 +185,12 @@ class PropertyController extends AppController
                     if (Schema::hasColumns($relatedTable, [$related[2], $related[3]])) {
                         $all[$relatedTable] = DB::table($relatedTable);
                         if (Schema::hasColumn($relatedTable, 'deleted_at')) {
-                            $all[$relatedTable] = $all[$relatedTable]->whereNull('deleted_at');
+                            $all[$related[0]] = $all[$relatedTable]->whereNull('deleted_at');
                         }
                         if (Schema::hasColumn($relatedTable, 'status')) {
-                            $all[$relatedTable] = $all[$relatedTable]->whereStatus($this->active);
+                            $all[$related[0]] = $all[$relatedTable]->whereStatus($this->active);
                         }
-                        $all[$relatedTable] = $all[$relatedTable]->pluck($related[3], $related[2]);
+                        $all[$related[0]] = $all[$relatedTable]->pluck($related[3], $related[2]);
                     }
                 }
             }
