@@ -58,7 +58,11 @@ class Seo
                 if (Schema::hasTable($table)) {
 
                     $route = Route::has($routesDb[$key]) ? $routesDb[$key] : null;
-                    $values = DB::table($table)->where('status', $active)->pluck('slug')->toArray();
+                    $values = DB::table($table)
+                        ->where('status', $active)
+                        ->pluck('slug')
+                        ->whereNull('deleted_at')
+                        ->toArray();
 
                     if ($route && $values) {
                         foreach ($values as $slug) {
