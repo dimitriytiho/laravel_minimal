@@ -38,10 +38,11 @@ class MainController extends AppController
     // Записывает в куку
     public function getCookie(Request $request)
     {
+        $previous = strtok(url()->previous(), '?');
         if (csrf_token() === $request->token && $request->key) {
-            return redirect()->back()->withCookie($request->key, $request->val);
+            return redirect($previous)->withCookie($request->key, $request->val);
         }
-        return back();
+        return redirect($previous);
     }
 
 
@@ -51,7 +52,7 @@ class MainController extends AppController
         if (csrf_token() === $request->token && $request->key) {
             session()->put($request->key, $request->val);
         }
-        return back();
+        return redirect(strtok(url()->previous(), '?'));
     }
 
 
