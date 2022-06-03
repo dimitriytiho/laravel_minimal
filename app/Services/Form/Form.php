@@ -123,8 +123,9 @@ class Form implements FormInterface
      * Дополнительно:
      * 'label' => 'true' - чтобы показывать лэйбл,
      * 'lang' => 'false' - чтобы не переводить options,
-     * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected.
-     * 'value_null' => 'path' - передаём название ключа в объекте значений, чтобы установить удалить значение.
+     * 'values' => 'path' - передаём название ключа в объекте $value, чтобы установить атрибут selected,
+     * 'value_null' => 'path' - передаём название ключа в объекте значений, чтобы установить удалить значение,
+     * 'name-id' => 'true' - чтобы добавить к названию id.
      *
      * @param bool|null $required - атрибут required (обязательно для заполнения) по-умолчанию false, необязательный параметр.
      * @param bool|null $label - передать фразу для перевода, по-умолчанию label не показывается, если показывать передать в $attrs ['label' => 'true'], необязательный параметр.
@@ -182,6 +183,10 @@ class Form implements FormInterface
                         // Translation
                         if (empty($attrs['lang'])) {
                             $option = Func::__($option);
+                        }
+                        // К название добавить id
+                        if (!empty($attrs['name-id'])) {
+                            $option .= ' - ' . $key;
                         }
                         // End option
                         $html .= ">{$option}</option>";
