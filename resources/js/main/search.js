@@ -5,8 +5,8 @@ const searchUrl = '/search-js',
 
 $(document).on('keyup', searchInput, function () {
     var self = $(this),
-        query = self.val(),
-        length = query.length,
+        s = self.val(),
+        length = s.length,
         child = self.closest(searchClass).find(searchChild)
 
     if (length > 0) {
@@ -15,7 +15,7 @@ $(document).on('keyup', searchInput, function () {
             url: searchUrl,
             data: {
                 _token,
-                query
+                s
             },
             success: function(res) {
                 if (res) {
