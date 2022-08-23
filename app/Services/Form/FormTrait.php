@@ -78,8 +78,8 @@ trait FormTrait
      * @return string
      * Возвращает переводную фразу.
      *
-     * @param array $attrs
-     * @param array $unset
+     * @param string $name
+     * @param string $label
      */
     private static function getPlaceholder($name, $label)
     {
